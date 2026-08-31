@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Chrome app profile — contains cookies, history, and saved credentials.
+# Never commit this.
+curriculum/app/profile/
+
+# Old snapshot kept locally only
+_archive-old-copy-2026-08/
+
+# Generated build artifacts (regenerate with `npm run build`)
+curriculum/output/curriculum.html
+curriculum/output/preview-*.png
+
+# OS / editor cruft
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+*.swp
+
+# Local-only Claude Code permissions
+.claude/settings.local.json

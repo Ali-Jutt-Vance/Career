@@ -1,0 +1,24 @@
+{
+  "name": "career-book",
+  "version": "2.0.0",
+  "description": "Career Book — Software Engineering Mastery. 145 chapters, a dated 137-day execution plan, and a desktop reader app.",
+  "scripts": {
+    "build": "node build.js",
+    "build:all": "node build.js --all",
+    "pdf": "node build.js --pdf",
+    "plan": "node plan/build-plan.js",
+    "reader": "node compile.js --html-only",
+    "icon": "node app/make-icon.js",
+    "install:app": "powershell -ExecutionPolicy Bypass -File app/install-app.ps1",
+    "test": "node plan/smoke-test.js",
+    "compile:phase": "node compile.js --phase"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "glob": "^13.0.6",
+    "highlight.js": "^11.10.0",
+    "marked": "^12.0.0",
+    "marked-highlight": "^2.1.4",
+    "puppeteer": "^25.2.1"
+  }
+}

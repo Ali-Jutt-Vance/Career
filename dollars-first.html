@@ -1,0 +1,1100 @@
+<title>First Fascia</title>
+<style>
+  :root {
+    --paper:       #F4F4F6;
+    --surface:     #FFFFFF;
+    --sunk:        #E8E9ED;
+    --ink:         #14151A;
+    --ink-2:       #3E414C;
+    --ink-3:       #6E7282;
+    --rule:        #D4D6DE;
+    --rule-soft:   #E4E6EB;
+    --wine:        #7A2E39;
+    --wine-soft:   #F2E3E5;
+    --teal:        #1A5F63;
+    --teal-soft:   #DEECEC;
+    --amber:       #86600F;
+    --amber-soft:  #F2EAD6;
+
+    --f-display: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    --f-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --f-data: ui-monospace, "Cascadia Mono", "Cascadia Code", Consolas, "SF Mono", Menlo, monospace;
+
+    --measure: 68ch;
+    --wide: 1080px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #101115;
+      --surface:    #181A20;
+      --sunk:       #131519;
+      --ink:        #E5E6EB;
+      --ink-2:      #B0B4BF;
+      --ink-3:      #7D8291;
+      --rule:       #2B2E37;
+      --rule-soft:  #212429;
+      --wine:       #D08C97;
+      --wine-soft:  #2E1B1F;
+      --teal:       #5DA9AD;
+      --teal-soft:  #16292A;
+      --amber:      #C6A153;
+      --amber-soft: #2B2517;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #101115;
+    --surface:    #181A20;
+    --sunk:       #131519;
+    --ink:        #E5E6EB;
+    --ink-2:      #B0B4BF;
+    --ink-3:      #7D8291;
+    --rule:       #2B2E37;
+    --rule-soft:  #212429;
+    --wine:       #D08C97;
+    --wine-soft:  #2E1B1F;
+    --teal:       #5DA9AD;
+    --teal-soft:  #16292A;
+    --amber:      #C6A153;
+    --amber-soft: #2B2517;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 24px 120px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .col { max-width: var(--measure); margin-inline: auto; }
+  .wide { max-width: var(--wide); margin-inline: auto; }
+
+  a { color: var(--wine); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; border-radius: 2px; }
+
+  header.masthead {
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 72px 0 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    font-family: var(--f-data);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 20px;
+  }
+  h1 {
+    font-family: var(--f-display);
+    font-size: clamp(42px, 7vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-family: var(--f-display);
+    font-size: clamp(19px, 2.4vw, 23px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 58ch;
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  section { padding-top: 64px; }
+
+  .sec-head {
+    max-width: var(--wide);
+    margin: 0 auto 28px;
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule-soft);
+    padding-bottom: 12px;
+  }
+  .sec-num {
+    font-family: var(--f-data);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--wine);
+    white-space: nowrap;
+    padding-top: 4px;
+  }
+  h2 {
+    font-family: var(--f-display);
+    font-size: clamp(27px, 3.6vw, 36px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--f-body);
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    margin: 34px 0 10px;
+  }
+
+  p { margin: 0 0 18px; text-wrap: pretty; }
+  .col ul, .col ol { margin: 0 0 18px; padding-left: 22px; }
+  li { margin-bottom: 9px; }
+  strong { font-weight: 650; }
+  em.term { font-style: normal; font-family: var(--f-data); font-size: 0.92em; color: var(--ink-2); }
+
+  /* ---------- the ISEE ledger ---------- */
+
+  .ledger {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 30px 32px 26px;
+    margin-bottom: 26px;
+  }
+  .ledger-title {
+    font-family: var(--f-data);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 6px;
+  }
+  .formula {
+    font-family: var(--f-data);
+    font-size: 13.5px;
+    color: var(--wine);
+    margin: 0 0 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--rule-soft);
+    line-height: 1.6;
+  }
+  .lrow {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    gap: 20px;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .lrow .lab { font-size: 15px; color: var(--ink-2); }
+  .lrow .lab b { color: var(--ink); font-weight: 650; }
+  .lrow .lab span { display: block; font-size: 13px; color: var(--ink-3); line-height: 1.45; margin-top: 2px; }
+  .lrow .val {
+    font-family: var(--f-data);
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+  .lrow .val.zero { color: var(--teal); }
+  .lrow.total {
+    border-bottom: none;
+    border-top: 2px solid var(--rule);
+    margin-top: 8px;
+    padding-top: 18px;
+  }
+  .lrow.total .lab b { font-size: 17px; }
+  .lrow.total .val {
+    font-family: var(--f-display);
+    font-size: 32px;
+    color: var(--teal);
+    letter-spacing: -0.02em;
+  }
+
+  .thresh {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 26px;
+  }
+  .thresh > div { background: var(--surface); padding: 22px 24px; }
+  .thresh .t-lab {
+    font-family: var(--f-data);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+  }
+  .thresh .t-val {
+    font-family: var(--f-display);
+    font-size: 27px;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .thresh .t-note { font-size: 13.5px; color: var(--ink-3); margin: 0; line-height: 1.5; }
+  .thresh .you .t-val { color: var(--teal); }
+
+  /* ---------- callouts ---------- */
+
+  .callout {
+    border-left: 3px solid var(--teal);
+    background: var(--teal-soft);
+    padding: 20px 24px;
+    border-radius: 0 3px 3px 0;
+    margin: 0 0 24px;
+  }
+  .callout.warn { border-left-color: var(--wine); background: var(--wine-soft); }
+  .callout.note { border-left-color: var(--amber); background: var(--amber-soft); }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout-tag {
+    font-family: var(--f-data);
+    font-size: 11px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--teal);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .callout.warn .callout-tag { color: var(--wine); }
+  .callout.note .callout-tag { color: var(--amber); }
+
+  /* ---------- tables ---------- */
+
+  .scroll { overflow-x: auto; margin: 0 0 24px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 540px; }
+  th {
+    text-align: left;
+    font-family: var(--f-data);
+    font-size: 11px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 400;
+    padding: 0 16px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: bottom;
+  }
+  td { padding: 13px 16px 13px 0; border-bottom: 1px solid var(--rule-soft); line-height: 1.5; vertical-align: top; }
+  td.num, th.num {
+    font-family: var(--f-data);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    padding-right: 0;
+    white-space: nowrap;
+  }
+  tr:last-child td { border-bottom: none; }
+  tfoot td { border-top: 1px solid var(--rule); border-bottom: none; font-weight: 650; padding-top: 13px; }
+
+  /* ---------- timeline ---------- */
+
+  .rail { border-top: 1px solid var(--rule); }
+  .dl {
+    display: grid;
+    grid-template-columns: 148px 1fr;
+    gap: 26px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  .dl-date {
+    font-family: var(--f-data);
+    font-size: 13px;
+    color: var(--wine);
+    line-height: 1.45;
+    padding-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .dl-date span {
+    display: block;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: 3px;
+  }
+  .dl-body h4 {
+    margin: 0 0 5px;
+    font-family: var(--f-display);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .dl-body p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.55; }
+  .dl.gate { background: var(--sunk); }
+  .dl.gate .dl-date { color: var(--amber); }
+
+  /* ---------- step-by-step ---------- */
+
+  .stage {
+    font-family: var(--f-data);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--wine);
+    margin: 44px 0 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .stage:first-of-type { margin-top: 8px; }
+  .stage span { color: var(--ink-3); letter-spacing: 0.1em; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  .step-n {
+    font-family: var(--f-data);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-3);
+    padding-top: 3px;
+  }
+  .step-b h4 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+  }
+  .step-b p { margin: 0 0 8px; font-size: 15px; color: var(--ink-2); }
+  .step-b p:last-child { margin-bottom: 0; }
+  .step-meta {
+    font-family: var(--f-data);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin-top: 8px;
+  }
+  .step-meta b { color: var(--ink-2); font-weight: 400; }
+  .step.gate { background: var(--wine-soft); margin-inline: -18px; padding-inline: 18px; border-radius: 2px; }
+  .step.gate .step-n { color: var(--wine); }
+
+  .pill {
+    font-family: var(--f-data);
+    font-size: 10.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .pill.strong { background: var(--teal-soft); color: var(--teal); }
+  .pill.fair   { background: var(--amber-soft); color: var(--amber); }
+  .pill.long   { background: var(--wine-soft); color: var(--wine); }
+
+  footer {
+    max-width: var(--wide);
+    margin: 80px auto 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    font-size: 13.5px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 16px; padding-inline: 18px; }
+    .ledger { padding: 24px 18px 20px; }
+    .lrow { grid-template-columns: 1fr; gap: 2px; }
+    .lrow .val { text-align: left; }
+    .dl { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<header class="masthead">
+  <p class="eyebrow">Italy plan · August 2026 · BS IT, 3.0 CGPA, Punjab University</p>
+  <h1>First Fascia</h1>
+  <p class="standfirst">Italy means-tests its student grants on family income and property. You have a modest income and no property at all — which places you not merely inside the threshold but at the very bottom of the scale, where the awards are largest.</p>
+</header>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2>What your numbers actually produce</h2>
+  </div>
+
+  <div class="col">
+    <p>Italy calculates need through the <em class="term">ISEE</em>, a single figure combining household income and household assets. Your father owning a motorcycle and nothing else turns out to matter a great deal, because of exactly how the formula treats assets.</p>
+  </div>
+
+  <div class="wide">
+    <div class="ledger">
+      <p class="ledger-title">Estimated ISEE Parificato — reference year 2025</p>
+      <p class="formula">ISE = R + [(PM + PI) × 0.20]&nbsp;&nbsp;·&nbsp;&nbsp;ISEE = ISE ÷ p</p>
+
+      <div class="lrow">
+        <div class="lab"><b>R — household income</b><span>Your ₨ 91,000/month plus your father's ₨ 70,000/month, annualised</span></div>
+        <div class="val">€ 6,037</div>
+      </div>
+
+      <div class="lrow">
+        <div class="lab"><b>PM — movable assets</b><span>Bank accounts, deposits, shares, bonds. You have nil savings, and there is a €10,000 allowance for a household of three or more regardless</span></div>
+        <div class="val zero">€ 0</div>
+      </div>
+
+      <div class="lrow">
+        <div class="lab"><b>PI — immovable assets</b><span>Land and buildings only, at cadastral value. <b>Vehicles are not immovable property</b> — the motorcycle does not enter the formula</span></div>
+        <div class="val zero">€ 0</div>
+      </div>
+
+      <div class="lrow">
+        <div class="lab"><b>p — equivalence scale</b><span>Household of four. Rises with each additional member, lowering the final figure further</span></div>
+        <div class="val">÷ 2.46</div>
+      </div>
+
+      <div class="lrow total">
+        <div class="lab"><b>Estimated ISEE</b><span>Roughly €2,100–3,000 depending on household size</span></div>
+        <div class="val">≈ € 2,450</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <p>Now set that against the thresholds it has to clear:</p>
+  </div>
+
+  <div class="wide">
+    <div class="thresh">
+      <div class="you">
+        <p class="t-lab">Your position</p>
+        <p class="t-val">€ 2,450</p>
+        <p class="t-note">Bottom of the scale — <em class="term">prima fascia</em>, where awards are largest</p>
+      </div>
+      <div>
+        <p class="t-lab">DSU full package</p>
+        <p class="t-val">€ 13,560</p>
+        <p class="t-note">Cash grant, dorm place, and daily meals. You are at roughly a fifth of it</p>
+      </div>
+      <div>
+        <p class="t-lab">Zero tuition</p>
+        <p class="t-val">€ 24,500</p>
+        <p class="t-note">Complete fee exemption at public universities. Not close to a concern</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="callout">
+      <span class="callout-tag">What this means in practice</span>
+      <p>Tuition goes to zero — you would owe only a regional tax of roughly €120–180 and a stamp duty. The DSU award lands in the top bracket rather than a reduced one. And because the asset side of the formula is genuinely empty rather than merely small, there is no borderline judgement for an assessor to make against you.</p>
+    </div>
+
+    <p>Two honest qualifications. This is an estimate — the exact figure depends on your household size, whether your family rents (rent is deductible, which would push the number lower still), and the euro rate on the day. And <b>the ISEE must be truthful, not minimised</b>: declaring incorrect figures obliges you to repay every euro received. You do not need to shade anything here. The real numbers are already at the bottom of the scale.</p>
+
+    <p>One more thing worth knowing: you will be assessed as part of your father's household, not as an independent applicant. Italy treats a student as independent only after two years living away from the family home <em class="term">and</em> earning around €9,000 a year — thresholds you do not meet. That is fine. Being in the household is what makes your father's absent property work in your favour.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <h2>The problem the ISEE does not solve</h2>
+  </div>
+
+  <div class="col">
+    <p>A near-zero ISEE gets you free tuition and a large grant. It does not get you a visa, and this is where the Italian route actually bites.</p>
+
+    <div class="callout warn">
+      <span class="callout-tag">The visa needs money the DSU has not paid yet</span>
+      <p>For 2026/27, Italy's proof-of-funds requirement rose 46% — from €6,947.33 to <b>€10,179.85</b>, roughly <b>₨ 3.26 million</b>. The visa is decided months before your DSU result, and the consulate assesses not only whether the money exists but its <b>provenance and traceability</b>.</p>
+    </div>
+
+    <p>There is also a coherence problem people walk straight into. You will be telling one Italian authority that your household lives on €6,000 a year, and another that you have €10,179 available. Both can be true — but if the second figure is a lump sum that appeared in a relative's account last month, the file reads badly and refusals follow.</p>
+
+    <h3>The fix: win a second, different scholarship</h3>
+    <p>Italian universities award their own merit scholarships <b>at the point of admission</b>. That letter arrives months before your visa appointment, and it explains your funding in a way that is entirely consistent with a low ISEE. You then apply for the DSU separately once you have enrolled.</p>
+
+    <p>Two instruments, two purposes: <b>the university scholarship gets you the visa, the DSU pays for your life.</b> Applying for only one of them is the most common way this route fails.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2>Where to apply</h2>
+  </div>
+
+  <div class="col">
+    <p>Ranked by what matters for you specifically: an English-taught computer science or AI master's, a scholarship awarded at admission, and a generous regional DSU on top.</p>
+  </div>
+
+  <div class="wide">
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>University</th><th>Awarded with your offer</th><th class="num">Regional DSU</th><th>Fit</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Bologna</b><br>CS, Data Science, Digital Transformation — all in English</td>
+            <td>Study grant <b>€11,000 gross</b> + full tuition waiver</td>
+            <td class="num">~€6,300<br><span style="font-size:12px;color:var(--ink-3)">ER.GO</span></td>
+            <td><span class="pill strong">First choice</span></td>
+          </tr>
+          <tr>
+            <td><b>Politecnico di Milano</b><br>The strongest engineering school in Italy</td>
+            <td>Tuition exemption + up to <b>€10,000/yr</b></td>
+            <td class="num">~€8,200</td>
+            <td><span class="pill strong">First choice</span></td>
+          </tr>
+          <tr>
+            <td><b>Padova</b><br>International Excellence Programme</td>
+            <td><b>€8,000</b> subsistence + full tuition waiver</td>
+            <td class="num">~€7,000<br><span style="font-size:12px;color:var(--ink-3)">ESU</span></td>
+            <td><span class="pill strong">Apply</span></td>
+          </tr>
+          <tr>
+            <td><b>Milano-Bicocca</b><br>Highest DSU ceiling in the country</td>
+            <td>Merit waivers</td>
+            <td class="num">€8,248</td>
+            <td><span class="pill strong">Apply</span></td>
+          </tr>
+          <tr>
+            <td><b>Rome — Sapienza / Tor Vergata</b><br>DiSCo Lazio agency</td>
+            <td>Merit waivers</td>
+            <td class="num">€7,557</td>
+            <td><span class="pill fair">Backup</span></td>
+          </tr>
+          <tr>
+            <td><b>Pavia, Pisa, Trento</b><br>Smaller, strong in CS, less competition</td>
+            <td>Varies by institution</td>
+            <td class="num">~€6,000</td>
+            <td><span class="pill fair">Backup</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col">
+    <p>Apply to five: both first choices, both of the next two, and one backup. They are separate applications with separate deadlines, and there is no penalty for holding several offers.</p>
+
+    <div class="callout note">
+      <span class="callout-tag">One hedge that does not contradict your decision</span>
+      <p>Several <b>Erasmus Mundus</b> consortia include Italian universities as partners. Applying to those is not a departure from choosing Italy — it is the same destination with richer funding (around €1,400 a month, no return obligation) and no ISEE dependency at all. Filter the catalogue for consortia with an Italian partner and add three or four. It costs you a motivation letter you have already written.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <h2>The calendar</h2>
+  </div>
+
+  <div class="col">
+    <p>Targeting a September 2027 start. The shaded rows are hard gates — miss one and the year is gone.</p>
+  </div>
+
+  <div class="wide">
+    <div class="rail">
+      <div class="dl">
+        <div class="dl-date">Aug–Sep 2026<span>Now</span></div>
+        <div class="dl-body">
+          <h4>Book IELTS. Start the HEC and apostille chain.</h4>
+          <p>IELTS results take about thirteen days and every application wants a score. HEC e-attestation is now fully online, Rs 3,000 per document, eight to ten days.</p>
+        </div>
+      </div>
+      <div class="dl">
+        <div class="dl-date">Sep–Dec 2026<span>Build</span></div>
+        <div class="dl-body">
+          <h4>Collect the 2025 financial records; ship two projects</h4>
+          <p>The ISEE reference year is two years back, so you need calendar-2025 figures. Meanwhile deploy two AI automation projects publicly — they are what compensate for a 3.0 transcript.</p>
+        </div>
+      </div>
+      <div class="dl">
+        <div class="dl-date">Jan–May 2027<span>Admissions</span></div>
+        <div class="dl-body">
+          <h4>University applications, scholarship forms attached</h4>
+          <p>Cutoffs cluster between 30 April and 25 May. The institutional scholarship is usually the same submission — never a separate later one. This is the step that produces your visa evidence.</p>
+        </div>
+      </div>
+      <div class="dl gate">
+        <div class="dl-date">by 31 Jul 2027<span>Hard gate</span></div>
+        <div class="dl-body">
+          <h4>Universitaly pre-enrolment</h4>
+          <p>The sole channel through which an Italian study visa can be requested. No pre-enrolment, no visa — an admission letter alone is worth nothing here.</p>
+        </div>
+      </div>
+      <div class="dl">
+        <div class="dl-date">Jun–Aug 2027<span>Dossier</span></div>
+        <div class="dl-body">
+          <h4>ISEE Parificato assembled and issued</h4>
+          <p>Apostille, translation, consular legalisation, then a CAF issues the certificate in 10–20 days. Start in June; this is slower than it looks.</p>
+        </div>
+      </div>
+      <div class="dl gate">
+        <div class="dl-date">by 30 Nov 2027<span>Hard gate</span></div>
+        <div class="dl-body">
+          <h4>Visa application — €10,179.85 shown</h4>
+          <p>Present the university scholarship letter alongside whatever funds you hold. Apply as early in the window as the consulate allows; appointment backlogs in Islamabad are real.</p>
+        </div>
+      </div>
+      <div class="dl gate">
+        <div class="dl-date">5 Sep–31 Oct 2027<span>Hard gate</span></div>
+        <div class="dl-body">
+          <h4>DSU application to the regional agency</h4>
+          <p>Tuscany closes first, around 5 September; most regions run to late October. Requires the ISEE already in hand. This deadline can fall <b>before</b> your visa is issued — file it the moment enrolment allows.</p>
+        </div>
+      </div>
+      <div class="dl">
+        <div class="dl-date">Dec 27–Feb 28<span>Payment</span></div>
+        <div class="dl-body">
+          <h4>First DSU instalment lands</h4>
+          <p>Three to five months after you arrive. This gap, not the visa, is the part of the plan most likely to hurt.</p>
+        </div>
+      </div>
+      <div class="dl gate">
+        <div class="dl-date">by 10 Aug 2029<span>Hard gate</span></div>
+        <div class="dl-body">
+          <h4>~25 CFU earned, or you repay the year</h4>
+          <p>Year one is assessed on income alone. From year two the grant is conditional on credits, and failure is a repayment obligation rather than simply a loss.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <h2>The ISEE dossier, item by item</h2>
+  </div>
+
+  <div class="col">
+    <p>This is the document the whole route hangs on. It is assembled from Pakistani paperwork, legalised in Pakistan, and issued in Italy — three jurisdictions, which is why it takes months rather than weeks.</p>
+
+    <h3>What you need, all dated 31 December 2025</h3>
+    <ul>
+      <li><b>Family composition certificate</b> — every member of the household, from NADRA.</li>
+      <li><b>Income evidence for each earning member</b> — your salary certificate and your father's, plus FBR tax returns if filed. Two earners, two sets.</li>
+      <li><b>Every bank and savings account balance as at 31 December 2025</b> — including accounts with nil or near-nil balances. Omitting an account is what gets files rejected, not having a small balance in one.</li>
+      <li><b>A property and land declaration</b> — in your case a statement that the household owns <b>no immovable property</b>. This is a positive document to obtain, not an absence to explain: get it stated explicitly rather than leaving the question blank.</li>
+      <li><b>Vehicle registration</b> for the motorcycle. Plates are collected as supporting documentation even though vehicles do not enter the ISEE calculation — declare it and let it sit at zero.</li>
+      <li><b>Rent agreement</b>, if your family rents. Rent is deductible and would lower the figure further.</li>
+    </ul>
+
+    <h3>Then, in order</h3>
+    <ol>
+      <li><b>MOFA apostille</b> on each document. Pakistan is a Hague Convention member, so this replaces embassy legalisation — but note that <b>digitally QR-verified copies are explicitly not accepted</b>. You need the physical apostille.</li>
+      <li><b>Sworn translation into Italian.</b></li>
+      <li><b>Legalisation through the Italian consulate</b> in Islamabad or Karachi.</li>
+      <li><b>Submit to a CAF</b>, which issues the ISEE Parificato in 10 to 20 days. Some accept scanned PDFs by email; others require originals in person in Italy. Confirm with the specific CAF before assuming you can do it remotely — this single question can decide whether you make the DSU deadline.</li>
+    </ol>
+
+    <div class="callout note">
+      <span class="callout-tag">Start collecting in September, not June</span>
+      <p>Bank statements for a closed calendar year get progressively harder to obtain as time passes, and Pakistani branches are slow with historical records. Request the 31 December 2025 balances now, while they are a routine request rather than an archival one. Everything else can follow later.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">06</span>
+    <h2>Documents you have already handled</h2>
+  </div>
+
+  <div class="col">
+    <p>Your IBCC verification of the matric and inter sanads is the correct first link and cannot be substituted — <b>HEC does not attest school-level certificates at all</b>. The subject-wise marks on them matter more than most people realise: Italian credit-equivalence assessment maps your schooling subject by subject, and aggregate-only certificates stall there.</p>
+  </div>
+
+  <div class="wide">
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Link</th><th>Covers</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><b>IBCC</b></td><td>Matric and inter sanads</td><td><span class="pill strong">Done</span></td></tr>
+          <tr><td><b>HEC e-attestation</b></td><td>BS IT degree and transcript. Rs 3,000 each, online since 11 May 2026, 8–10 days</td><td><span class="pill fair">Next</span></td></tr>
+          <tr><td><b>MOFA apostille</b></td><td>Degree, transcript, sanads, and the whole ISEE dossier</td><td><span class="pill fair">After HEC</span></td></tr>
+          <tr><td><b>CIMEA or Dichiarazione di Valore</b></td><td>Italy's recognition of your degree. CIMEA is online, ~€300, ~15 working days</td><td><span class="pill fair">Before applying</span></td></tr>
+          <tr><td><b>Embassy attestation</b></td><td>The old per-country step</td><td><span class="pill long">Not needed</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col">
+    <p>Two things have collapsed the work you were expecting. HEC moved to a fully online, paperless system on 11 May 2026 — no office visit, no originals, a blockchain e-Attestation certificate in eight to ten days. And Pakistan's accession to the Hague Apostille Convention means MOFA issues an apostille that Italy accepts directly, with no consular legalisation of your <em class="term">academic</em> documents on top.</p>
+
+    <p>Note the asymmetry: your academic documents need apostille only, but the <b>ISEE financial documents still require consular legalisation and sworn translation</b>. Do not assume one process covers both.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">07</span>
+    <h2>Money, and when it moves</h2>
+  </div>
+
+  <div class="wide">
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Item</th><th>When</th><th class="num">PKR</th></tr></thead>
+        <tbody>
+          <tr><td>IELTS Academic</td><td>Sept 2026</td><td class="num">78,000</td></tr>
+          <tr><td>Passport renewal</td><td>Sept 2026</td><td class="num">15,000</td></tr>
+          <tr><td>HEC e-attestation, two documents</td><td>Sept 2026</td><td class="num">6,000</td></tr>
+          <tr><td>CIMEA statement of comparability</td><td>Nov 2026</td><td class="num">96,000</td></tr>
+          <tr><td>MOFA apostilles</td><td>Rolling</td><td class="num">12,000</td></tr>
+          <tr><td>Sworn translations + consular legalisation</td><td>Jun–Jul 2027</td><td class="num">45,000</td></tr>
+          <tr><td>CAF fee for the ISEE Parificato</td><td>Jul 2027</td><td class="num">20,000</td></tr>
+          <tr><td>Visa fee, medical, police certificate</td><td>Aug 2027</td><td class="num">25,000</td></tr>
+          <tr><td>Flight to Italy</td><td>Sept 2027</td><td class="num">200,000</td></tr>
+          <tr><td><b>Living, arrival until the grant lands</b></td><td><b>Sept 2027 – Jan 2028</b></td><td class="num">450,000</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total you must actually spend</td><td>Over fourteen months</td><td class="num">₨ 947,000</td></tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="col">
+    <p>Separately, you must <b>show</b> ₨ 3.26 million at the visa stage — but showing is not spending, and a university scholarship letter is designed to carry precisely that burden.</p>
+
+    <p>The ₨ 947,000 is the real number, spread across fourteen months. At your household's current saving rate that is not comfortable, but it is not nine years either. The largest single line is the four-month gap between arriving and the first DSU payment, and it is the one people consistently underestimate.</p>
+
+    <div class="callout">
+      <span class="callout-tag">Where the gap money comes from</span>
+      <p>You have a full year before you need most of this. Freelance work billed in dollars — even at a modest $700 a month, which is well within reach of the AI automation work your own curriculum already covers — closes the entire ₨ 947,000 inside twelve months without touching your salary. It also builds a documented, tax-filed income trail, which strengthens the visa file rather than complicating it. This is the one part of the earlier plan worth keeping.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">08</span>
+    <h2>Three ways this goes wrong</h2>
+  </div>
+
+  <div class="col">
+    <h3>The credit requirement, from year two</h3>
+    <p>Year one is assessed on income alone. After that you must have earned roughly <b>25 CFU by 10 August</b> — and missing it means <b>repaying the entire year's grant</b>, as a legal obligation, not merely losing next year's. Clearing it between 10 August and 30 November gets you 50%.</p>
+    <p>This bears directly on your plans. Italy's 20-hours-a-week work right is real and you will want to use it, but hours billed to clients are hours not spent on exams. <b>Treat the first year's coursework as the thing protecting your funding.</b> Keep the agency to one or two retainers until year two is secured, then scale.</p>
+
+    <h3>The permit that lapses</h3>
+    <p>After graduating, Italy grants a twelve-month <em class="term">permesso di soggiorno per attesa occupazione</em> — to find work <b>or to start a business</b>, which is the clause that matters for you. But you must apply <b>before your study permit expires</b>, having first registered with the employment office and obtained a DID certificate. A permit already lapsed cannot be converted: you would return to Pakistan and begin the visa again. Diarise it three months out and treat that date as immovable.</p>
+
+    <h3>Reapplying every single year</h3>
+    <p>The DSU is not renewed automatically. It is an annual application with a fresh ISEE each time, and a fresh deadline in September or October. Missing the second-year deadline is a common and entirely self-inflicted way to lose the grant.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">09</span>
+    <h2>Step by step, start to finish</h2>
+  </div>
+
+  <div class="col">
+    <p>Thirty steps from today to your first DSU payment. Do them in this order — several genuinely block the ones after them. The four highlighted steps are hard gates: miss one and you lose the entire year.</p>
+  </div>
+
+  <div class="wide">
+
+    <p class="stage">Stage A — Foundations <span>· August–October 2026 · you are here</span></p>
+
+    <div class="step">
+      <div class="step-n">01</div>
+      <div class="step-b">
+        <h4>Book an IELTS Academic slot</h4>
+        <p>Late September or October. Every university application wants a score and results take about thirteen days. Book before you start studying — the slot, not your readiness, is the scarce thing.</p>
+        <div class="step-meta"><b>British Council or IDP</b><b>₨ 78,000</b><b>Do this first</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">02</div>
+      <div class="step-b">
+        <h4>Check your passport has two years' validity</h4>
+        <p>Renew now if not. A short-validity passport limits the length of the visa and residence permit you are granted later.</p>
+        <div class="step-meta"><b>NADRA / DGIP</b><b>₨ 15,000</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">03</div>
+      <div class="step-b">
+        <h4>File HEC e-attestation for your degree and transcript</h4>
+        <p>Fully online since 11 May 2026 — create an account, complete your education profile, upload scans from matric onward, and apply. Your IBCC-verified sanads are the supporting upload. You receive a blockchain e-Attestation certificate.</p>
+        <div class="step-meta"><b>HEC e-services portal</b><b>₨ 3,000 per document</b><b>8–10 days</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">04</div>
+      <div class="step-b">
+        <h4>Request every bank balance as at 31 December 2025</h4>
+        <p>Yours, your father's, and any other household member's — <b>including accounts that are empty</b>. An omitted account invalidates an ISEE; a nil balance does not harm it. These records get harder to obtain every month, so this is genuinely urgent despite the distant deadline.</p>
+        <div class="step-meta"><b>Each bank branch</b><b>Reference year is 2025</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">05</div>
+      <div class="step-b">
+        <h4>Obtain a written no-property declaration</h4>
+        <p>A formal statement that the household owns no land or buildings, plus your father's motorcycle registration. Get the absence stated explicitly on paper — an assessor reading a blank field asks questions that a signed declaration answers in advance.</p>
+        <div class="step-meta"><b>Revenue office / affidavit</b><b>This is your advantage — document it</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">06</div>
+      <div class="step-b">
+        <h4>Get salary certificates and file FBR returns</h4>
+        <p>Certificates for you and your father on employer letterhead, stating exact dates and gross annual figures for 2025. File tax returns if you have not — a documented income is what makes the ISEE coherent.</p>
+        <div class="step-meta"><b>Employer + FBR</b><b>NTN if you lack one</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">07</div>
+      <div class="step-b">
+        <h4>Collect a family composition certificate and rent agreement</h4>
+        <p>NADRA family registration certificate. If your family rents its home, get the tenancy agreement — rent is deductible and lowers your ISEE further.</p>
+        <div class="step-meta"><b>NADRA</b></div>
+      </div>
+    </div>
+
+    <p class="stage">Stage B — Recognition and profile <span>· November 2026–January 2027</span></p>
+
+    <div class="step">
+      <div class="step-n">08</div>
+      <div class="step-b">
+        <h4>Sit IELTS. Target band 7.0</h4>
+        <p>The single cheapest signal that offsets a 3.0 transcript. If you land below 6.5, rebook immediately rather than proceeding — a weak score constrains which universities will read your file at all.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">09</div>
+      <div class="step-b">
+        <h4>Get MOFA apostilles on your academic documents</h4>
+        <p>Degree, transcript, and both sanads, once HEC clears. Pakistan is a Hague Convention member, so this replaces Italian embassy legalisation for academic papers. Insist on the physical apostille — QR-verified digital copies are explicitly rejected.</p>
+        <div class="step-meta"><b>MOFA camp office</b><b>~₨ 12,000</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">10</div>
+      <div class="step-b">
+        <h4>Apply for the CIMEA Statement of Comparability</h4>
+        <p>Italy's recognition of your BS IT as equivalent to an Italian bachelor's. Done online. The alternative is a Dichiarazione di Valore from the Italian Embassy, which is slower — prefer CIMEA. This sits on the critical path for every application after it.</p>
+        <div class="step-meta"><b>cimea.it</b><b>~€300 / ₨ 96,000</b><b>~15 working days</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">11</div>
+      <div class="step-b">
+        <h4>Deploy two AI automation projects publicly</h4>
+        <p>Pull them from phase 8 of your own curriculum. Each needs a short write-up naming the problem, what you built, and a measured result. This is the evidence that compensates for your transcript, and it costs nothing but weeks.</p>
+        <div class="step-meta"><b>GitHub + a one-page site</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">12</div>
+      <div class="step-b">
+        <h4>Shortlist five universities and record every deadline</h4>
+        <p>Both first choices from section 03, both second, one backup. For each, note the application window, the scholarship form, whether it is a separate submission, and the regional DSU agency. Build this as one spreadsheet.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">13</div>
+      <div class="step-b">
+        <h4>Draft one master statement of purpose</h4>
+        <p>Roughly 800 words, then adapted five times. State the specific thing you want to build and the specific thing you have already built. Generic passion-for-technology essays are the bulk of every pile.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">14</div>
+      <div class="step-b">
+        <h4>Request three reference letters</h4>
+        <p>Two academic, one from your employer. Give four weeks' notice and supply each referee with your CV and a paragraph on what you are applying for.</p>
+      </div>
+    </div>
+
+    <p class="stage">Stage C — Applications <span>· January–May 2027</span></p>
+
+    <div class="step">
+      <div class="step-n">15</div>
+      <div class="step-b">
+        <h4>Apply to all five universities</h4>
+        <p>Cutoffs cluster between 30 April and 25 May but vary — work to the earliest on your sheet. Apply in the first half of each window; several universities assess on a rolling basis and scholarships thin out.</p>
+        <div class="step-meta"><b>Each university's own portal</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">16</div>
+      <div class="step-b">
+        <h4>Submit the institutional scholarship form with every application</h4>
+        <p>Usually part of the same submission rather than a later separate one. <b>This is the step that produces your visa evidence.</b> An admission without a scholarship letter leaves you needing to show ₨ 3.26 million of your own.</p>
+        <div class="step-meta"><b>Never skip this</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">17</div>
+      <div class="step-b">
+        <h4>Add three or four Erasmus Mundus consortia with Italian partners</h4>
+        <p>Same destination, richer funding, no ISEE dependency, no return obligation. Deadlines run November to February, so this overlaps stage B. The motivation letter is already written.</p>
+        <div class="step-meta"><b>Erasmus+ catalogue</b><b>Free to apply</b></div>
+      </div>
+    </div>
+
+    <p class="stage">Stage D — Pre-enrolment and the ISEE dossier <span>· June–July 2027</span></p>
+
+    <div class="step">
+      <div class="step-n">18</div>
+      <div class="step-b">
+        <h4>Accept your best offer</h4>
+        <p>Weigh the institutional scholarship first — it decides your visa — and the regional DSU ceiling second. A smaller university with a scholarship letter beats a famous one without.</p>
+      </div>
+    </div>
+
+    <div class="step gate">
+      <div class="step-n">19</div>
+      <div class="step-b">
+        <h4>Complete Universitaly pre-enrolment — by 31 July</h4>
+        <p><b>Hard gate.</b> The sole channel through which an Italian study visa can be requested. Without it your admission letter is worth nothing and no consulate will open a file. Do it the week your offer arrives, not the week it closes.</p>
+        <div class="step-meta"><b>universitaly.it</b><b>Deadline ~31 July 2027</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">20</div>
+      <div class="step-b">
+        <h4>Apostille the financial documents</h4>
+        <p>Every item from steps 04 to 07. Note the asymmetry: academic documents need apostille only, but financial documents need apostille <b>and</b> sworn translation <b>and</b> consular legalisation. One process does not cover both.</p>
+        <div class="step-meta"><b>MOFA</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">21</div>
+      <div class="step-b">
+        <h4>Get sworn Italian translations, then consular legalisation</h4>
+        <p>Translated by a recognised sworn translator, then legalised at the Italian consulate in Islamabad or Karachi. Book the consular appointment as soon as translations are underway.</p>
+        <div class="step-meta"><b>Italian Consulate</b><b>~₨ 45,000</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">22</div>
+      <div class="step-b">
+        <h4>Submit the dossier to a CAF and obtain the ISEE Parificato</h4>
+        <p>Ask one question first: <b>will this CAF issue remotely from scanned PDFs, or does it require originals in person in Italy?</b> The answer determines whether you can hold the certificate before you fly, and it can decide whether you make the DSU deadline. Contact three CAFs and use whichever confirms remote issuance in writing.</p>
+        <div class="step-meta"><b>Any CAF office</b><b>~₨ 20,000</b><b>10–20 days</b></div>
+      </div>
+    </div>
+
+    <p class="stage">Stage E — Visa <span>· August–November 2027</span></p>
+
+    <div class="step">
+      <div class="step-n">23</div>
+      <div class="step-b">
+        <h4>Book the visa appointment the day pre-enrolment clears</h4>
+        <p>Islamabad appointment backlogs are real and they are what turn a comfortable timeline into a missed intake. Book first, assemble the file second.</p>
+      </div>
+    </div>
+
+    <div class="step gate">
+      <div class="step-n">24</div>
+      <div class="step-b">
+        <h4>Submit the visa application — by 30 November</h4>
+        <p><b>Hard gate.</b> Lead with the university scholarship letter, then whatever funds you hold, against the €10,179.85 requirement. Bring the accommodation booking, health insurance, CIMEA statement, and Universitaly confirmation. Expect questions about the source of funds and answer them with documents, not explanations.</p>
+        <div class="step-meta"><b>Italian Consulate</b><b>Show €10,179.85</b></div>
+      </div>
+    </div>
+
+    <p class="stage">Stage F — Arrival <span>· September–October 2027</span></p>
+
+    <div class="step">
+      <div class="step-n">25</div>
+      <div class="step-b">
+        <h4>Fly, enrol, and get your codice fiscale</h4>
+        <p>The codice fiscale is Italy's tax number and you need it for everything — bank account, phone contract, residence permit. Obtain it in your first week.</p>
+        <div class="step-meta"><b>Agenzia delle Entrate</b></div>
+      </div>
+    </div>
+
+    <div class="step gate">
+      <div class="step-n">26</div>
+      <div class="step-b">
+        <h4>Apply for the permesso di soggiorno within 8 working days</h4>
+        <p><b>Hard gate.</b> Italian law requires the residence permit application within eight working days of arrival. The kit comes from a post office <em class="term">sportello amici</em>. Late application puts your legal status at risk from your first month.</p>
+        <div class="step-meta"><b>Post office, then Questura</b></div>
+      </div>
+    </div>
+
+    <div class="step gate">
+      <div class="step-n">27</div>
+      <div class="step-b">
+        <h4>File the DSU application — 5 September to 31 October</h4>
+        <p><b>Hard gate.</b> To your university's regional agency — ER.GO, ESU, EDiSU, DiSCo Lazio, whichever applies. Tuscany closes first, around 5 September. This deadline can fall <b>before your visa is even issued</b>, so check your region's date the moment you accept an offer and work backwards from it.</p>
+        <div class="step-meta"><b>Regional DSU agency</b><b>ISEE required in hand</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">28</div>
+      <div class="step-b">
+        <h4>Apply separately for dormitory accommodation and the canteen card</h4>
+        <p>Housing is usually a distinct application from the cash grant, with its own deadline, even though both flow from the same ISEE. Missing it means paying private rent while holding a free dorm entitlement.</p>
+      </div>
+    </div>
+
+    <p class="stage">Stage G — Holding it <span>· December 2027 onward</span></p>
+
+    <div class="step">
+      <div class="step-n">29</div>
+      <div class="step-b">
+        <h4>Survive to the first payment, then keep the credits</h4>
+        <p>The first instalment lands three to five months after you arrive. From year two you need roughly <b>25 CFU by 10 August</b> or you repay the whole year. Keep freelance work to one or two retainers until that bar is cleared.</p>
+        <div class="step-meta"><b>~₨ 450,000 gap to bridge</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">30</div>
+      <div class="step-b">
+        <h4>Reapply for the DSU annually, and convert the permit before it expires</h4>
+        <p>The grant never renews automatically — new ISEE, new application, every year. And when you graduate, register with the employment office for a DID certificate and apply for the twelve-month <em class="term">attesa occupazione</em> permit <b>before</b> your study permit lapses. An expired permit cannot be converted; it sends you home to start again.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col" style="padding-top:36px">
+    <p>Your transcript is fixed at 3.0 and nothing will change it. But the thing that actually decides this route is not your transcript — it is a number derived from your father's income and the property he does not own, and that number is already about as favourable as it can be. What remains is thirty steps of paperwork, executed early.</p>
+    <p>Steps 01 through 07 are all available to you this month, and four of them cost nothing.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="col" style="max-width:none">
+    <p><b>Verify before committing money.</b> The ISEE estimate above is indicative, not an official calculation — only a CAF can issue a binding figure, and it depends on your exact household size, rent, and the euro rate. Italian proof-of-funds thresholds and DSU amounts are set annually and the 2027/28 figures are not yet published; €10,179.85 is the 2026/27 number and should be treated as a floor. Regional DSU deadlines and amounts vary by region and change each year — confirm with the specific agency (ER.GO, ESU, EDiSU, DiSCo Lazio) for your university. Confirm with your consulate whether a university scholarship letter is accepted in place of bank funds before building the plan around it, and confirm with your chosen CAF whether the ISEE can be issued remotely. Currency conversions are approximate as of August 2026.</p>
+  </div>
+</footer>
