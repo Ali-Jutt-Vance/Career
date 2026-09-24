@@ -130,8 +130,8 @@
       if (day.date <= today) elapsedDays++;
     }
 
-    // Streak: consecutive worked days counting back from today. Rest days (Sundays
-    // from 1 September) are NEUTRAL — they are skipped over rather than breaking it,
+    // Streak: consecutive worked days counting back from today. Rest days (every
+    // Sunday) are NEUTRAL — they are skipped over rather than breaking it,
     // because resting on a scheduled day off is compliance, not failure.
     let streak = 0;
     const upto = PLAN.days.filter(d => d.date <= today);
@@ -193,11 +193,13 @@
     const tracks = trackTotals();
 
     const anchorList = [
-      ['IELTS booked',       PLAN.anchors.ieltsBooking],
-      ['Proposals begin',    PLAN.anchors.proposalStart],
-      ['Applications open',  PLAN.anchors.applyStart],
-      ['IELTS EXAM',         PLAN.anchors.ieltsExam],
-      ['IELTS results',      PLAN.anchors.ieltsResult],
+      ['CV + GitHub done',   PLAN.anchors.cvReady],
+      ['APPLICATIONS OPEN',  PLAN.anchors.applyStart],
+      ['API live',           PLAN.anchors.apiLive],
+      ['AI unlocked',        PLAN.anchors.aiUnlock],
+      ['Project 1 live',     PLAN.anchors.project1],
+      ['Project 2 live',     PLAN.anchors.project2],
+      ['First mock',         PLAN.anchors.mockStart],
       ['DEADLINE',           PLAN.anchors.deadline],
     ];
 
@@ -211,7 +213,7 @@
           </div>
           <div class="plan-countdown">
             <div class="pc-num">${stats.remaining}</div>
-            <div class="pc-label">days to<br>1 Jan 2027</div>
+            <div class="pc-label">days to<br>${new Date(PLAN.meta.end + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })}</div>
           </div>
         </div>
 

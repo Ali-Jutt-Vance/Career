@@ -1,1034 +1,1033 @@
 # Phase 2 — Chapter 3: NestJS
 
-> *"NestJS is a progressive Node.js framework for building efficient, reliable, and scalable server-side applications."*
+> **Target: 6,000 words · Core interview chapter · Weeks 23–29**
+>
+> This is the framework your next job title names. You arrive here having written your
+> own dependency-injection container in Week 6 and your own decorators in Week 7, and
+> having built a complete Express service with a real data layer. That order was
+> deliberate. Nest is not magic; it is a well-made version of things you have already
+> built by hand, and this chapter shows you the seam between the two.
 
 ---
 
 ## Chapter Overview
 
-### Why NestJS Exists
+NestJS is a server framework that takes the structure Angular imposed on the browser and
+applies it to the server: **modules** that declare what they own, a **container** that
+constructs your objects for you, **controllers** that do nothing but translate HTTP, and
+a **request pipeline** with named, ordered stages.
 
-Express is minimal and flexible — but that flexibility becomes a liability on large teams. Without conventions, every developer structures projects differently, dependencies sprawl, and testing becomes hard.
+Underneath, it is still Express (or Fastify). A Nest application is an Express
+application with a great deal of organisation on top. Everything you learned in Week 10 —
+middleware order, the four-argument error handler, how a request becomes a response —
+is still true. Nest gives those things names and guarantees.
 
-NestJS (created by Kamil Myśliwiec, 2017) solves this by bringing enterprise patterns from Angular (and Java Spring) to Node.js:
-- **Modules**: organize code by feature
-- **Dependency Injection**: decouple components, enable testability
-- **Decorators**: declarative, readable code
-- **Built-in support** for TypeScript, validation, serialization, guards, interceptors
+**Why teams choose it.** Express gives you nothing and lets you invent a structure. Ten
+Express codebases have ten structures, and a developer joining any of them spends a week
+finding where things live. Nest gives you one structure. The cost is that you must learn
+its vocabulary; the benefit is that every Nest project looks the same, testing is
+straightforward, and TypeScript is assumed rather than bolted on.
 
-NestJS uses Express (or Fastify) under the hood — you still get Express's power, but with opinionated structure and dependency injection on top.
+**Why it matters for you specifically.** In the Pakistani market, "Node/NestJS" is the
+phrase in the job descriptions at the tier you are targeting. And it happens to reward
+exactly the fundamentals this book spent seven weeks on: if OOP, interfaces and
+dependency inversion are solid, Nest is obvious. If they are not, Nest feels like
+incantation and you will never debug it confidently.
 
-**NestJS is the go-to framework for:**
-- Enterprise Node.js applications
-- Large teams needing strict conventions
-- Microservices and monorepos (Nx)
-- Applications requiring testability
-
-**Companies using NestJS:** Autodesk, Roche, Adidas, and thousands of enterprises.
+**What you will be able to do by the end.** Explain what the Nest container does at
+startup and why a circular dependency happens. Draw the request pipeline in order. Build
+a feature module with controllers, services and repositories behind interfaces. Write a
+guard using metadata you defined yourself. Test all of it without fighting mocks.
 
 ---
 
 ## Beginner Theory
 
-### Core Building Blocks
+### The one idea: you stop calling `new`
 
+Here is the whole framework in two versions of the same code.
+
+**Without a container**, every object constructs its own dependencies:
+
+```ts
+class OrdersService {
+  private repo = new TypeOrmOrderRepository(dataSource);   // constructs its own
+  private mailer = new SmtpMailer(config.smtp);            // and its own
+}
 ```
-┌────────────────────────────────────────────────────┐
-│                    Module                          │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │
-│  │Controller│  │ Service  │  │    Repository    │ │
-│  │ (routes) │  │(business)│  │    (data)        │ │
-│  └──────────┘  └──────────┘  └──────────────────┘ │
-└────────────────────────────────────────────────────┘
+
+This is what most Express code does, and it has three consequences. You cannot replace
+`repo` in a test without mocking the module system. `OrdersService` now knows about
+TypeORM and SMTP, so it depends on details rather than on behaviour. And if two services
+each do `new SmtpMailer(...)`, you have two mailers where you probably wanted one.
+
+**With a container**, the object declares what it needs and receives it:
+
+```ts
+@Injectable()
+export class OrdersService {
+  constructor(
+    @Inject(ORDER_REPOSITORY) private readonly repo: OrderRepository,
+    private readonly mailer: MailerService,
+  ) {}
+}
 ```
 
-**Module**: Groups related controllers, services, and providers. The unit of organization.
+`OrdersService` now depends on an *interface* (`OrderRepository`) and asks for it by
+token. Something else decides which implementation arrives. That something else is the
+Nest container, and everything in this chapter is a consequence of that one inversion.
 
-**Controller**: Handles HTTP requests. Parses input, calls service, returns response. Never contains business logic.
+You built a crude version of this in Week 6. Open that file beside this chapter. Nest
+does four things yours did not: it resolves the whole graph recursively, it manages
+lifetime (one instance by default), it enforces visibility through modules, and it
+detects circular dependencies and tells you where.
 
-**Service**: Contains business logic. Injected into controllers. Injected with repositories.
+### What actually happens at startup
 
-**Provider**: Any class that can be injected (services, repositories, factories, helpers).
+This is the part most people never learn, and it is the difference between debugging
+Nest and guessing at it.
 
-**Guard**: Runs before a route handler — decides if access is allowed (auth/authorization).
+```ts
+const app = await NestFactory.create(AppModule);
+```
 
-**Interceptor**: Wraps a request/response — for logging, caching, transformation.
+Step by step, what that line does:
 
-**Pipe**: Validates and transforms incoming data.
+1. **Reads `AppModule`'s metadata.** The `@Module({...})` decorator stored an object on
+   the class — `imports`, `controllers`, `providers`, `exports` — using
+   `reflect-metadata`, the exact mechanism you used in Week 7.
+2. **Walks `imports` recursively**, building a graph of every module in the application.
+   Each module gets its own container of providers.
+3. **For every provider, reads its constructor parameter types.** This is the trick:
+   because `emitDecoratorMetadata` is on, TypeScript emits a hidden
+   `design:paramtypes` array on every decorated class listing its constructor parameter
+   types. Nest reads that array to know what to inject. This is why `@Injectable()` is
+   required even on a class with no options — without a decorator, TypeScript emits no
+   metadata and Nest is blind.
+4. **Topologically sorts and instantiates.** Dependencies first, then dependents. If A
+   needs B and B needs A, there is no valid order, and Nest throws the circular
+   dependency error rather than hanging.
+5. **Runs lifecycle hooks** — `onModuleInit` on every provider that has one.
+6. **Registers routes.** Each controller's decorators are read to build the routing
+   table, which is then handed to Express underneath.
 
-**Filter**: Catches exceptions and formats error responses.
+When you see `Nest can't resolve dependencies of the OrdersService (?, MailerService)`,
+that `?` is position zero in that `design:paramtypes` array, and the message is telling
+you the container reached step 3 and could not find a provider for that token. The fix
+is always one of: the provider is not in this module, or it is not exported by the
+module that owns it, or you forgot `@Inject()` on an interface token.
+
+### Modules, and why they exist
+
+```ts
+@Module({
+  imports:     [TypeOrmModule.forFeature([OrderEntity]), MailerModule],
+  controllers: [OrdersController],
+  providers:   [OrdersService, { provide: ORDER_REPOSITORY, useClass: TypeOrmOrderRepository }],
+  exports:     [OrdersService],
+})
+export class OrdersModule {}
+```
+
+Each key means something precise:
+
+- **`providers`** — things this module can inject. **Private by default.** A provider
+  listed here is invisible to every other module.
+- **`exports`** — the subset other modules may use after importing this one. This is the
+  public API of your module.
+- **`imports`** — other modules whose exports you want. Importing a module does *not*
+  give you its private providers, only what it exports.
+- **`controllers`** — classes whose routes should be registered.
+
+The private-by-default rule is the whole value of modules. Without it, a large
+application becomes one flat namespace where anything can reach anything, and a change
+in one corner breaks a distant one. With it, `OrdersModule` exposes `OrdersService` and
+nothing else, so its repository can be replaced without any other module noticing.
+
+**A common confusion:** importing a module twice does not create two instances of its
+providers. Providers are singletons per application by default, not per import.
 
 ---
 
 ## Basic Examples
 
-### Installation and Project Setup
+### Step 1 — A module you built yourself
+
+Generate the pieces, then read every generated file before you change it:
 
 ```bash
-# Install NestJS CLI globally
-npm install -g @nestjs/cli
-
-# Create new project
-nest new my-api
-cd my-api
-npm run start:dev
-
-# Generate components
-nest generate module users
-nest generate controller users
-nest generate service users
-
-# Or in short:
-nest g module users
-nest g controller users
-nest g service users
-nest g resource orders   # generates full CRUD: module, controller, service, DTOs
+nest g module orders
+nest g controller orders --no-spec
+nest g service orders --no-spec
 ```
 
-### Project Structure
+`src/orders/orders.controller.ts`:
 
-```
-src/
-├── app.module.ts          ← root module
-├── main.ts                ← bootstrap
-├── users/
-│   ├── users.module.ts
-│   ├── users.controller.ts
-│   ├── users.service.ts
-│   ├── users.repository.ts
-│   ├── dto/
-│   │   ├── create-user.dto.ts
-│   │   └── update-user.dto.ts
-│   └── entities/
-│       └── user.entity.ts
-├── auth/
-│   ├── auth.module.ts
-│   ├── auth.controller.ts
-│   ├── auth.service.ts
-│   ├── guards/
-│   │   ├── jwt.guard.ts
-│   │   └── roles.guard.ts
-│   └── strategies/
-│       └── jwt.strategy.ts
-└── common/
-    ├── filters/
-    │   └── http-exception.filter.ts
-    ├── interceptors/
-    │   └── logging.interceptor.ts
-    └── pipes/
-        └── validation.pipe.ts
-```
-
-### Main Application Bootstrap
-
-```typescript
-// main.ts
-import { NestFactory } from "@nestjs/core";
-import { ValidationPipe } from "@nestjs/common";
-import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
-import { AppModule } from "./app.module";
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  // Global prefix
-  app.setGlobalPrefix("api/v1");
-
-  // Global validation pipe
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,          // strip unknown properties
-    forbidNonWhitelisted: true, // throw error on unknown properties
-    transform: true,          // auto-transform types (string → number)
-    transformOptions: { enableImplicitConversion: true }
-  }));
-
-  // CORS
-  app.enableCors({
-    origin: process.env.ALLOWED_ORIGINS?.split(",") ?? "*",
-    credentials: true
-  });
-
-  // Swagger
-  const config = new DocumentBuilder()
-    .setTitle("My API")
-    .setVersion("1.0")
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("docs", app, document);
-
-  // Graceful shutdown
-  app.enableShutdownHooks();
-
-  const port = process.env.PORT ?? 3000;
-  await app.listen(port);
-  console.log(`Application running on: http://localhost:${port}/api/v1`);
-}
-
-bootstrap();
-```
-
-### Module
-
-```typescript
-// users/users.module.ts
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsersController } from "./users.controller";
-import { UsersService } from "./users.service";
-import { User } from "./entities/user.entity";
-
-@Module({
-  imports: [TypeOrmModule.forFeature([User])],  // inject User repository
-  controllers: [UsersController],
-  providers: [UsersService],
-  exports: [UsersService],   // make UsersService available to other modules
-})
-export class UsersModule {}
-```
-
-### Controller
-
-```typescript
-// users/users.controller.ts
-import {
-  Controller, Get, Post, Body, Patch, Param, Delete,
-  Query, UseGuards, ParseUUIDPipe, HttpCode, HttpStatus
-} from "@nestjs/common";
-import { ApiTags, ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
-import { UsersService } from "./users.service";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { JwtAuthGuard } from "../auth/guards/jwt.guard";
-import { Roles } from "../auth/decorators/roles.decorator";
-import { RolesGuard } from "../auth/guards/roles.guard";
-import { CurrentUser } from "../auth/decorators/current-user.decorator";
-
-@ApiTags("users")
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
-@Controller("users")
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  @UseGuards(RolesGuard)
-  @Roles("admin")
-  @ApiOperation({ summary: "Create a new user (admin only)" })
-  async create(@Body() dto: CreateUserDto) {
-    return this.usersService.create(dto);
-  }
+```ts
+@Controller('orders')
+export class OrdersController {
+  constructor(private readonly orders: OrdersService) {}
 
   @Get()
-  async findAll(
-    @Query("page") page = 1,
-    @Query("limit") limit = 20,
-    @Query("search") search?: string
-  ) {
-    return this.usersService.findAll({ page: +page, limit: +limit, search });
+  findAll(@Query() query: ListOrdersDto) {
+    return this.orders.findAll(query);
   }
 
-  @Get("me")
-  getProfile(@CurrentUser() user: Express.User) {
-    return this.usersService.findById(user.id);
+  @Get(':id')
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.orders.findOne(id);
   }
 
-  @Get(":id")
-  async findOne(@Param("id", ParseUUIDPipe) id: string) {
-    return this.usersService.findById(id);
-  }
-
-  @Patch(":id")
-  async update(
-    @Param("id", ParseUUIDPipe) id: string,
-    @Body() dto: UpdateUserDto
-  ) {
-    return this.usersService.update(id, dto);
-  }
-
-  @Delete(":id")
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(RolesGuard)
-  @Roles("admin")
-  async remove(@Param("id", ParseUUIDPipe) id: string) {
-    await this.usersService.delete(id);
+  @Post()
+  @HttpCode(201)
+  create(@Body() dto: CreateOrderDto) {
+    return this.orders.create(dto);
   }
 }
 ```
 
-### Service
+What each piece does, and what it is doing underneath:
 
-```typescript
-// users/users.service.ts
-import { Injectable, NotFoundException, ConflictException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, ILike } from "typeorm";
-import * as bcrypt from "bcrypt";
-import { User } from "./entities/user.entity";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
+- `@Controller('orders')` — registers this class and prefixes every route with `/orders`.
+- `constructor(private readonly orders: OrdersService)` — this is both a declaration of
+  a dependency *and*, because of TypeScript's parameter properties, an assignment to
+  `this.orders`. Two things in one line, which surprises people coming from plain JS.
+- `@Get(':id')` — a route. Nest reads it at startup and registers `GET /orders/:id` with
+  Express.
+- `@Param('id', ParseUUIDPipe)` — extract the `id` route parameter and run it through a
+  pipe first. If it is not a UUID, the pipe throws and the request never reaches your
+  method. That is validation happening *before* your code, which is the whole point of
+  pipes.
+- **Returning a value is enough.** No `res.json()`. Nest serialises whatever you return
+  and sends it with 200 (or 201 for POST). A returned promise is awaited. This is why a
+  Nest controller reads like a function rather than like plumbing.
 
+**The rule for controllers: they translate, they do not decide.** Parse the request,
+call a service, return the result. The moment a controller contains an `if` about
+business rules, that rule is in the wrong file — it is now untestable without HTTP and
+invisible to anyone reading the service.
+
+### Step 2 — A service that depends on an interface
+
+```ts
+// order.repository.ts — the contract
+export const ORDER_REPOSITORY = Symbol('ORDER_REPOSITORY');
+
+export interface OrderRepository {
+  findById(id: string): Promise<Order | null>;
+  save(order: Order): Promise<Order>;
+  findByCustomer(customerId: string): Promise<Order[]>;
+}
+```
+
+```ts
+// orders.service.ts
 @Injectable()
-export class UsersService {
+export class OrdersService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    @Inject(ORDER_REPOSITORY) private readonly repo: OrderRepository,
+    private readonly mailer: MailerService,
   ) {}
 
-  async create(dto: CreateUserDto): Promise<User> {
-    const existing = await this.userRepository.findOne({
-      where: { email: dto.email }
-    });
-    if (existing) throw new ConflictException("Email already registered");
+  async create(dto: CreateOrderDto): Promise<Order> {
+    const existing = await this.repo.findByCustomer(dto.customerId);
+    const outstanding = existing.reduce((sum, o) => sum + o.total, 0);
 
-    const hash = await bcrypt.hash(dto.password, 12);
-    const user = this.userRepository.create({ ...dto, password: hash });
-    return this.userRepository.save(user);
-  }
-
-  async findAll({ page, limit, search }: {
-    page: number; limit: number; search?: string
-  }) {
-    const [users, total] = await this.userRepository.findAndCount({
-      where: search ? { name: ILike(`%${search}%`) } : {},
-      skip: (page - 1) * limit,
-      take: limit,
-      order: { createdAt: "DESC" }
-    });
-
-    return {
-      data: users,
-      meta: { total, page, limit, pages: Math.ceil(total / limit) }
-    };
-  }
-
-  async findById(id: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) throw new NotFoundException(`User ${id} not found`);
-    return user;
-  }
-
-  async findByEmail(email: string): Promise<User | null> {
-    return this.userRepository.findOne({ where: { email } });
-  }
-
-  async update(id: string, dto: UpdateUserDto): Promise<User> {
-    const user = await this.findById(id);
-    if (dto.password) {
-      dto.password = await bcrypt.hash(dto.password, 12);
+    if (outstanding + dto.total > CREDIT_LIMIT) {
+      throw new CreditLimitExceeded(dto.customerId, outstanding);
     }
-    Object.assign(user, dto);
-    return this.userRepository.save(user);
-  }
 
-  async delete(id: string): Promise<void> {
-    const user = await this.findById(id);
-    await this.userRepository.remove(user);
+    const order = await this.repo.save(Order.create(dto));
+    await this.mailer.orderConfirmation(order);
+    return order;
   }
 }
 ```
 
-### DTOs with Class-Validator
+**Why the token is a `Symbol`.** A TypeScript interface does not exist at runtime — it is
+erased during compilation. So Nest cannot inject "an `OrderRepository`"; there is nothing
+to look up. You need a runtime value to use as a key, and that is the token. A `Symbol`
+is better than a string because it cannot collide with another module's token by
+accident.
 
-```typescript
-// dto/create-user.dto.ts
-import { IsEmail, IsString, MinLength, IsEnum, IsOptional } from "class-validator";
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+**This is the payoff for Week 6.** `OrdersService` has no idea TypeORM exists. In Week 27
+you will hand it an in-memory fake and the tests will need three lines of setup. Compare
+that to the version that called `new TypeOrmOrderRepository(...)` itself, which cannot be
+tested at all without mocking the module loader.
 
-export enum UserRole {
-  USER  = "user",
-  ADMIN = "admin",
-}
+### Step 3 — Provider types, and when each is right
 
-export class CreateUserDto {
-  @ApiProperty({ example: "Alice Smith" })
-  @IsString()
-  @MinLength(2)
-  name: string;
+```ts
+@Module({
+  providers: [
+    // 1. Class provider — the shorthand. "Give me an OrdersService."
+    OrdersService,
 
-  @ApiProperty({ example: "alice@example.com" })
-  @IsEmail()
-  email: string;
+    // 2. useClass — bind an implementation to a token
+    { provide: ORDER_REPOSITORY, useClass: TypeOrmOrderRepository },
 
-  @ApiProperty({ example: "SecurePass123!", minLength: 8 })
-  @IsString()
-  @MinLength(8)
-  password: string;
+    // 3. useValue — a ready-made object; the usual choice in tests
+    { provide: CLOCK, useValue: { now: () => new Date() } },
 
-  @ApiPropertyOptional({ enum: UserRole, default: UserRole.USER })
-  @IsEnum(UserRole)
-  @IsOptional()
-  role?: UserRole = UserRole.USER;
-}
+    // 4. useFactory — when construction needs a decision or async work
+    {
+      provide: PAYMENT_GATEWAY,
+      useFactory: (config: ConfigService) =>
+        config.get('NODE_ENV') === 'production'
+          ? new StripeGateway(config.get('STRIPE_KEY'))
+          : new FakeGateway(),
+      inject: [ConfigService],
+    },
 
-// dto/update-user.dto.ts
-import { PartialType } from "@nestjs/swagger";
-
-// PartialType makes all CreateUserDto fields optional, preserves decorators
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+    // 5. useExisting — an alias to an existing provider
+    { provide: 'LEGACY_ORDERS', useExisting: OrdersService },
+  ],
+})
+export class OrdersModule {}
 ```
+
+`useFactory` is the one worth dwelling on. `inject: [ConfigService]` tells Nest what to
+pass into the factory, in order — the factory's parameters are resolved from the
+container just like a constructor's. A factory may return a promise, and Nest will await
+it before anything that depends on it is constructed. That is how you open a database
+connection at startup and have it ready before the first request.
+
+### Step 4 — Bootstrap, and configuration that fails loudly
+
+```ts
+// main.ts
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,               // strip properties with no decorator
+    forbidNonWhitelisted: true,    // and reject the request instead of stripping silently
+    transform: true,               // turn plain objects into DTO class instances
+  }));
+
+  app.useGlobalFilters(new AllExceptionsFilter());
+  app.enableShutdownHooks();       // makes onModuleDestroy fire on SIGTERM
+
+  await app.listen(process.env.PORT ?? 3000);
+}
+```
+
+Two things here that pay off much later.
+
+**`whitelist` with `forbidNonWhitelisted`.** Together they reject any request containing
+a property your DTO did not declare. Without them, a client can send
+`{ "total": 10, "isAdmin": true }` and — if anything downstream spreads that object into
+an entity — you have a mass-assignment vulnerability. Week 27 has you write the test
+that proves this is on.
+
+**`enableShutdownHooks`.** Without it, `onModuleDestroy` never fires and SIGTERM kills
+the process with requests in flight and connections open. You did this by hand in Week 13
+for Express; this is the Nest equivalent and it matters again in Week 41 when ECS starts
+replacing your tasks.
+
+And configuration should refuse to boot when it is wrong:
+
+```ts
+ConfigModule.forRoot({
+  isGlobal: true,
+  validationSchema: Joi.object({
+    NODE_ENV: Joi.string().valid('development', 'test', 'production').required(),
+    DATABASE_URL: Joi.string().uri().required(),
+    JWT_SECRET: Joi.string().min(32).required(),
+  }),
+}),
+```
+
+A process that starts with a missing secret and fails on the first request at 2am is
+strictly worse than one that refuses to start at deploy time.
 
 ---
 
 ## Intermediate Concepts
 
-### Dependency Injection
+### The request pipeline, in order
 
-NestJS has a built-in IoC (Inversion of Control) container. Classes decorated with `@Injectable()` are managed by the container.
+This is the single most asked NestJS interview question. Learn the order and what each
+stage is *for*.
 
-```typescript
-// Three ways to provide services
-
-// 1. Class provider (most common)
-@Module({
-  providers: [UsersService]
-})
-
-// 2. Custom value provider
-@Module({
-  providers: [
-    {
-      provide: "CONFIG",
-      useValue: { maxRetries: 3, timeout: 5000 }
-    }
-  ]
-})
-// Inject with:
-constructor(@Inject("CONFIG") private config: AppConfig) {}
-
-// 3. Factory provider (async dependencies)
-@Module({
-  providers: [
-    {
-      provide: "DATABASE",
-      useFactory: async (configService: ConfigService) => {
-        return createConnection({ url: configService.get("DB_URL") });
-      },
-      inject: [ConfigService]
-    }
-  ]
-})
-
-// 4. Existing provider (alias)
-@Module({
-  providers: [
-    { provide: "OldEmailService", useExisting: EmailService }
-  ]
-})
+```
+Incoming request
+   │
+   ├─ 1. Middleware          — Express-level. No DI context about the handler.
+   ├─ 2. Guards              — "may this request proceed?"  → 403 if not
+   ├─ 3. Interceptors (pre)  — wrap the call: start a timer, open a transaction
+   ├─ 4. Pipes               — transform and validate the arguments → 400 if invalid
+   ├─ 5. Handler             — your controller method
+   ├─ 6. Interceptors (post) — map the response, stop the timer, commit
+   └─ 7. Exception filters   — anything thrown anywhere above lands here
+Response
 ```
 
-### Guards (Authentication & Authorization)
+Two consequences people get wrong:
 
-```typescript
-// auth/guards/jwt.guard.ts
-import { Injectable, ExecutionContext } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
+**Guards run before pipes.** So a guard cannot rely on a validated, transformed body —
+at that point the body is still raw. Authorisation decisions that depend on the body
+content have to happen in the handler or in an interceptor, not in a guard.
 
-@Injectable()
-export class JwtAuthGuard extends AuthGuard("jwt") {
-  canActivate(context: ExecutionContext) {
-    return super.canActivate(context);
-  }
+**Interceptors wrap the handler on both sides.** That is what makes them the right place
+for anything with a before-and-after: timing, logging, caching, transactions. A
+middleware cannot do this because it has no reference to the handler's result.
+
+### Pipes — transform and validate
+
+```ts
+export class CreateOrderDto {
+  @IsUUID()
+  customerId: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => OrderItemDto)
+  items: OrderItemDto[];
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  note?: string;
 }
+```
 
-// auth/guards/roles.guard.ts
-import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import { ROLES_KEY } from "../decorators/roles.decorator";
+With the global `ValidationPipe`, here is what happens when a request arrives:
 
+1. Express parses the JSON body into a plain object.
+2. `transform: true` makes `class-transformer` convert that plain object into a
+   `CreateOrderDto` *instance*. This matters — decorators live on the class, so
+   validation needs a real instance.
+3. `class-validator` reads the decorators and checks each rule.
+4. `whitelist: true` removes any property with no validation decorator;
+   `forbidNonWhitelisted: true` throws instead.
+5. On failure, a `BadRequestException` with the list of violations. **Your handler is
+   never called.**
+
+`@Type(() => OrderItemDto)` is easy to forget and produces a confusing bug: without it,
+nested objects stay plain and `@ValidateNested` silently validates nothing. If nested
+validation "isn't working", this is why.
+
+**Derive your types from your schemas** so they cannot drift — Week 12's lesson applies
+here too.
+
+### Guards — authorisation with your own metadata
+
+This is where Week 7's decorator work becomes concrete.
+
+```ts
+// roles.decorator.ts — define a custom metadata key
+export const ROLES_KEY = 'roles';
+export const Roles = (...roles: Role[]) => SetMetadata(ROLES_KEY, roles);
+```
+
+```ts
+// roles.guard.ts — read it back
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY, [context.getHandler(), context.getClass()]
-    );
-    if (!requiredRoles) return true;
+    const required = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
+      context.getHandler(),   // method-level metadata
+      context.getClass(),     // class-level metadata
+    ]);
+
+    if (!required) return true;                      // no @Roles → open
 
     const { user } = context.switchToHttp().getRequest();
-    return requiredRoles.some(role => user.roles?.includes(role));
+    return required.some(role => user?.roles?.includes(role));
   }
 }
-
-// auth/decorators/roles.decorator.ts
-import { SetMetadata } from "@nestjs/common";
-export const ROLES_KEY = "roles";
-export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
-
-// auth/decorators/current-user.decorator.ts
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-export const CurrentUser = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) =>
-    ctx.switchToHttp().getRequest().user
-);
 ```
 
-### Interceptors
+```ts
+@Roles(Role.Admin)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Delete(':id')
+remove(@Param('id') id: string) { ... }
+```
 
-```typescript
-// common/interceptors/logging.interceptor.ts
-import {
-  Injectable, NestInterceptor, ExecutionContext, CallHandler
-} from "@nestjs/common";
-import { Observable } from "rxjs";
-import { tap, map } from "rxjs/operators";
+Reading it precisely:
 
+- `SetMetadata` writes onto the method using `reflect-metadata` — the same API you used
+  by hand in Week 7.
+- `Reflector.getAllAndOverride` reads it, checking the handler first and falling back to
+  the class, so a class-level `@Roles` sets a default that a method can override.
+- `ExecutionContext` is a transport-agnostic wrapper. `switchToHttp()` gets the HTTP
+  request; the same guard could handle a WebSocket or a microservice message by
+  switching differently. That abstraction is why guards are reusable across the
+  transports you meet in Weeks 28 and 29.
+- **Guard order matters.** `JwtAuthGuard` must run before `RolesGuard`, because the
+  second reads the `user` the first attached.
+- Returning `false` produces 403. Throwing gives you control of the message.
+
+### Interceptors — the before-and-after
+
+```ts
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
+export class TimingInterceptor implements NestInterceptor {
+  private readonly logger = new Logger('Timing');
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const started = Date.now();
     const req = context.switchToHttp().getRequest();
-    const now = Date.now();
 
     return next.handle().pipe(
       tap(() => {
-        const ms = Date.now() - now;
-        console.log(`${req.method} ${req.url} ${ms}ms`);
-      })
+        this.logger.log(`${req.method} ${req.url} ${Date.now() - started}ms`);
+      }),
     );
   }
 }
-
-// common/interceptors/transform.interceptor.ts
-// Wraps all responses in { data, statusCode, timestamp }
-@Injectable()
-export class TransformInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(
-      map(data => ({
-        data,
-        statusCode: context.switchToHttp().getResponse().statusCode,
-        timestamp: new Date().toISOString()
-      }))
-    );
-  }
-}
-
-// Register globally in main.ts:
-app.useGlobalInterceptors(new TransformInterceptor());
 ```
 
-### Exception Filters
+`next.handle()` returns an RxJS `Observable` that emits when your handler resolves.
+Code before the `return` runs before the handler; operators inside `.pipe()` run after.
+You do not need deep RxJS — `tap` for side effects, `map` to reshape the response,
+`catchError` to intervene on failure covers almost everything.
 
-```typescript
-// common/filters/http-exception.filter.ts
-import {
-  ExceptionFilter, Catch, ArgumentsHost,
-  HttpException, HttpStatus
-} from "@nestjs/common";
-import { Request, Response } from "express";
+The natural uses: response envelopes, timing, caching, and — the important one —
+**wrapping a request in a database transaction**, which is how Week 25 avoids passing a
+transaction manager through every method signature.
 
+### Exception filters — one error shape, everywhere
+
+```ts
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+  private readonly logger = new Logger('Exceptions');
+
   catch(exception: unknown, host: ArgumentsHost) {
-    const ctx    = host.switchToHttp();
-    const res    = ctx.getResponse<Response>();
-    const req    = ctx.getRequest<Request>();
+    const ctx = host.switchToHttp();
+    const res = ctx.getResponse<Response>();
+    const req = ctx.getRequest<Request>();
 
-    let status  = HttpStatus.INTERNAL_SERVER_ERROR;
-    let message = "Internal server error";
-    let details: any = null;
+    const { status, code, message } = this.classify(exception);
 
-    if (exception instanceof HttpException) {
-      status  = exception.getStatus();
-      const response = exception.getResponse();
-      if (typeof response === "object") {
-        message = (response as any).message || message;
-        details = (response as any).details || null;
-      } else {
-        message = response as string;
-      }
-    } else if (exception instanceof Error) {
-      // Unknown error — log it
-      console.error("Unexpected error:", exception);
+    if (status >= 500) {
+      this.logger.error(`${req.method} ${req.url}`, (exception as Error)?.stack);
     }
 
     res.status(status).json({
-      error: {
-        statusCode: status,
-        message,
-        ...(details && { details }),
-        timestamp: new Date().toISOString(),
-        path: req.url
-      }
+      error: { code, message, requestId: req.id },   // never the stack
     });
+  }
+
+  private classify(e: unknown) {
+    if (e instanceof CreditLimitExceeded) return { status: 409, code: 'CREDIT_LIMIT', message: e.message };
+    if (e instanceof EntityNotFound)      return { status: 404, code: 'NOT_FOUND',    message: 'Not found' };
+    if (e instanceof HttpException)       return { status: e.getStatus(), code: 'HTTP', message: e.message };
+    return { status: 500, code: 'INTERNAL', message: 'Internal server error' };
   }
 }
 ```
 
-### Configuration Module
+This is the boundary where your domain errors become HTTP — the same taxonomy you built
+for Express in Week 12, expressed in Nest. **The service throws `CreditLimitExceeded`,
+not `ConflictException`**, because the service should not know it is behind HTTP. Keeping
+that separation is what lets the same service run behind a queue consumer or a
+microservice transport unchanged.
 
-```typescript
-// npm install @nestjs/config
-
-// app.module.ts
-import { ConfigModule, ConfigService } from "@nestjs/config";
-
-@Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,                    // no need to import in sub-modules
-      envFilePath: [".env.local", ".env"],
-      validationSchema: Joi.object({     // validate env vars at startup
-        NODE_ENV: Joi.string().valid("development", "production", "test").default("development"),
-        PORT: Joi.number().default(3000),
-        DATABASE_URL: Joi.string().required(),
-        JWT_SECRET: Joi.string().min(32).required(),
-      })
-    }),
-    ...
-  ]
-})
-
-// Using ConfigService
-@Injectable()
-export class AuthService {
-  constructor(private configService: ConfigService) {}
-
-  signToken(payload: object) {
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get<string>("JWT_SECRET"),
-      expiresIn: this.configService.get<string>("JWT_EXPIRES_IN", "15m")
-    });
-  }
-}
-```
+Note what is *not* in the response: the stack, the SQL, the internal message. Week 27 has
+you write the test that keeps that promise.
 
 ---
 
 ## Advanced Concepts
 
-### Microservices with NestJS
+### Provider scope, and the trap
 
-```typescript
-// npm install @nestjs/microservices
-
-// orders.service.ts (microservice)
-import { NestFactory } from "@nestjs/core";
-import { Transport, MicroserviceOptions } from "@nestjs/microservices";
-
-async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.RMQ,
-      options: {
-        urls: [process.env.RABBITMQ_URL],
-        queue: "orders_queue",
-        queueOptions: { durable: true }
-      }
-    }
-  );
-  await app.listen();
-}
-
-// orders.controller.ts (microservice)
-import { MessagePattern, EventPattern, Payload } from "@nestjs/microservices";
-
-@Controller()
-export class OrdersController {
-  @MessagePattern("get_order")          // RPC: request-response
-  async getOrder(@Payload() id: string) {
-    return this.ordersService.findById(id);
-  }
-
-  @EventPattern("order_placed")         // Event: fire-and-forget
-  async handleOrderPlaced(@Payload() order: any) {
-    await this.inventoryService.reserveItems(order.items);
-  }
-}
+```ts
+@Injectable({ scope: Scope.DEFAULT })   // singleton — one for the whole app
+@Injectable({ scope: Scope.REQUEST })   // one per request
+@Injectable({ scope: Scope.TRANSIENT }) // a fresh one per injection site
 ```
 
-### NestJS with TypeORM
+Default is singleton and that is almost always right.
 
-```typescript
-// npm install @nestjs/typeorm typeorm pg
+**The trap: scope is contagious upward.** If a request-scoped provider is injected into
+a singleton, that singleton must become request-scoped too — otherwise it would capture
+one request's instance forever. Nest handles this by promoting the whole chain, which
+means one request-scoped provider deep in your graph can quietly make your entire
+application construct a new object graph on every request. That is a real and measurable
+performance problem, and it is a good senior-level interview answer.
 
-// app.module.ts
-TypeOrmModule.forRootAsync({
-  imports: [ConfigModule],
-  inject: [ConfigService],
-  useFactory: (config: ConfigService) => ({
-    type: "postgres",
-    url: config.get("DATABASE_URL"),
-    entities: [__dirname + "/**/*.entity{.ts,.js}"],
-    migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
-    synchronize: config.get("NODE_ENV") !== "production",  // NEVER in prod
-    logging: config.get("NODE_ENV") === "development",
-    ssl: config.get("NODE_ENV") === "production"
-      ? { rejectUnauthorized: false }
-      : false
-  })
-})
+If you want per-request data without the cost, use `AsyncLocalStorage` (Week 12) instead
+of request scope.
 
-// user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+### Dynamic modules
 
-@Entity("users")
-export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+When a module needs configuring by its consumer:
 
-  @Column({ length: 100 })
-  name: string;
-
-  @Column({ unique: true, length: 255 })
-  email: string;
-
-  @Column({ select: false })  // never included in queries by default
-  password: string;
-
-  @Column({ type: "enum", enum: UserRole, default: UserRole.USER })
-  role: UserRole;
-
-  @Column({ default: true })
-  isActive: boolean;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-}
-```
-
-### Testing in NestJS
-
-```typescript
-// users/users.service.spec.ts
-import { Test, TestingModule } from "@nestjs/testing";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { ConflictException, NotFoundException } from "@nestjs/common";
-import { UsersService } from "./users.service";
-import { User } from "./entities/user.entity";
-
-describe("UsersService", () => {
-  let service: UsersService;
-  let repository: jest.Mocked<Repository<User>>;
-
-  beforeEach(async () => {
-    const mockRepository = {
-      findOne: jest.fn(),
-      findAndCount: jest.fn(),
-      create: jest.fn(),
-      save: jest.fn(),
-      remove: jest.fn()
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
+```ts
+@Module({})
+export class StorageModule {
+  static forRoot(options: StorageOptions): DynamicModule {
+    return {
+      module: StorageModule,
       providers: [
-        UsersService,
-        { provide: getRepositoryToken(User), useValue: mockRepository }
-      ]
-    }).compile();
-
-    service = module.get<UsersService>(UsersService);
-    repository = module.get(getRepositoryToken(User));
-  });
-
-  describe("create", () => {
-    it("throws ConflictException if email exists", async () => {
-      repository.findOne.mockResolvedValueOnce({ id: "1" } as User);
-
-      await expect(service.create({ name: "A", email: "a@a.com", password: "pass" }))
-        .rejects.toThrow(ConflictException);
-    });
-
-    it("creates user with hashed password", async () => {
-      repository.findOne.mockResolvedValueOnce(null);
-      repository.create.mockReturnValue({ id: "new" } as User);
-      repository.save.mockResolvedValueOnce({ id: "new", email: "a@a.com" } as User);
-
-      const user = await service.create({ name: "Alice", email: "a@a.com", password: "pass123" });
-
-      expect(user.email).toBe("a@a.com");
-      expect(repository.save).toHaveBeenCalledWith(
-        expect.objectContaining({ email: "a@a.com" })
-      );
-    });
-  });
-
-  describe("findById", () => {
-    it("throws NotFoundException if not found", async () => {
-      repository.findOne.mockResolvedValueOnce(null);
-      await expect(service.findById("nonexistent")).rejects.toThrow(NotFoundException);
-    });
-  });
-});
+        { provide: STORAGE_OPTIONS, useValue: options },
+        { provide: STORAGE_CLIENT, useClass: options.driver === 's3' ? S3Client : LocalClient },
+      ],
+      exports: [STORAGE_CLIENT],
+      global: options.global ?? false,
+    };
+  }
+}
 ```
+
+`forRoot` is the convention for "configure this once for the application"; `forFeature`
+is "register this for one module" — which is exactly how `TypeOrmModule.forRoot` and
+`TypeOrmModule.forFeature([Entity])` differ, and knowing that distinction is worth
+saying out loud.
+
+`forRootAsync` is the version that takes a factory, so configuration can depend on
+`ConfigService`. Every serious Nest library offers both.
+
+### Circular dependencies, and what they mean
+
+```ts
+// A needs B, B needs A
+@Inject(forwardRef(() => OrdersService))
+```
+
+`forwardRef` works and you should treat it as a smell rather than a solution. A cycle
+between two services usually means there is a third concept neither of them owns —
+extract it. If `OrdersService` and `InvoicesService` each need the other, what they
+probably share is a `BillingService` or a domain event.
+
+The honest interview answer: "`forwardRef` resolves it mechanically, but a cycle usually
+signals a missing abstraction, so I look for the extraction first."
+
+### Lifecycle hooks
+
+```ts
+@Injectable()
+export class QueueConsumer implements OnModuleInit, OnApplicationShutdown {
+  async onModuleInit()          { await this.worker.start(); }
+  async onApplicationShutdown() { await this.worker.close(); }
+}
+```
+
+`onModuleInit` after the container is built, `onApplicationShutdown` on SIGTERM — but
+only if you called `enableShutdownHooks()`. This is the seam where Week 31's workers and
+Week 41's ECS task replacement meet: a worker that does not close cleanly loses in-flight
+jobs on every deploy.
+
+### A worked example: transactions without passing a manager around
+
+This is the single most useful advanced pattern in a Nest codebase, and it is where the
+interceptor stage earns its place in the pipeline.
+
+The naive approach passes a transaction manager through every method signature:
+
+```ts
+async create(dto: CreateOrderDto, manager: EntityManager) {
+  await this.repo.save(order, manager);
+  await this.inventory.reserve(items, manager);   // and on, and on
+}
+```
+
+Every method in the call chain now has a parameter it does not care about, and forgetting
+to pass it silently runs that statement outside the transaction — a bug that only appears
+under failure, which is the worst kind.
+
+The fix uses `AsyncLocalStorage` (Week 12) to carry the manager invisibly:
+
+```ts
+// transaction.context.ts
+const storage = new AsyncLocalStorage<EntityManager>();
+
+export const TransactionContext = {
+  run: <T>(manager: EntityManager, fn: () => Promise<T>) => storage.run(manager, fn),
+  get: () => storage.getStore(),
+};
+```
+
+```ts
+// transaction.interceptor.ts
+@Injectable()
+export class TransactionInterceptor implements NestInterceptor {
+  constructor(private readonly dataSource: DataSource) {}
+
+  intercept(_ctx: ExecutionContext, next: CallHandler): Observable<any> {
+    return from(this.dataSource.transaction(manager =>
+      TransactionContext.run(manager, () => firstValueFrom(next.handle()))
+    ));
+  }
+}
+```
+
+```ts
+// the repository picks it up automatically
+@Injectable()
+export class TypeOrmOrderRepository implements OrderRepository {
+  constructor(private readonly dataSource: DataSource) {}
+
+  private get manager(): EntityManager {
+    return TransactionContext.get() ?? this.dataSource.manager;
+  }
+
+  async save(order: Order) {
+    return this.manager.getRepository(OrderEntity).save(toEntity(order));
+  }
+}
+```
+
+Now `@UseInterceptors(TransactionInterceptor)` on a controller method wraps the entire
+request in one transaction, and every repository call inside it joins automatically. The
+service signatures never change, and a method called outside a transaction still works
+because of the `?? this.dataSource.manager` fallback.
+
+**Why this needs an interceptor rather than middleware:** the transaction must commit
+*after* the handler succeeds and roll back if it throws. Middleware has no reference to
+the handler's outcome. Only an interceptor wraps both sides.
+
+**What to watch for.** The transaction is open for the whole request, so any slow network
+call inside the handler holds a database connection — which is precisely the "transaction
+open across a network call" problem Week 19 asks you to hunt for. Use it on write
+endpoints, not on everything.
+
+### Documenting the API from the DTOs
+
+Week 11 made the point that documentation drifts from implementation. Nest closes that
+gap by generating Swagger from the same classes that validate:
+
+```ts
+export class CreateOrderDto {
+  @ApiProperty({ format: 'uuid', description: 'Existing customer id' })
+  @IsUUID()
+  customerId: string;
+
+  @ApiPropertyOptional({ maxLength: 500 })
+  @IsOptional() @IsString() @MaxLength(500)
+  note?: string;
+}
+```
+
+```ts
+const config = new DocumentBuilder()
+  .setTitle('Orders API').setVersion('1.0').addBearerAuth().build();
+SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, config));
+```
+
+Because the validation decorators and the documentation decorators sit on the same
+property, a rule cannot change without the documentation changing with it. The CLI plugin
+(`@nestjs/swagger` in `nest-cli.json`) infers most `@ApiProperty` entries from the
+TypeScript types, so in practice you only annotate what needs a description.
+
+### Where CQRS fits
+
+Nest ships a CQRS module — commands, queries, events, sagas. It is genuinely useful in a
+large domain and genuinely over-engineering in a CRUD service.
+
+Know it exists, be able to say what it is for, and be able to say you would not reach for
+it on a project this size. That judgement reads as more senior than adopting it.
 
 ---
 
 ## Industry Usage
 
-NestJS is the dominant enterprise Node.js framework:
-- **Monorepo support** via Nx workspace integration
-- **Microservices**: native support for RabbitMQ, Kafka, Redis, NATS, gRPC
-- **GraphQL**: `@nestjs/graphql` with code-first or schema-first
-- **WebSockets**: `@nestjs/websockets`
-- **Queues**: `@nestjs/bull` for background job processing
-- **CLI**: project generation, code generation (resources, guards, interceptors)
+What a real Nest codebase looks like:
 
-Companies: Adidas, Autodesk, Roche, Tripadvisor, major fintech firms
+```
+src/
+  main.ts
+  app.module.ts
+  common/            guards, interceptors, filters, decorators shared everywhere
+  config/            ConfigModule setup and validation schema
+  database/          DataSource, migrations, base repository
+  orders/
+    orders.module.ts
+    orders.controller.ts
+    orders.service.ts
+    order.repository.ts        interface + token
+    typeorm-order.repository.ts
+    dto/
+    entities/
+  users/
+```
+
+**Feature-first, not layer-first.** One folder per business capability containing its own
+controller, service, repository and DTOs — rather than global `controllers/`, `services/`
+and `models/` folders. It means a change to orders touches one directory, and it is what
+Nest's module system is designed around.
+
+Also standard in teams that do this well: Swagger generated from the DTOs (so
+documentation cannot drift from validation), a global exception filter and validation
+pipe configured once in `main.ts`, repositories behind interfaces, and every module
+exporting a deliberately small surface.
+
+---
+
+## Alternatives
+
+| Framework | Where it wins | Where it loses |
+|---|---|---|
+| **Express** | Tiny, universal, total freedom, everyone knows it | No structure — ten codebases, ten conventions; DI and testing are yours to invent |
+| **Fastify** | Notably faster, schema-based validation built in | Smaller ecosystem; Nest can run *on* Fastify, which is often the real answer |
+| **NestJS** | Structure, DI, TypeScript-first, excellent testing story | Learning curve; heavier; magic if you skipped the fundamentals |
+| **AdonisJS** | Batteries included, Laravel-like, great ergonomics | Much smaller job market |
+| **tRPC** | End-to-end type safety without a schema layer | Assumes a TypeScript client; not for public APIs |
+
+**The honest positioning, and a good interview answer:** Express for something small or
+a service with one job. Nest when a team will work on it for years, because the structure
+you would otherwise invent is already there and already agreed. Nest on Fastify when the
+throughput genuinely matters — it is one line of configuration.
 
 ---
 
 ## Security
 
-```typescript
-// Rate limiting per route
-import { Throttle, ThrottlerModule } from "@nestjs/throttler";
-
-@Module({
-  imports: [ThrottlerModule.forRoot([{ ttl: 60000, limit: 10 }])]
-})
-
-@UseGuards(ThrottlerGuard)
-@Throttle({ default: { ttl: 60000, limit: 5 } })
-@Post("login")
-async login(...) {}
-
-// Helmet
-import * as helmet from "helmet";
-app.use(helmet());
-
-// CSRF protection
-import * as csurf from "csurf";
-app.use(csurf());
-```
+- **Global `ValidationPipe` with `whitelist` and `forbidNonWhitelisted`.** Without it,
+  unexpected properties reach your code, and mass assignment becomes possible.
+- **`@Exclude()` on sensitive entity fields** plus `ClassSerializerInterceptor`, so a
+  password hash cannot be returned by accident. Better still, never return entities —
+  return response DTOs, so a new database column can never leak by default.
+- **Helmet and CORS**, configured explicitly. `app.enableCors()` with no arguments allows
+  every origin.
+- **Rate limit authentication routes** with `ThrottlerModule` at minimum; the Redis-backed
+  distributed limiter from Week 32 is the real answer once you run two instances.
+- **Guards run before pipes.** If an authorisation decision depends on the request body,
+  a guard is the wrong place for it.
+- **Never put secrets in a `useValue`** that ends up logged. Inject `ConfigService`.
+- **Exception filters must not leak.** No stack traces, no SQL, no internal messages in
+  a 500 response — and Week 27 tests that.
 
 ---
 
 ## Performance
 
-```typescript
-// Use Fastify instead of Express (2x faster)
-import { NestFactory } from "@nestjs/core";
-import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
-
-const app = await NestFactory.create<NestFastifyApplication>(
-  AppModule,
-  new FastifyAdapter({ logger: true })
-);
-await app.listen(3000, "0.0.0.0");
-
-// Cache decorator
-import { CacheInterceptor, CacheModule, CacheTTL } from "@nestjs/cache-manager";
-
-@UseInterceptors(CacheInterceptor)
-@CacheTTL(300)   // cache for 5 minutes
-@Get("/products")
-async getProducts() { ... }
-```
+- **Watch for accidental request scope.** One request-scoped provider can promote a large
+  part of your graph. Audit it if latency is unexplained.
+- **Consider the Fastify adapter** if throughput matters — a meaningful improvement for
+  one line, with a small ecosystem cost.
+- **Interceptors run on every request.** Keep them cheap; an expensive global interceptor
+  is a tax on everything.
+- **The N+1 problem does not care that you are in Nest.** Turn on TypeORM query logging
+  and read what one endpoint actually emits — Weeks 18 and 20 are the tools.
+- **`ClassSerializerInterceptor` is not free** on large payloads; measure before applying
+  it globally.
+- **Startup cost scales with the graph.** Large applications take seconds to boot, which
+  matters for Lambda (Week 41) and not much elsewhere.
 
 ---
 
 ## Debugging
 
-```bash
-# Debug mode
-npm run start:debug         # attaches inspector
+**`Nest can't resolve dependencies of the X (?, Y)`** — the commonest error. The `?` is
+the parameter position that failed. Check, in order: is the provider in this module's
+`providers`; if it belongs to another module, is it in that module's `exports` and is
+that module in your `imports`; and if it is an interface, did you use `@Inject(TOKEN)`.
 
-# Launch with nest CLI
-nest start --debug --watch
+**`Cannot read properties of undefined`** on an injected dependency — almost always a
+missing `@Injectable()`, so no metadata was emitted and nothing was injected.
 
-# VS Code launch config
-{
-  "type": "node",
-  "request": "attach",
-  "name": "Attach NestJS",
-  "port": 9229,
-  "restart": true
-}
+**A circular dependency error** — read the cycle Nest prints. Look for the missing third
+concept before reaching for `forwardRef`.
 
-# Common errors:
-# "Nest can't resolve dependencies" — missing import in module
-#   Check: is the provider in providers[]? Is the module imported?
+**Validation not firing** — the `ValidationPipe` is not global, or the DTO is typed as an
+interface rather than a class (interfaces vanish at runtime), or `@Type()` is missing on
+a nested object.
 
-# "Cannot read property of undefined" — DI not resolving
-#   Check: @Injectable() decorator present?
+**A guard sees no `user`** — guard order, or the authentication guard is not applied at
+all.
 
-# Circular dependency
-# Use forwardRef(() => ModuleName)
-@Module({
-  imports: [forwardRef(() => AuthModule)]
-})
-```
+**Routes 404 that should exist** — controller not listed in `controllers`, or a route
+ordering problem where `@Get(':id')` is declared before `@Get('search')` and swallows it.
+Static segments must be declared before parameterised ones.
+
+**Useful tools:** `NestFactory.create(AppModule, { logger: ['debug'] })` prints every
+route and provider as it registers them; `app.get(SomeService)` in a script resolves a
+provider outside a request for a quick experiment; and `--inspect` with a real debugger
+beats `console.log`, as Week 3 established.
 
 ---
 
 ## Interview Preparation
 
-**Q1: What is dependency injection in NestJS?**
-A: Dependency injection is a pattern where a class declares its dependencies as constructor parameters, and the IoC container creates and provides them. NestJS's container scans all providers decorated with `@Injectable()`, builds a dependency graph, and resolves them automatically. This decouples construction from usage, making testing easy (mock dependencies), and avoids singleton anti-patterns.
+**Q: What is NestJS and why use it over Express?**
+A structured, TypeScript-first framework built on Express (or Fastify) that provides
+modules, dependency injection and an ordered request pipeline. Express gives you total
+freedom, which means every codebase invents its own structure. Nest gives one structure
+a team can share, and makes testing straightforward because dependencies are injected.
 
-**Q2: What are the differences between a Guard, Interceptor, Pipe, and Filter?**
-A: All four are middleware-like concepts but with different purposes. **Guards** run first and decide if a request proceeds (auth/authorization — return boolean). **Interceptors** wrap the execution — run code before AND after the handler (logging, caching, response transformation). **Pipes** transform or validate incoming data before it reaches the handler. **Filters** catch exceptions and format error responses (the equivalent of Express error middleware).
+**Q: Explain the request lifecycle.**
+Middleware, guards, interceptors (before), pipes, the handler, interceptors (after),
+exception filters. Guards run before pipes, so a guard cannot rely on a validated body.
+Interceptors wrap the handler on both sides, which is why transactions and timing belong
+there.
 
-**Q3: What is the execution order in NestJS?**
-A:
-```
-Request → Guards → Interceptors (before) → Pipes → Controller Handler
-       → Interceptors (after) → Response
-                    ↓ (if exception)
-              Exception Filters
-```
+**Q: How does dependency injection work in Nest?**
+`@Injectable()` plus `emitDecoratorMetadata` makes TypeScript emit `design:paramtypes` on
+the class. At startup Nest reads it, resolves each parameter to a provider by token, sorts
+the graph and constructs everything. Interfaces vanish at runtime, so interface
+dependencies are injected by an explicit token with `@Inject()`.
 
-**Q4: How does the Module system work? What does `exports` do?**
-A: A Module encapsulates providers. By default, providers are private — only accessible within the module. `exports` makes a provider available to modules that import this module. `imports` allows using providers exported by another module. `global: true` makes a module's exports available everywhere without importing.
+**Q: What is the difference between a guard, an interceptor and middleware?**
+Middleware is Express-level and knows nothing about the handler. A guard answers one
+question — may this proceed — and returns a boolean. An interceptor wraps the handler and
+can act before and after, so it can transform the response or manage a transaction.
 
-**Q5: What is a Pipe and how do you use `ValidationPipe`?**
-A: Pipes validate and transform incoming data. `ValidationPipe` uses class-validator decorators to validate DTOs. With `whitelist: true`, it strips properties not in the DTO. With `transform: true`, it coerces primitive types (string → number). Applied globally via `app.useGlobalPipes()` or per-route via `@UsePipes()`.
+**Q: What are provider scopes and why is the default a singleton?**
+Default, request and transient. Singleton is the default because it is cheapest, and
+because most services are stateless. Request scope is contagious upward — it promotes
+everything that depends on it — so one request-scoped provider can make the whole graph
+rebuild per request.
+
+**Q: How do you handle a circular dependency?**
+`forwardRef` resolves it mechanically, but a cycle usually means a missing abstraction, so
+I look to extract the shared concept first.
+
+**Q: How do you test a Nest service?**
+`Test.createTestingModule` with the real service and its dependencies overridden — usually
+by a fake rather than a mock, so tests assert on outcomes and survive refactoring. For
+e2e, build from `AppModule` and apply the same global pipes and filters as `main.ts`,
+because a testing module does not inherit them.
+
+**Q: `forRoot` versus `forFeature`?**
+`forRoot` configures a module once for the application — a connection, global options.
+`forFeature` registers per-module pieces, such as the entities one feature owns.
 
 ---
 
 ## Practical Tasks
 
-### Beginner (10 Tasks)
-1. Create a NestJS project and generate a full CRUD resource using `nest g resource`.
-2. Add `ValidationPipe` globally and create a DTO with 5 validated fields.
-3. Use `ConfigModule` to load environment variables and validate their presence at startup.
-4. Add `helmet()` and configure CORS with an allowlist.
-5. Create a custom exception filter that returns errors in a consistent format.
-6. Use `ParseUUIDPipe` and `ParseIntPipe` on route parameters.
-7. Create a `@CurrentUser()` custom decorator that extracts the user from the JWT.
-8. Use `@Roles()` decorator with a guard to restrict an endpoint to admins.
-9. Add Swagger with `@nestjs/swagger` and document all endpoints.
-10. Write unit tests for a service using `Test.createTestingModule`.
-
-### Intermediate (10 Tasks)
-1. Implement JWT authentication with access + refresh tokens.
-2. Add TypeORM integration with PostgreSQL and create an entity with relations.
-3. Implement a caching interceptor that caches GET responses in Redis for 5 minutes.
-4. Create a custom interceptor that transforms all responses to `{ data, timestamp }`.
-5. Set up throttle rate limiting on auth endpoints (5 req/15min).
-6. Add file upload with `@nestjs/platform-express` and `multer`.
-7. Write E2E tests using `supertest` with an in-memory database.
-8. Implement soft delete on an entity (add `deletedAt` column, filter from queries).
-9. Create a health check module using `@nestjs/terminus`.
-10. Set up request logging with Pino and structured JSON output.
-
-### Advanced (10 Tasks)
-1. Build a NestJS microservice with RabbitMQ transport.
-2. Implement CQRS pattern using `@nestjs/cqrs` (commands and queries).
-3. Set up a monorepo with Nx workspace containing API + shared libraries.
-4. Implement GraphQL with `@nestjs/graphql` using code-first approach.
-5. Build a background job queue with `@nestjs/bull` and Redis.
-6. Implement event sourcing with NestJS and EventStoreDB.
-7. Add distributed caching with Redis cluster via `@nestjs/cache-manager`.
-8. Implement multi-tenancy using a request-scoped service that reads tenant from JWT.
-9. Create a custom NestJS transport for a message broker (e.g., NATS or Kafka).
-10. Implement real-time WebSockets with `@nestjs/websockets` and Socket.io.
+1. Build the Project 2 skeleton by hand with the CLI, then read every generated file and
+   explain each line to yourself in `LOG.md`.
+2. Open your Week 6 DI container beside Nest's docs and write down four things Nest does
+   that yours did not.
+3. Create two feature modules. Make one import the other, then deliberately forget the
+   `exports` and read the resolution error carefully.
+4. Put a repository behind an interface and a `Symbol` token. Swap the implementation with
+   `useClass` and confirm the service needs no change.
+5. Write a `useFactory` provider that returns a different implementation based on
+   `NODE_ENV`, with `inject: [ConfigService]`.
+6. Add a global `ValidationPipe` with `whitelist` and `forbidNonWhitelisted`. Send a
+   request with an extra field and confirm it is rejected, not stripped.
+7. Write a `@Roles` decorator and a `RolesGuard` using `Reflector`. Protect two routes
+   with different roles. Then reverse the guard order and observe the failure.
+8. Write a timing interceptor and a response-envelope interceptor. Prove the order they
+   run in with logging.
+9. Write a global exception filter mapping your domain errors to HTTP, and assert that a
+   500 response contains no stack trace.
+10. Add `enableShutdownHooks` and an `onApplicationShutdown` that logs. Send SIGTERM and
+    confirm it fires.
+11. Deliberately create a circular dependency, read the error, fix it by extracting a
+    third service rather than with `forwardRef`.
+12. Write `ARCHITECTURE.md` for Project 2: the module graph, what each module exports,
+    and where each pipeline concern lives.
 
 ---
 
-## Mini Project
+## Projects
 
-**Blog API with NestJS**: Build a complete blog API:
-- Users: register, login, profile
-- Posts: CRUD, categories, tags, pagination
-- Comments: nested comments on posts
-- Auth: JWT with refresh tokens, roles (user/admin)
-- Validation: all DTOs with class-validator
-- Documentation: Swagger
-- Tests: unit + E2E
+### Mini project — rebuild one Express module in Nest
 
----
+Take a single feature from Project 1 — one resource, full CRUD — and rebuild it as a Nest
+module. Nothing else. One controller, one service, one repository behind an interface.
 
-## Production Project
+Then put the two implementations side by side and write a page comparing them: what got
+longer, what got shorter, what became possible that was not before. The honest answer is
+usually that the Nest version is more code for one feature and less code by the fifth,
+and that testing went from awkward to trivial. That comparison is a better interview
+answer than any amount of enthusiasm about the framework.
 
-**Multi-Service E-Commerce Backend**:
-- Users service (NestJS + PostgreSQL)
-- Products service (NestJS + MongoDB)
-- Orders service (NestJS + PostgreSQL)
-- Event bus: RabbitMQ (order placed → update inventory)
-- API Gateway: single NestJS app proxying to services
-- Shared: auth, logging, error handling as Nx libraries
+### Production project — Project 2
 
----
+The full rebuild, across Weeks 23–29: feature modules with deliberate exports, the whole
+request pipeline in use, a real data layer behind interfaces, authentication and
+role-based authorisation, a test suite, GraphQL and WebSockets, and background work.
 
-## Capstone Project
+The bar is not "it runs". The bar is:
 
-**Real-Time Chat API**: Build a production-grade chat API:
-- WebSocket gateway (Socket.io) for real-time messaging
-- REST endpoints for history, rooms, users
-- JWT auth on WebSocket connections
-- Redis pub/sub for horizontal scaling (multiple instances)
-- Message persistence (PostgreSQL)
-- Microservices: notification service sends push notifications on message
-- Full test suite with Jest and E2E tests
+- **Every module exports the smallest surface it can**, and you can say why for each one.
+- **Every controller is thin** — no business rule lives in one.
+- **Every domain error becomes HTTP in exactly one place**, the filter.
+- **Every dependency that touches the outside world is behind an interface**, so it can be
+  replaced in a test without mocking the module system.
+- **`ARCHITECTURE.md` exists** with the module graph drawn, and a stranger can read it and
+  know where to add a feature.
+
+### Capstone — make the magic disappear
+
+The exercise that proves you actually understand this chapter rather than having used it.
+
+Extend the thirty-line container you wrote in Week 6 until it can run a trivial Nest-like
+application: read constructor metadata with `reflect-metadata`, resolve a dependency graph
+recursively, detect a cycle and report where it is, and support a module boundary that
+makes providers private unless exported.
+
+You will not use this code. What you get is that every Nest error message afterwards reads
+as a description of something you have implemented — and that is the difference between
+debugging a framework and guessing at it.
 
 ---
 
 ## Self Assessment
-1. What are the 5 core NestJS building blocks?
-2. What is the execution order of Guards, Interceptors, Pipes, and Filters?
-3. What does `@Injectable()` do?
-4. What is the difference between `providers`, `imports`, and `exports` in a module?
-5. How does `ValidationPipe` work with class-validator DTOs?
-6. What is a Guard? What interface does it implement?
-7. What is an Interceptor? What interface does it implement?
-8. What is the difference between `forRoot()` and `forRootAsync()`?
-9. How do you make a provider available to all modules without importing?
-10. What is `PartialType` from `@nestjs/swagger`?
-11. How do you write unit tests for a NestJS service?
-12. What is `ConfigModule.forRoot({ isGlobal: true })`?
-13. What is the difference between `@Controller()` and a Provider?
-14. How do you use Fastify instead of Express in NestJS?
-15. What is the CQRS pattern and how does `@nestjs/cqrs` implement it?
+
+- What exactly does `NestFactory.create` do, in six steps?
+- Why is `@Injectable()` required on a class with no options?
+- Why can you not inject a TypeScript interface, and what do you do instead?
+- What does `exports` control, and what happens without it?
+- In what order do guards, pipes and interceptors run — and what does that order prevent?
+- Why can a guard not rely on a validated body?
+- What does `whitelist: true` protect you from, and what must accompany it?
+- Why is request scope contagious, and what is the cheaper alternative?
+- Why does an e2e test need `useGlobalPipes` even though `AppModule` is imported?
+- What does a circular dependency usually indicate?
+- Where should a domain error be converted into an HTTP status, and why not in the service?
 
 ---
 
 ## Cheat Sheet
 
-### Generate Commands
-```bash
-nest g module <name>
-nest g controller <name>
-nest g service <name>
-nest g resource <name>     # full CRUD boilerplate
-nest g guard <name>
-nest g interceptor <name>
-nest g pipe <name>
-nest g filter <name>
-nest g decorator <name>
-nest g middleware <name>
-```
+```ts
+// Module
+@Module({ imports: [], controllers: [], providers: [], exports: [] })
 
-### Key Decorators
-```typescript
-// Module-level
-@Module({ imports, controllers, providers, exports })
+// Providers
+OrdersService
+{ provide: TOKEN, useClass: Impl }
+{ provide: TOKEN, useValue: obj }
+{ provide: TOKEN, useFactory: (c: ConfigService) => ..., inject: [ConfigService] }
 
 // Controller
-@Controller("path")
-@UseGuards(GuardClass)
-@UseInterceptors(InterceptorClass)
-@UsePipes(PipeClass)
+@Controller('orders')
+@Get() @Post() @Patch() @Delete()
+@Param('id', ParseUUIDPipe) @Query() @Body() @Headers() @Req()
+@HttpCode(204) @Header('Cache-Control', 'no-store')
 
-// Route
-@Get(":id") @Post() @Patch(":id") @Delete(":id")
-@HttpCode(HttpStatus.NO_CONTENT)
-@Header("key", "value")
+// Pipeline pieces
+implements CanActivate       // guard      → canActivate(ctx): boolean
+implements NestInterceptor   // interceptor→ intercept(ctx, next): Observable
+implements PipeTransform     // pipe       → transform(value, meta)
+implements ExceptionFilter   // filter     → catch(exception, host)
 
-// Parameter
-@Param("id") @Param("id", ParseUUIDPipe)
-@Body() @Body("field")
-@Query("page")
-@Req() @Res({ passthrough: true })
+// Applying them
+@UseGuards(JwtAuthGuard, RolesGuard)
+@UseInterceptors(TimingInterceptor)
+@UseFilters(HttpExceptionFilter)
+app.useGlobalPipes(...) / useGlobalFilters(...) / useGlobalInterceptors(...)
 
-// Service
-@Injectable()
-@InjectRepository(Entity)
-@Inject("TOKEN")
+// Custom metadata
+export const Roles = (...r: Role[]) => SetMetadata('roles', r);
+this.reflector.getAllAndOverride('roles', [ctx.getHandler(), ctx.getClass()]);
 
-// DTO
-@IsString() @IsEmail() @IsEnum() @MinLength() @IsOptional()
-@ApiProperty() @ApiPropertyOptional()
+// Testing
+const moduleRef = await Test.createTestingModule({ providers: [Svc, { provide: TOKEN, useValue: fake }] }).compile();
 ```
 
-### Execution Order
-```
-Middleware → Guards → Interceptors → Pipes → Handler → Interceptors → Filter (errors)
-```
+**Pipeline order:** middleware → guards → interceptors(pre) → pipes → handler →
+interceptors(post) → filters.
+
+**Rules:**
+- Controllers translate; services decide; repositories persist.
+- Interfaces need tokens. Use `Symbol`.
+- Global `ValidationPipe` with `whitelist` *and* `forbidNonWhitelisted`.
+- Services throw domain errors; filters turn them into HTTP.
+- Default scope. Reach for `AsyncLocalStorage` before request scope.
+- `forwardRef` is a smell — look for the missing abstraction.
+- e2e tests must reapply the globals from `main.ts`.

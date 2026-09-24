@@ -4,9 +4,26 @@
 
 ---
 
+> **Status note, 5 September 2026 — read this first.**
+>
+> This chapter was written against the previous version of the book, which ran a 137-day
+> plan with an IELTS track and a freelance-income track. Both of those tracks were cut
+> when the book was re-themed around the 112-day escape plan, so **the two dependencies
+> described below no longer exist in the main plan.**
+>
+> The route itself is unaffected and the costs, timeline and paperwork are still accurate.
+> What has changed is how it gets funded and how the English requirement gets met — both
+> of which now need a deliberate decision rather than being carried by the main plan.
+> The complete IELTS material is preserved in `curriculum/_archive-ielts/`.
+>
+> Leave this chapter as a reference, or reopen it as a real plan after the offer is
+> signed. It is not scheduled anywhere in the 112 days.
+
+---
+
 ## Chapter Overview
 
-This is a personal planning document, kept inside the book because it shares two critical dependencies with the 137-day plan and must not drift out of sync with them:
+This is a personal planning document, kept inside the book because it shares two critical dependencies with the *former* 137-day plan and must not drift out of sync with them:
 
 - **IELTS.** The same exam, the same Band 7+ target, the same booking. Phase 10 prepares you for it; this chapter is one of the reasons it matters.
 - **Freelance income.** The entire cash requirement of this route is covered by the business track in Phase 11 and Phase 0 Chapter 4. Roughly $700 a month of dollar-billed work closes the whole thing inside twelve months.

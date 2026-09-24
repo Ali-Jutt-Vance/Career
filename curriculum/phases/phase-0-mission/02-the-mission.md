@@ -1,157 +1,129 @@
-# Phase 0 — Chapter 2: The Mission — 137 Days to a Senior Offer
+# Phase 0 — Chapter 2: The Mission
 
-> *"Deadlines refine the mind. They remove variables."* — Alain de Botton
+> *"The gap between where you are and where you want to be is not talent. It is a specific, nameable list of things you have not done yet."*
 
 ---
 
 ## Chapter Overview
 
-On 18 August 2026 you are a mid-level engineer with roughly three years of experience, employed, earning a local salary, with no international offer, no client business, and no English certification.
+This chapter states the goal, the deadline, the honest numbers behind both, and what "done" means precisely enough that you cannot argue with it in December.
 
-On 1 January 2027 you intend to have at least one of the following, and ideally all three:
+Vague goals fail in a predictable way. "Get a better job" has no test, so on any given evening there is no way to tell whether you are on track, which means there is no pressure, which means the evening gets spent on something else. A goal with a date, a number, and a pass condition behaves completely differently. It tells you, every single day, whether today counted.
 
-1. A signed offer for a **senior or senior-adjacent remote engineering role**, paying in dollars, euros, or pounds.
-2. A **running client business** with at least one recurring client and a repeatable acquisition process.
-3. An **IELTS band of 7.5 or higher**, which unlocks skilled-worker visa routes, most European and Gulf employers, and every immigration pathway you might want in 2027 and beyond.
+## The mission, stated
 
-That is 137 days. It is enough time, but only barely, and only if the days are spent deliberately. This chapter defines exactly what "the goal" means so that on 1 January you can answer yes or no rather than "sort of".
+> **By Saturday 26 December 2026, hold a signed offer as a software engineer at a top-tier Pakistani software company, working in JavaScript or TypeScript on Node, React, PostgreSQL and AWS, at a minimum of PKR 250,000 per month.**
 
-## The honest starting position
+Every part of that sentence is deliberate.
 
-Before setting a target, it is worth being precise about the gap, because the gap determines the strategy.
+**"Signed offer"** — not "interviewing well", not "in final rounds". A document with a number on it that you have accepted. Anything short of that is progress, and progress is not the goal.
 
-**What you likely have.** Working professional experience shipping real software. Familiarity with at least one backend stack. The ability to learn a technology from documentation. Enough English to work, read, and communicate. A functioning work ethic, evidenced by the fact that you are reading a 137-day plan rather than looking for a shortcut.
+**"26 December 2026"** — sixteen weeks from the first day of the plan. Long enough to genuinely change what you can do; short enough that you cannot spend the first eight weeks reading.
 
-**What is missing for a senior international role.** This is the list the plan attacks:
+**"Top-tier Pakistani software company"** — a specific tier, defined below. Not "a better company". Not "somewhere abroad", which is a different plan with a different timeline.
 
-| Gap | Why it blocks you | Where it is addressed |
-|---|---|---|
-| No public portfolio of deployed systems | Recruiters cannot evaluate claims; every candidate says "I built APIs" | Projects 1–2, weeks 5–16 |
-| System design cannot be performed verbally | The single biggest mid-versus-senior discriminator in interviews | Weeks 12 and 14, then weekly maintenance |
-| Cloud architecture is theoretical rather than operated | Senior backend roles now assume AWS fluency as table stakes | Week 11, plus Terraform in week 17 |
-| Database depth stops at CRUD | Reading a query plan is rare and disproportionately valued | Weeks 7–8 |
-| No AI engineering experience | The highest-paid specialisation available to add in a single quarter | Weeks 15–16 |
-| Algorithms rusty under time pressure | Screens are still gated on this regardless of how you feel about it | Daily from week 2 |
-| No IELTS certification | Blocks visa routes and a large share of European employers | Weeks 1–13, exam Sat 14 Nov |
-| No client acquisition system | "Starting a business" without a pipeline is a hobby | Weeks 1–20, daily |
-| Résumé and profiles read as mid-level | Filters you out before a human ever reads them | Weeks 1, 8, 16, 18 |
+**"Node, React, PostgreSQL, AWS"** — the specific stack, chosen because it has the largest hiring surface in this market, because it cashes in the two certificates you already hold, and because it is the shortest genuine jump from what you already understand.
 
-None of these are talent problems. All of them are time-and-sequence problems, which is exactly what a dated plan solves.
+**"Minimum PKR 250,000 per month"** — roughly three times your current salary. The number is not arbitrary; the reasoning is in the salary section below, and it is achievable rather than optimistic.
 
-## Defining the target precisely
+## Where you are starting
 
-A vague goal cannot be failed, which is why vague goals are so popular. Here are the specific definitions this book uses.
+State this plainly, because the whole plan is calibrated to it.
 
-### Target roles and realistic compensation
+Three years at a small company. Mostly maintenance work on PHP and AngularJS. Very little code written from scratch, and most of what was written was produced by an AI tool rather than by you. No code review, no mentorship, no exposure to engineers more senior than yourself. Two certificates — IBM Full Stack JavaScript, and AWS Cloud Practitioner — neither of which is yet attached to anything you have built. Current salary: PKR 85,000 per month, which in the market you are aiming at is roughly what a good internship pays.
 
-These bands reflect fully-remote roles hiring internationally, paid in hard currency. They are what is realistically reachable from three years of experience plus this plan's portfolio — not aspirational ceilings.
+That is the honest starting position, and there are two wrong ways to read it.
 
-| Role | Core stack | Realistic remote band | Ready by |
+The first wrong reading is the one you arrived with: that three years were wasted and you are effectively a beginner. That is false, and Chapter 4 takes it apart properly. You are not a beginner. You have production context, legacy-system experience, and a working model of how web software actually behaves — none of which a fresh graduate has, and all of which take a year to teach.
+
+The second wrong reading is the comfortable one: that the market is unfair and your skills are fine. Also false. There is a real gap, it is specific, and it is exactly why you have been unable to convert interviews. The plan does not exist to make you feel better about the gap. It exists to close it.
+
+The accurate reading is the useful one: **you have three years of context and a hollow middle.** The hollow middle is where the fundamentals should be — writing code cold, understanding what the framework is doing underneath, designing a schema, defending a decision. A hollow middle fills faster than an empty one, which is the entire reason sixteen weeks is enough.
+
+## The market you are aiming at
+
+Pakistani software employers sort roughly into four tiers. Knowing which tier you are applying to matters more than almost anything else you do, because it determines the salary band, the interview format, and how much of this book you actually need.
+
+| Tier | Who | 3-year engineer, PKR/month | What they screen for |
 |---|---|---|---|
-| **Backend Engineer** | Node.js · NestJS · PostgreSQL · Redis | $45K – $85K | Week 10 |
-| **Cloud / DevOps Engineer** | AWS · Docker · Terraform · CI/CD | $55K – $105K | Week 17 |
-| **AI Engineer** | LLMs · RAG · agents · pgvector · MCP | $65K – $130K | Week 16 |
-| **Solutions Architect** | System design · AWS · microservices | $85K – $150K | Week 18 |
-| **Senior Full-Stack** | Everything above plus Next.js | $60K – $110K | Cut with the reduced budget |
-| **Independent / Freelance** | Positioning · proposals · delivery | $2K – $10K per month | First client week 8–12 |
+| **Tier 4** — small shops and agencies | Ten to forty people, local and small international clients, WordPress, PHP, whatever the client asked for | 50,000 – 120,000 | Can you close tickets. Often no technical interview at all. |
+| **Tier 3** — mid-size service companies | Devsinc, Tkxel, Contour Software, Netsol, and many others; large headcount, outsourced delivery | 120,000 – 250,000 | Basic fundamentals, a live coding round of moderate difficulty, availability |
+| **Tier 2** — strong service and product companies | Arbisoft, 10Pearls, VentureDive, Systems Ltd product teams, Confiz, Folio3, Educative, S&P Global | 250,000 – 450,000 | Real fundamentals, a proper coding round, system design, communication |
+| **Tier 1** — product companies and international engineering offices | Motive, Careem, Bazaar, Retailo, Educative, and the Pakistan engineering arms of foreign firms | 400,000 – 800,000+ | Strong algorithms, system design, deep language knowledge, and a high bar on communication |
 
-The AI engineering row is the reason Phase 8 exists and the reason weeks 15 and 16 survived the budget cut untouched. It is the largest single compensation delta available to you inside this timeframe, and the supply of engineers who have genuinely built and measured a retrieval system — rather than wired a chat box to an API — remains small.
+These bands are approximate, they vary by city, and they move. Islamabad and Lahore generally pay slightly more than Karachi for engineering roles; equity and bonuses at Tier 1 companies can add substantially. Treat them as a map rather than a price list, and update your own figures as you actually interview.
 
-### What counts as success on 1 January 2027
+**You are currently in Tier 4. The mission targets Tier 2.**
 
-Write these down. On 1 January you will grade yourself against them, and only these.
+That is deliberately a two-tier jump rather than a three-tier one. Tier 1 is reachable, but it typically wants a level of algorithmic depth that takes six to twelve months of dedicated preparation, and chasing it now would mean spending your entire sixteen weeks on problems that most of the market will never ask you. Tier 2 asks for exactly what this book builds: solid fundamentals, real projects, a database you understand, a system you can defend, and the ability to talk about all of it clearly.
 
-**Primary (any one of these is the mission accomplished):**
-- A written offer for a remote role at or above $45K, accepted or in negotiation.
-- Client revenue of at least $1,500 in a single month, with a pipeline that makes the next month plausible.
+Tier 3 is your floor. If December arrives and the Tier 2 offers have not landed, a Tier 3 offer at 180,000 is still a doubling of your salary, a materially better codebase to work in, and a much stronger position to run this plan again from. There is no version of doing this work properly that leaves you where you are.
 
-**Secondary (the machine that keeps producing after January):**
-- Two deployed, publicly reachable projects with case-study documentation, plus a portfolio page linking both.
-- IELTS band 7.5 or higher, certificate in hand.
-- At least 150 job applications sent, with a funnel you have measured and improved.
-- At least 130 client proposals sent, with a known conversion rate.
-- A GitHub contribution graph showing 120 worked days across 137, with Sundays deliberately clear.
-- 140+ algorithm problems solved, weighted to Mediums, and the ability to design a large system verbally in 30 minutes.
+### The one thing that is not in the salary table
 
-If you achieve the secondary list and not the primary one, you have not failed — you have built a machine that produces the primary outcome in the following six to ten weeks, and January is an unusually strong hiring month. But aim for the primary.
+The reason to make this jump is not primarily the money, even though the money is the part you feel every month.
 
-## Why 137 days is realistic — and why it is tight
+At a Tier 2 company you get code review, senior engineers, real architecture, and standards enforced by someone other than yourself. Those four things are what actually created the gap you are now closing manually and alone. In a good engineering organisation, the last three years would have made you a genuinely strong engineer without you having to run a sixteen-week plan to do it.
 
-The arithmetic: two weeks at the opening pace plus eighteen weeks at 21 hours each comes to roughly **442 scheduled hours** across 120 working days, with 17 Sundays off. That is comparable to a full-time university semester run alongside a job.
+That is what you are actually buying. The salary is how you can tell you bought it.
 
-Against that budget, the plan spends approximately:
+## What the honest funnel looks like
 
-| Track | Hours | Share |
+Job hunting has conversion rates the way sales does, and knowing them protects you from concluding that you are the problem when the numbers are simply behaving normally.
+
+| Stage | Realistic rate | What it means over sixteen weeks |
 |---|---|---|
-| Engineering — study, building, projects | ~285 | 64% |
-| IELTS | ~62 | 14% |
-| Job hunt — applications, interview prep | ~50 | 11% |
-| Business — proposals, clients, delivery | ~30 | 7% |
-| Review and planning | ~15 | 3% |
+| Cold application → any reply | 5 – 12% | Of roughly 300 applications, expect 20 to 35 replies |
+| Referred application → reply | 30 – 50% | Which is why referrals are a scheduled task, not an optional extra |
+| Reply → screening call | 50 – 70% | Roughly 15 to 25 screening calls |
+| Screening → technical round | 40 – 60% | Roughly 8 to 14 technical interviews |
+| Technical → final round | 30 – 50% | Roughly 4 to 7 final rounds |
+| Final → offer | 30 – 50% | **Roughly 2 to 4 offers** |
 
-Four hundred and forty hours is enough to go from mid to senior-capable — but only barely, and only if none of it is wasted on the two classic time sinks: **passive consumption** (watching tutorials, reading without building) and **premature perfectionism** (rewriting a project instead of shipping it and starting the next one). At 713 hours there was slack for both. At 442 there is none, which is why the plan was re-scoped rather than merely compressed.
+Read that table twice, because it contains the two facts that most job seekers never internalise.
 
-### What the reduced budget removed
+**The first fact:** at every stage most people are rejected, and this is arithmetic rather than a judgement. Even a strong candidate is turned down at most stages most of the time. If you take each rejection as evidence about yourself, you will stop somewhere around application forty, which is well before the funnel has had a chance to produce anything.
 
-Dropping from 36 hours a week to 21 is a 38% cut, and pretending the same content still fits would be dishonest. These were removed:
+**The second fact:** the funnel takes four to eight weeks to move end to end. An application sent in week 4 becomes an offer somewhere around week 10. An application sent in week 12 will not have finished before the plan ends. This is the entire reason applications open on 28 September, three weeks in, when you will feel completely unready. You are not applying because you are ready. You are applying because the pipeline needs the time, and readiness arrives while the pipeline fills.
 
-- **Project 3, a full-stack Next.js application** — replaced by a single-page portfolio site in week 16.
-- **The frontend phase** — reference reading only, no scheduled study.
-- **GraphQL, MongoDB, TypeORM, EKS, CloudFormation** — reference only.
-- **Algorithm volume** — from roughly 250 problems to 140, weighted toward Mediums.
-- **Proposal volume** — from 15 a week to 10.
+## What is being built, concretely
 
-These were protected, because they are what decides a senior offer: **PostgreSQL depth, system design, AI engineering, authentication, the full IELTS ramp**, and five applications every weekday from 6 October.
+By 26 December, four things exist that do not exist today.
 
-Breadth was sacrificed to keep depth. That is the right trade, because breadth is what an interviewer discounts — everyone claims it — and depth is the only thing they remember afterwards.
+**Two deployed applications with public URLs.** Not tutorial projects. A full-stack expense-splitting application — React, Express, PostgreSQL, authentication with refresh-token rotation, containerised, running on AWS with a documented architecture and a cost estimate. And a retrieval-augmented question-answering application over uploaded documents, with a measured retrieval-quality number rather than a claim that it works.
 
-It is tight because of the conversion lag. An application sent on 6 October might produce an offer in late November. An application sent on 1 December almost certainly will not produce an offer before January. This is why the applications track opens on 6 October — the first day of week 8 — rather than in December, and why the plan refuses to let you wait until you feel ready.
+**A rebuilt public presence.** A one-page CV where every bullet has a verb and an outcome. A LinkedIn profile that reads like an engineer rather than a job seeker. A GitHub account with sixteen weeks of genuine daily commits and two real repositories, both with proper READMEs, architecture diagrams and demonstration videos.
 
-## The two projects, and why exactly two
+**Interview capability.** Forty algorithm problems solved unaided and explained aloud. Five system designs drawn and defended. Eight behavioural stories written and rehearsed. Five mock interviews completed with real people, with the feedback written down and acted on.
 
-Each project exists to prove a different thing to a different audience. At 713 hours there was room for three. At 442 there is room for two done properly — and two finished projects beat three abandoned ones in every interview that has ever happened.
+**The rebuilt fundamentals themselves.** The ability to sit at an empty file and produce working code while talking. This is the one that does not appear on a CV, and it is the one that decides every interview.
 
-**Project 1 — Production SaaS API** (weeks 5–10). NestJS, PostgreSQL, Redis, queues, refresh-token rotation, OAuth, RBAC, multi-tenancy, Docker, CI/CD, AWS ECS, Terraform, monitoring. This is the *depth* project. It proves you can build and operate a real system, and it is the one you will discuss for forty minutes in an interview. It is deliberately the largest.
+## What this is not
 
-**Project 2 — AI application with measured retrieval** (weeks 15–16). A RAG system with a golden test set, a measured precision score, hybrid search, reranking, citation enforcement, and a cost model per user. This is the *differentiation* project. Almost every candidate now claims AI experience; very few can show a number that says their retrieval improved from 0.42 to 0.79 and explain what they changed.
+**It is not a promise of a specific company.** Hiring involves timing, headcount, and luck. The plan controls what you build and how many shots you take, which is everything that is actually controllable.
 
-**The portfolio page** (week 16). A single page linking both projects — each with the problem, the architecture, the result, and a live URL. This replaces the third project the original budget allowed for. It is a fraction of the work and does most of the same job, because what a recruiter needs is a fast, credible way in, not a third codebase to evaluate.
+**It is not a route to a foreign remote job by December.** International remote work is a genuinely better outcome financially, and it is the natural next step. It also wants a stronger portfolio, better English, timezone flexibility and, most usefully, a recognisable company on your CV. Get the Tier 2 job first; it is the launchpad, and Phase 11 Chapter 9 covers what to do from there.
 
-Two is the right number at this budget. One looks like an accident. Two looks like a pattern. Three, attempted in 442 hours alongside a job, means none of them are finished — and an unfinished project is worth nothing in an interview.
-
-## The failure modes, named in advance
-
-Naming these now means you will recognise them when they happen, which is most of the battle.
-
-**Week 3 — the novelty crash, and the budget drop.** Week 3 is also where the schedule halves, from 36 hours a week to 21, and the two coincide deliberately: the drop arrives exactly when the initial energy runs out, around day 15–20. The plan stops feeling exciting and starts feeling like homework. This is normal and universal. The counter is that the plan is already written; you do not have to be motivated, you only have to open the Plan tab and do what it says.
-
-**Week 6 — the comparison spiral.** You will read about someone who did all this in six weeks. Ignore it. Your comparison is to yourself on 18 August, and the log is right there.
-
-**Week 8 — the rejection wall.** Applications open on 6 October, and the first fifteen produce silence. This feels like a verdict on you. It is not; it is the ordinary base rate. The funnel converts at roughly 5–10% to a screen. Fifteen rejections is a sample size of fifteen, which is nothing.
-
-**Week 13 — the post-exam vacuum.** After the exam on 14 November there is a genuine motivational dip, because a major anchor has passed. The plan schedules a full rest day on the Sunday and an immediate return to engineering on the Monday for exactly this reason.
-
-**Week 19 — the holiday dissolution.** Christmas Day is a scheduled rest day, so take it without guilt. Everyone else stops for the whole fortnight. The plan reduces volume but does not stop, because the people who keep going through that week arrive in January with a two-week lead on everyone else.
-
-## Practical Tasks
-
-1. Write your specific target in one sentence: *"By 1 January 2027 I will have ___ paying ___."* Put it at the top of `LOG.md`.
-2. Write down your current salary and your target salary. The ratio is your motivation on hard days.
-3. Grade yourself honestly, 1–5, on each row of the gap table above. The 1s and 2s are where the plan will hurt, and where the return is largest.
-4. Pick which of the six target roles is your primary target and which is your fallback. Both should be plausible from the same portfolio.
-5. Diarise the four anchors with alarms.
+**It is not a comfortable sixteen weeks.** Twenty-eight hours a week on top of a full-time job, starting at five in the morning. Something will be given up. Decide now what it is, deliberately, rather than discovering in week six that it was sleep.
 
 ## Self Assessment
 
-- Can I state the primary success criterion without softening it?
-- Do I accept that applications must start on 6 October, ready or not?
-- Have I identified my two weakest rows in the gap table?
-- Do I know which failure mode is most likely to be mine, and what I will do when it arrives?
+Write these in BASELINE.md today. Reread them on the last Saturday.
+
+- What exactly do I want the offer letter to say — company tier, role title, stack, number?
+- What is my walk-away number, below which I decline and keep looking?
+- What am I giving up for sixteen weeks, named specifically?
+- Which tier am I in today, and which tier do I honestly believe I can reach by December?
+- If December arrives with no offer, what will I do on 28 December? Decide now, while it is hypothetical.
+- Who will notice if I stop? If the answer is nobody, tell somebody this week.
 
 ## Cheat Sheet
 
-- **Deadline:** 1 January 2027 · **137 days** · **120 working days** · **~442 hours** · **21h/week from 1 Sep**
-- **Primary goal:** signed remote offer ≥ $45K, *or* $1.5K/month client revenue
-- **Secondary:** 2 deployed projects + portfolio page · IELTS 7.5+ · 150 applications · 130 proposals
-- **Two projects:** SaaS API (depth) · AI RAG (differentiation) · plus a portfolio page
-- **Named failure weeks:** 3 (novelty crash + budget drop) · 8 (rejection wall) · 13 (post-exam) · 19 (holidays)
+- **The mission:** signed offer, Tier 2 Pakistani software company, Node/React/PostgreSQL/AWS, minimum PKR 250,000/month, by **26 December 2026**.
+- **Starting point:** Tier 4, PKR 85,000, three years of maintenance work with a hollow middle.
+- **The jump is two tiers,** not three. Tier 1 needs six to twelve months of algorithms; Tier 3 at 180,000 is the acceptable floor.
+- **The funnel:** roughly 300 applications → 20–35 replies → 15–25 screens → 8–14 technicals → **2–4 offers**.
+- **Referrals convert three to five times better than cold applications.** They are a scheduled task for that reason.
+- **Applications open 28 September, three weeks in,** before you feel ready, because the funnel needs four to eight weeks.
+- **What exists by December:** two deployed applications, a rebuilt CV and GitHub, forty problems solved unaided, five mock interviews.
+- **What you are really buying** is code review, senior colleagues and real standards — the four things whose absence created this gap.

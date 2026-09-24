@@ -1,206 +1,155 @@
-# Phase 0 — Chapter 5: The Operating System — Days, Weeks, Recovery
+# Phase 0 — Chapter 5: The Operating System
 
-> *"You do not rise to the level of your goals. You fall to the level of your systems."* — James Clear
+> *"Motivation gets you through week one. A system gets you through week eleven."*
 
 ---
 
 ## Chapter Overview
 
-The plan tells you *what* to do on each of 137 days. This chapter is about *how* — the mechanics that determine whether a plan on paper becomes work in reality.
+Twenty-eight hours a week, on top of a full-time job, for sixteen consecutive weeks. That is 448 hours, and it is a serious load. It is also entirely achievable, and the difference between the people who complete it and the people who stop in week five is almost never willpower. It is whether they built the surrounding system before they needed it.
 
-Nothing here is inspirational. Motivation is a weather system: real, useful when it appears, and completely unreliable as infrastructure. Everything below is designed to work on the days when you feel nothing at all, because those days will be the majority.
+This chapter is that system: when you sleep, what you give up, how the day is shaped, what happens on a bad week, and how to set up a machine and an environment that do not fight you. None of it is inspirational. All of it is logistics, and logistics is what decides this.
 
-## Two regimes
+## The budget, and why it is shaped this way
 
-The plan runs at two intensities. Weeks 1 and 2 open at four and a half hours a day while motivation is highest and the material is foundational. From **Tuesday 1 September** it settles into the budget it holds for the remaining eighteen weeks:
-
-| | Mon–Fri | Saturday | Sunday |
+| | Monday–Friday | Saturday | Sunday |
 |---|---|---|---|
-| **Weeks 1–2** | 4h 30m | 7h | 7h |
-| **Weeks 3–20** | **3h** | **6h** | **OFF** |
+| Hours | **4** | **8** | **OFF** |
 
-Twenty-one hours a week, every week, for eighteen weeks. That is the number that matters — not the peak, the *sustained* figure. A schedule you abandon in October is worth less than a smaller one you keep until January.
+**Weekday, four hours**
 
-## The weekday, hour by hour
-
-Three hours, split into three blocks, while holding a full-time job.
-
-### 05:30 – 07:00 · The dawn block · 90 minutes · Deep study
-
-This block is the reason the plan is viable. It is also the one you will most want to negotiate with.
-
-Evening study is the first thing life cancels. A late meeting, a difficult day, a friend who visits, an argument, a headache — all of these consume the evening, and none of them consume 05:30. Ninety minutes a day, five days a week, is thirty-two hours a month that nothing can take from you.
-
-It is also cognitively the best block you own. Deep conceptual work — understanding MVCC, working through the OAuth sequence, reading a query plan — needs an unfragmented mind. At 05:30 nothing has happened to you yet.
-
-**Making it work:**
-- Sleep is not optional; it is the input. Bed by 22:30, which the plan's structure supports by ending the last block at 22:00.
-- Decide the night before exactly what the first task is. Deciding at 05:30 costs you twenty minutes of the block.
-- Phone charges in another room. The alarm is across the room.
-- Set up the desk before bed — laptop open, editor on the right file, water poured, no decisions required.
-- First ten minutes with no input. No mail, no messages, no news. Straight into the material.
-- Coffee after starting, not before. The ritual of making it is a very effective way to lose twenty minutes.
-
-**The first two weeks will be genuinely unpleasant.** Then it becomes normal, and then it becomes the part of the day you protect. Everyone who does this reports the same sequence.
-
-### 12:30 – 13:00 · The lunch block · 30 minutes · Outreach
-
-Deliberately placed at the lowest-energy, most-interrupted point of the day, because outreach work does not need deep focus. It needs consistency.
-
-Three client proposals, or five job applications, or follow-ups. Thirty minutes is enough because you are working from a framework rather than writing from scratch. Doing this daily rather than in a weekend batch matters — response rates depend on responding quickly to fresh posts, and a weekly batch means everything you touch is five days stale.
-
-### 21:00 – 22:00 · The evening block · 60 minutes · Hands-on
-
-One hour, and the constraint changes how you must use it. At two hours there was room to read, think, and then build. At one hour there is not.
-
-**This block is for building and drilling only.** Code, deployment, configuration, debugging, LeetCode, a timed IELTS task. If you find yourself reading documentation at 21:00, the day has gone wrong — reading belongs at dawn, when your mind is clear and you have ninety minutes to use it.
-
-Building is also the right work for a tired evening. You can debug a container networking problem while tired; understanding consensus algorithms while tired is a waste of the material.
-
-**Making it work:**
-- Start within three minutes of sitting down. With sixty minutes, the gap between sitting down and starting is a tenth of the block.
-- Know what you are building *before* you sit down. The dawn block should have decided it.
-- Aim for a commit every night, even a small one. A commit converts the session from "some time spent" into visible progress.
-- If you are stuck for more than fifteen minutes, write down the specific question and stop. Return at dawn — you will usually solve it in ten.
-
-Roughly two evenings a week go to IELTS rather than building, and that ratio increases sharply in the three weeks before the exam.
-
-## Saturday
-
-Six hours, and it is where projects actually get built. Weekday evenings maintain; Saturday moves things forward.
-
-| Block | Time | Length | Purpose |
+| Time | Block | Length | What happens |
 |---|---|---|---|
-| Deep build | 08:00–11:00 | 180 min | The largest uninterrupted block of the week. Project work only. |
-| Study | 11:30–13:00 | 90 min | Chapter reading and theory. |
-| Drill + Review | 15:00–16:30 | 90 min | IELTS sections or recorded system design, then the weekly review. |
+| `05:00–07:00` | Deep Study | 120 min | Reading, understanding, typing examples |
+| `13:00–13:30` | Job Hunt | 30 min | Applications, referrals, follow-ups |
+| `21:00–22:30` | Build | 90 min | Writing code from nothing |
 
-Everything after 16:30 is yours, as is the gap between 13:00 and 15:00. Guard that as carefully as you guard the blocks — a plan with no space in it is a plan you abandon in week five.
+**Saturday, eight hours**
 
-The three-hour morning block is the single most valuable stretch in the week. It is the only time you have long enough to hold a whole system in your head. Protect it the way you protect the dawn block: no errands, no messages, no "quick" anything.
+| Time | Block | Length | What happens |
+|---|---|---|---|
+| `08:00–11:00` | Deep Build | 180 min | Project work, the largest uninterrupted block of the week |
+| `11:30–13:30` | Study | 120 min | Chapter reading |
+| `15:00–17:00` | Interview Drill | 120 min | Problems, mocks, speaking aloud |
+| `17:30–18:30` | Review + Apply | 60 min | The weekly review, and the week's last applications |
 
-## Sunday is off
+**Sunday: nothing.** No tasks, no "just an hour", no guilt.
 
-From 1 September, **Sunday carries no tasks at all**. The app shows a rest card instead of a schedule, and the streak counter treats it as neutral — resting on a rest day is compliance with the plan, not a break in it.
+### Why the largest block is at five in the morning
 
-This is not slack. It is load-bearing, for three reasons.
+Because every other option fails predictably.
 
-**Eighteen weeks is long.** Sprinting works for a fortnight and fails over four months. The failure is not dramatic; it is a slow erosion where the dawn block slips to 06:30, then 07:00, then stops. A scheduled recovery day is what prevents that erosion.
+Evening study is the first thing life cancels. A late meeting, a long commute, a family obligation, a bad day — any one of them takes the evening, and all of them happen. Over sixteen weeks, an evening-first schedule loses somewhere between a quarter and a half of its sessions, and it loses them unpredictably, which is worse than losing them consistently.
 
-**A plan with no rest gets abandoned rather than adjusted.** When you are exhausted and the plan says "study", the choice you actually face is comply or quit — and people quit. When the plan says "rest today", exhaustion has a legitimate outlet inside the system.
+Nothing takes five in the morning. There are no meetings, nobody needs anything, and your mind is at its clearest for exactly the kind of work — reading something genuinely difficult — that suffers most from fatigue.
 
-**Consolidation is real.** Skills you drilled on Saturday are measurably better on Monday than they were on Saturday evening. Rest is part of the learning, not a pause in it.
+Two hours before work, five days a week, is forty hours a month that nothing can touch. It is the load-bearing element of this entire plan.
 
-**The rules for Sunday:**
-- No engineering, no IELTS, no applications, no proposals.
-- "Just one hour" is how the day off dies. Do not.
-- One line in the log is fine, and it is the only thing allowed.
-- If you genuinely must move it — a family commitment on Saturday — swap the whole day rather than splitting it. Six hours on Sunday and a full Saturday off is fine. Three hours on each is not, because it leaves you with no real recovery.
+### Why the evening block is for building only
 
-## The weekly review
+By nine in the evening you have worked a full day and studied before it. Your capacity for absorbing new abstract material is largely gone; your capacity for typing, testing, and iterating is mostly intact.
 
-Thirty minutes, at the end of the Saturday drill block. It is the highest-leverage half hour in the system and the first thing people drop.
+So the evening builds what the morning explained. If you find yourself reading documentation at half past nine, the day has already gone wrong — it means the morning block did not happen, or did not go deep enough, and the review should catch that.
 
-Its function is drift detection. Without it, a bad week becomes a bad fortnight before you notice, and a bad fortnight is very difficult to recover from. With it, you catch the drift while it is still one week wide.
+## Sleep, which is not optional
 
-**Five questions, written down in `LOG.md`:**
+Five o'clock is not achievable on six hours of sleep for sixteen weeks. It is achievable on seven, and the arithmetic is simple: **lights out at 22:30, up at 04:50.** That is seven hours and twenty minutes.
 
-1. **What did I actually complete this week?** Not attempted — completed. Compare against the week's milestone. It is pass or fail.
-2. **What slipped, and what was the real reason?** "No time" is never the real reason; it is a description. The real reason is a specific decision, or a specific block that did not happen.
-3. **Which of the four tracks did I neglect?** There is almost always one. Notice which, and whether it is the same one as last week.
-4. **What is the single highest-value thing for next week?** One thing. Not a list.
-5. **What is one process change?** Small and mechanical. "Lay out the desk before bed." "Write the first dawn task on a sticky note." Not "try harder."
+This is the real cost of the plan, and it is not the early morning — it is the evening. The build block ends at 22:30 and you go to sleep. That means no late television, no scrolling, no "just one more thing". Every hour you take from that boundary comes directly out of tomorrow's dawn block, and the dawn block is the one that cannot be recovered.
 
-Then look at the week ahead in the Plan tab, note anything that conflicts with your actual calendar, and decide in advance how you will handle it.
+If the plan starts to fail somewhere around week five, the cause is almost always here. Check it first, before concluding anything about your discipline or your ability.
 
-## Recovery: what to do when you miss
+## What you are giving up
 
-You will miss days. The plan is 137 days long and life is not orderly. What determines the outcome is not whether you miss but how you handle missing, and this is where almost everyone fails.
+Something has to go. Decide now, in writing, rather than discovering in week six that the answer was sleep.
 
-### The rules
+Twenty-eight hours has to come from somewhere in a week that was previously full. The honest candidates:
 
-**Missing one day is noise. Missing two consecutive working days is a signal.** One day is nothing. Two means something in the system has broken — sleep, energy, a life event, or motivation — and it needs diagnosing rather than willpower. Sundays do not count; skipping a rest day is following the plan.
+- Evening entertainment on weekdays — this is where most of it comes from
+- Social media and phone time, which for most people is between one and three hours a day
+- Saturday as a free day, which it no longer is
+- Some social commitments, particularly the optional weeknight ones
 
-**Never try to catch up.** This is the critical rule and the counterintuitive one. After missing three days, the instinct is a heroic weekend covering everything missed. This reliably fails: you burn out, you learn nothing at depth, and you now associate the plan with dread. The plan is deliberately front-loaded, so a missed day loses less than it feels like it does.
+The things that must not be cut: sleep, exercise entirely, food, and your actual job. The last one matters more than it sounds — your current salary funds this, and being visibly disengaged at work while job hunting is a bad position to be in if December takes longer than planned.
 
-**Resume on today.** Open the Plan tab, do today's tasks. The missed days stay missed. Write one line in the log about what happened. Then continue.
+**Tell one person.** A partner, a sibling, a friend. Not for accountability theatre, but because sixteen weeks of unexplained unavailability strains relationships, and an explained one does not. Tell them the end date. Sixteen weeks is a finite thing, and people accommodate finite things easily.
 
-**Use the minimum viable day.** On a day where the full plan is genuinely impossible — illness, travel, a family emergency, a brutal work day — do the minimum viable version instead of nothing:
+## The environment
 
-> **The 20-minute minimum:** read one section of the current chapter, make one commit however small, send one application or one proposal.
+Set this up in week one, once, so it never costs you attention again.
 
-Twenty minutes preserves the streak, the habit, and the identity. The identity is the part that matters — "someone who does this every day" survives a 20-minute day and does not survive a zero day.
+**A machine that does not fight you.** Node, PostgreSQL, Docker, Git, and a code editor installed and working before day one. Fifteen minutes lost to a broken environment at five in the morning does more damage than the fifteen minutes, because it breaks the start of the session and the start is the fragile part.
 
-**Plan the deliberate zeros.** Every Sunday and Christmas Day are scheduled rest days. If you know a wedding, a trip, or a deadline at work is coming, mark it in advance and move the week's heavy work around it. A planned zero costs nothing. An unplanned one costs the streak and the momentum.
+**A physical place.** The same desk, the same chair, every morning. Environment is a powerful trigger, and the goal is that sitting there at five o'clock feels automatic by week three rather than requiring a decision.
 
-### Diagnosing repeated misses
+**The night-before setup.** This is small and it matters more than it should. Before bed: laptop on the desk, open, on the right file. Water ready. Tomorrow's first task written on paper. The three minutes of friction between waking and starting is where most missed sessions actually die.
 
-If you have missed three or more days in a fortnight, the problem is not discipline. Work through these in order:
+**Phone in another room.** Overnight and during every block. A phone in the room costs attention even when it is face down and untouched.
 
-| Symptom | Likely cause | Fix |
-|---|---|---|
-| Cannot wake at 05:30 | Sleeping after 23:30 | Move bedtime, not the alarm. Screens off at 22:30. |
-| Dawn block happens, evening does not | Depleted by work | Move the evening block to 19:00, immediately after arriving home, before you sit down properly |
-| Everything happens except IELTS | It has no visible deadline pressure yet | Book a mock with a person, or tell someone your target band |
-| Working Sundays anyway | Guilt, or falling behind | Stop. Sunday work in week 6 is why week 14 collapses. Cut scope instead. |
-| Everything happens except proposals | Rejection avoidance, which is normal and human | Lower the bar: send two mediocre proposals rather than zero perfect ones |
-| Doing the work but retaining nothing | Passive consumption | Return to the mastery loop. Build it, break it, explain it out loud. |
-| Persistent dread about the whole thing | Overreaching, or a milestone treated as identity | Take one full day off. Then read the log from week 1. |
+**One browser window, no email.** Email is somebody else's list of priorities. It has no place in the four hours that are yours.
 
-## Energy, which is the actual constraint
+## The weekly rhythm
 
-Time is not your limiting resource. You have the hours; the plan proves that arithmetically. Energy is the constraint, and it is manageable.
+**Monday to Friday** are identical by design. The tasks change; the shape never does. Identical days require no decisions, and decisions are where discipline is spent.
 
-**Sleep.** Seven hours minimum. This is not a lifestyle preference in a plan built on a 05:30 start — it is a load-bearing requirement. Cutting sleep to gain study hours reliably produces a net loss, because the hours you gain are low-quality and the retention drops.
+**Saturday** is the week's centre of gravity: the long build, then study, then drills, then the review. It is a full working day and it should be treated as one, including the part where it ends.
 
-**Movement.** Thirty minutes a day, walking is sufficient. It is not a luxury; sitting for 4.5 hours of study on top of 8 hours of work produces back problems and mental fog within weeks. Walks are also where stuck problems get solved.
+**Sunday is genuinely off,** and this is not a kindness. It is what makes weeks 11 through 16 possible. A plan with no scheduled recovery does not get adjusted when it becomes too much — it gets abandoned. The app's streak counter treats Sunday as neutral for exactly this reason: resting is not a break in the streak, because resting is part of the plan.
 
-**Food.** Heavy lunches destroy the afternoon and, indirectly, the evening block. Eat lighter than feels satisfying at midday.
+Do not leak work into Sunday. If you find yourself doing "just an hour" on Sundays for three weeks running, you have quietly moved to a seven-day schedule, and seven-day schedules end somewhere around week nine.
 
-**Attention hygiene.** Phone in another room during all four blocks. Notifications off. One browser window. The cost of a context switch is fifteen to twenty minutes of re-immersion, so three interruptions can consume an entire dawn block.
+## Bad days, and what to do about them
 
-**Deliberate emptiness.** Keep at least one evening a week and one weekend afternoon genuinely free, with no plan and no guilt. Plans with no slack are abandoned; plans with breathing room are completed.
+Four failure modes, with the response for each. Decide now, while you are calm, because you will not decide well at 05:00 on a bad Tuesday.
 
-## The log
+**You wake up and cannot face it.** Do fifteen minutes. Genuinely fifteen — set a timer, and give yourself permission to stop when it ends. Most of the time you will carry on, because starting is the hard part and not the work. If you stop at fifteen, you still commit something and the day still counts.
 
-One file, `LOG.md`, in your GitHub repository. Written daily, at the end of the drill block. Four lines:
+**Work destroyed you.** Keep the dawn block, drop the evening build, go to bed early. The morning is the one to protect. An evening lost is one block; a dawn block lost tends to take the following morning with it.
 
-```markdown
-## Day 43 — Fri 25 Sep 2026
-Done: Linux diagnostics chapter. Built the strace debugging drill. 2 proposals sent.
-Missed: Evening build block — work ran until 21:00.
-Learned: `lsof -i :3000` is how you find what's holding a port. Should have known this years ago.
-Tomorrow: Docker multi-stage build for Project 1. Target: image under 150MB.
-```
+**You are ill.** Take the day off completely. Write one line in the log. Resume tomorrow on tomorrow's task, not on the one you missed. There is no catch-up mechanism in this plan and that is deliberate.
 
-Four lines, sixty seconds. Its value is threefold: it makes progress visible on days that feel unproductive; it becomes your interview revision material in December, when you need concrete examples and will not remember week 6; and reading week 1 during week 12 is the most reliable antidote to "I am not getting anywhere" that exists.
+**You have lost a whole week.** This is the one that ends plans, and only because of what people do next. Do not attempt to compress two weeks into one. Drop the reference reading, keep the build and the job hunt, and rejoin at today. Then find the actual cause in the review, because a lost week is a symptom — usually sleep, occasionally a milestone that was set too large.
 
-It is public because public logs get maintained and private ones do not. It also happens to be exactly the kind of thing a hiring manager finds compelling when they look at your GitHub.
+## Energy, honestly
 
-## Practical Tasks
+Sixteen weeks is long enough that physical maintenance stops being optional.
 
-1. Put the three weekday blocks and the three Saturday blocks in your calendar as recurring events through 1 January. Declined by default. Treat them as external appointments — and block Sundays as busy so nothing else claims them either.
-2. Set bedtime at 22:30 and an alarm across the room. Do this tonight, before day one.
-3. Create `LOG.md` with the four-line template at the top.
-4. Write your own minimum viable day on a sticky note and put it on your monitor.
-5. Identify the block most likely to fail for you, and write down in advance what you will do when it does.
-6. Book the weekly review as a recurring 30-minute calendar event.
+**Exercise.** Twenty minutes, three times a week, is enough. It is not about fitness; it is about sleeping properly and not feeling terrible in week ten. Walking counts.
+
+**Food.** Breakfast after the dawn block, not before it. Heavy food before study costs you the session.
+
+**Caffeine.** Useful at 05:00. Actively harmful after about 15:00, because it moves your sleep later, which takes the following morning. This is a common and easily fixed cause of a collapsing dawn block.
+
+**Screens after 22:30.** They cost you the morning. This is the same rule as the sleep boundary, stated from the other direction.
+
+## The two milestones that matter most
+
+Not technical ones. Behavioural.
+
+**Week 3: applications open.** Whatever else has slipped, the CV, LinkedIn and GitHub must be finished by Saturday 26 September, because five applications go out on Monday 28 September and every weekday after. The funnel takes four to eight weeks. Missing this date does not cost you three weeks of applications; it costs you an offer in December.
+
+**Week 8: halfway.** The point at which the AI rule ends, the first project is live, and the honest question gets asked: am I actually doing twenty-eight hours a week, or have I been doing eighteen and calling it twenty-eight? Answer it with the numbers rather than the feeling.
 
 ## Self Assessment
 
-- Is my bedtime actually compatible with 05:30, or am I hoping?
-- Have I physically prepared the dawn block, or only intellectually agreed with it?
-- Do I understand why catching up is forbidden?
-- Do I have a minimum viable day defined *before* I need it?
-- Am I actually taking Sundays off, or leaking "just an hour" into them?
+Every Saturday, in the review:
+
+- Did the dawn block happen five times this week? If not, which mornings, and what actually caused it?
+- What time did I go to sleep, on average? If it was after 23:00 more than twice, that is the problem to fix first.
+- How many hours did I really work, counted rather than estimated?
+- Did I take Sunday off completely, or did work leak into it?
+- What did I give up this week that I said I would give up?
+- Is my environment still frictionless, or has something small been costing me five minutes every morning?
 
 ## Cheat Sheet
 
-- **Weekday (3h):** 05:30 study (90) · 12:30 outreach (30) · 21:00 build (60)
-- **Saturday (6h):** 08:00 build (180) · 11:30 study (90) · 15:00 drill + review (90)
-- **Sunday: OFF.** No tasks. Streak-neutral. Non-negotiable.
-- **Dawn block is untouchable.** Evening study is what life cancels; 05:30 is not.
-- **Miss one = noise. Miss two working days = diagnose.** Never catch up. Resume on today.
-- **Minimum viable day:** one section · one commit · one application
-- **Weekly review, 30 min, end of Saturday:** completed? · slipped and why? · neglected track? · one priority? · one process change?
-- **Sleep 7h. Walk 30 min. Phone in another room. Sunday genuinely off.**
+- **4h weekdays · 8h Saturday · Sunday off · 28h/week · 16 weeks · 448 hours.**
+- **05:00 study (120m) · 13:00 job hunt (30m) · 21:00 build (90m).**
+- **Lights out 22:30, up 04:50.** Seven hours twenty. The evening boundary is the real cost, not the early start.
+- **Dawn is untouchable** because evenings are the first thing life cancels.
+- **Evening is for building, never reading.** Reading at 21:30 means the day already went wrong.
+- **Set up the night before:** laptop open on the right file, water ready, first task on paper, phone in another room.
+- **Cannot face it? Fifteen minutes with a timer.** Starting is the hard part.
+- **Lost a week? Cut breadth, keep depth, rejoin at today.** Never compress, never catch up.
+- **Sunday off is load-bearing.** Leaking into it for three weeks means you are on a seven-day plan, and those end in week nine.
+- **The two dates that matter: 26 September (paperwork done) and 28 September (applications open).**

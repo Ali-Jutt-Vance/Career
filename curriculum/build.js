@@ -23,7 +23,7 @@ function run(label, file, fileArgs = []) {
 
 const t0 = Date.now();
 
-run('Building the 137-day plan', path.join('plan', 'build-plan.js'));
+run('Building the 252-day plan', path.join('plan', 'build-plan.js'));
 run('Compiling the book', 'compile.js', doPdf ? [] : ['--html-only']);
 if (doIcon) run('Generating the app icon', path.join('app', 'make-icon.js'));
 

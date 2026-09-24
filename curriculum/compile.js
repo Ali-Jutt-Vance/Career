@@ -58,8 +58,8 @@ const PHASE_ORDER = [
   'phase-7-system-design',
   'phase-8-ai-engineering',
   'phase-9-software-engineering',
-  'phase-10-ielts-english',
-  'phase-11-freelancing-remote',
+  'phase-10-english-communication',
+  'phase-11-job-hunt-pakistan',
   'phase-12-daily-execution-plan',
   'phase-13-appendix',
 ];
@@ -69,8 +69,8 @@ const PHASE_META = {
   'phase-0-mission': {
     number: 'PHASE 0',
     title: 'Mission & Method',
-    desc: 'The goal, the deadline, the path from beginner to mastery, and the system that runs all 137 days.',
-    topics: ['How to Use This Book','The Mission','Beginner → Mastery Path','The Business Track','The Operating System','The Scoreboard']
+    desc: 'The goal, the deadline, how learning actually works, the AI habit that has to be undone, and the system that runs all 350 days.',
+    topics: ['How to Use This Book','The Mission','How Learning Actually Works','The AI Dependency Problem','The Operating System','The Scoreboard']
   },
   'phase-1-programming-foundations': {
     number: 'PHASE 1',
@@ -126,29 +126,29 @@ const PHASE_META = {
     desc: 'Work effectively on teams, lead projects, and grow your career.',
     topics: ['Agile','Scrum','SDLC','Code Reviews','Documentation','Technical Writing','ADRs','Estimations','Leadership','Mentoring','Career Growth']
   },
-  'phase-10-ielts-english': {
+  'phase-10-english-communication': {
     number: 'PHASE 10',
-    title: 'IELTS & Professional English',
-    desc: 'Score Band 7+ in IELTS and communicate confidently in global software engineering teams.',
-    topics: ['IELTS Overview & Strategy','IELTS Speaking','IELTS Writing','IELTS Listening & Reading','Grammar for Band 7+','Vocabulary & Topic Banks','Practice Test & Model Answers','Technical English','Professional Communication','Job Interview English']
+    title: 'English & Communication',
+    desc: 'The half of the interview that is not code — speaking about your work, thinking out loud, and negotiating.',
+    topics: ['Speaking About Your Work','Explaining Technical Work','The Interview Conversation','Written English at Work','The First Five Minutes','Answering What You Cannot Answer','Talking About Code Out Loud','The Salary Conversation','Interview Under Pressure','Presenting a Design']
   },
-  'phase-11-freelancing-remote': {
+  'phase-11-job-hunt-pakistan': {
     number: 'PHASE 11',
-    title: 'Freelancing & Remote Work',
-    desc: 'Land freelance orders on Upwork/Fiverr and full-time remote roles at international companies.',
-    topics: ['Freelancing Fundamentals','Winning Proposals','Portfolio & GitHub','Remote Job Hunting','Pricing & Contracts','Client Management','Income Scaling']
+    title: 'The Pakistan Job Hunt',
+    desc: 'The market map, the CV, the applications, the referrals, the interview loop, the offer, and the first ninety days.',
+    topics: ['The Pakistani Market','The CV That Gets Read','Applying Without Wasting Shots','Referrals & Recruiters','The Interview Loop','Negotiating Your Offer','The First Ninety Days','Portfolio & Personal Brand','Remote Work — The Next Step']
   },
   'phase-12-daily-execution-plan': {
     number: 'PHASE 12',
     title: 'The Daily Execution Plan',
-    desc: 'All 137 days, dated and scheduled — 18 August 2026 to 1 January 2027. Open this every morning.',
-    topics: ['The 137-Day Plan','August 2026','September 2026','October 2026','November 2026','December 2026','January 2027']
+    desc: 'All 353 days, dated and scheduled — 25 September 2026 to 12 September 2027. Open this every morning.',
+    topics: ['The 350-Day Plan','September 2026','October 2026','November 2026','December 2026','January 2027','February 2027','March 2027','April 2027','May 2027','June 2027','July 2027','August 2027','September 2027']
   },
   'phase-13-appendix': {
     number: 'PHASE 13',
     title: 'Appendix',
-    desc: 'Supporting personal plans that share dependencies with the main mission.',
-    topics: ['Italy Study Route','ISEE & DSU','Visa Timeline','Funding via Freelance Income']
+    desc: 'Supporting personal plans kept alongside the main mission.',
+    topics: ['Italy Study Route']
   }
 };
 
@@ -156,18 +156,18 @@ const PHASE_META = {
 function buildCoverPage(stats, plan) {
   return `
 <div class="cover-page">
-  <div class="cover-eyebrow">The Complete Professional Curriculum</div>
-  <h1>Software Engineering<br>Mastery</h1>
+  <div class="cover-eyebrow">The 350-Day Plan</div>
+  <h1>From Stuck<br>to Hired</h1>
   <div class="cover-subtitle">
-    Backend Engineering · Cloud Architecture · AI Engineering<br>
-    System Design · DevOps · Solutions Architecture · IELTS · Freelancing
+    JavaScript · Node · React · PostgreSQL · AWS<br>
+    System Design · AI Engineering · Interviewing · Negotiation
   </div>
   <div class="cover-divider"></div>
   <div class="cover-meta">
-    ${stats.phases} Phases · ${stats.chapters} Chapters · ${stats.words.toLocaleString('en-GB')} Words · 2 Portfolio Projects<br>
+    ${stats.phases} Phases · ${stats.chapters} Chapters · ${stats.words.toLocaleString('en-GB')} Words · 2 Shipped Projects<br>
     ${plan ? `${plan.meta.totalDays} dated days · ${plan.meta.totalTasks} scheduled tasks · ${plan.meta.totalHours} hours<br>` : ''}
-    From Mid-Level Engineer to a Senior Remote Offer · IELTS Band 7.5+ · Client Business<br><br>
-    <strong style="color:#bfdbfe;">18 August 2026 → 1 January 2027</strong>
+    Three years of maintenance work → a real engineering job at 3× the salary<br><br>
+    <strong style="color:#bfdbfe;">25 September 2026 → 12 September 2027</strong>
   </div>
   <div class="cover-phases">
     ${PHASE_ORDER.filter(k => PHASE_META[k]).map(k => `<div class="cover-phase-item">${PHASE_META[k].number}: ${PHASE_META[k].title}</div>`).join('')}
@@ -184,11 +184,11 @@ function buildRoadmapPage(plan) {
   const fmt = s => { const [y,m,d] = s.split('-').map(Number); return `${d} ${M[m-1]} ${y}`; };
 
   const roles = [
-    ['⚙','Backend Engineer','Node.js · NestJS · PostgreSQL · Redis','$45K – $85K / year remote','Ready Week 8','rm-role-backend'],
-    ['☁','Cloud / DevOps Engineer','AWS · Docker · Terraform · CI/CD','$55K – $105K / year remote','Ready Week 14','rm-role-cloud'],
-    ['◈','AI Engineer','LLMs · RAG · Agents · MCP · pgvector','$65K – $130K / year remote','Ready Week 12','rm-role-ai'],
-    ['◻','Solutions Architect','System Design · AWS · Microservices','$85K – $150K / year remote','Ready Week 16','rm-role-arch'],
-    ['◇','Independent / Freelance','Positioning · Proposals · Delivery','$2K – $10K / month','First client Week 6–10','rm-role-free'],
+    ['◆','Tier 4 — where you are','Small shop · PHP · AngularJS · no review','PKR 50k – 120k / month','Today','rm-role-free'],
+    ['⚙','Tier 3 — the floor','Devsinc · Tkxel · Contour · NETSOL','PKR 120k – 250k / month','Reachable from Week 8','rm-role-backend'],
+    ['◻','Tier 2 — THE TARGET','Arbisoft · 10Pearls · VentureDive · Confiz','PKR 250k – 450k / month','Ready Week 13','rm-role-arch'],
+    ['◈','Tier 1 — the year after','Motive · Careem · Bazaar · Retailo','PKR 400k – 800k+ / month','A 2-year path','rm-role-ai'],
+    ['☁','International remote','The step after the Tier 2 job','$1.5K – $5K / month','Phase 11 Ch.9','rm-role-cloud'],
   ];
 
   const blockHtml = plan.blocks.map(block => {
@@ -217,21 +217,26 @@ function buildRoadmapPage(plan) {
   }).join('');
 
   const anchorRows = [
-    [plan.anchors.ieltsBooking,  'IELTS booked and paid'],
-    [plan.anchors.proposalStart, 'Client proposals begin — 3 every weekday'],
-    [plan.anchors.applyStart,    'Job applications open — 5 every weekday'],
-    [plan.anchors.ieltsExam,     'IELTS EXAM'],
-    [plan.anchors.ieltsResult,   'IELTS results'],
-    [plan.anchors.deadline,      'DEADLINE — job closed'],
+    [plan.anchors.start,       'Day 1 — the honest audit. BASELINE.md written.'],
+    [plan.anchors.cvReady,     'CV, LinkedIn and GitHub finished — this is a gate'],
+    [plan.anchors.applyStart,  'APPLICATIONS OPEN — on the weekly quota (5 → 10 → 15)'],
+    [plan.anchors.apiLive,     'Project 1 API deployed at a public URL'],
+    [plan.anchors.aiUnlock,    'AI unlocked — reviewer, never author'],
+    [plan.anchors.project1,    'Project 1 data layer complete — SQL and NoSQL'],
+    [plan.anchors.project2,    'Project 2 live — NestJS, queues, Redis, tested'],
+    [plan.anchors.project3,    'Project 3 live — retrieval service, measured'],
+    [plan.anchors.mockStart,   'First mock interview with a real person'],
+    [plan.anchors.deadline,    'DEADLINE — the plan closes, final accounting'],
   ].map(([d, t]) => `<div class="rm-rule"><span class="rm-rule-num">${fmt(d).split(' ')[0]}</span><div><strong>${fmt(d)}</strong><br>${t}</div></div>`).join('');
 
   const slotBlurb = {
-    'Deep Study':      'Chapter theory. The block nothing can take from you.',
-    'Outreach':        'Proposals, or 5 applications from 6 October.',
-    'Build':           'Implement what the morning explained. Build, do not read.',
-    'Deep Build':      'The largest uninterrupted block of the week. Project work only.',
-    'Study':           'Chapter reading and theory.',
-    'Drill + Review':  'IELTS or system design, then the 30-minute weekly review.',
+    'Deep Study':       'Chapter theory, before work. The block nothing can take from you.',
+    'Job Hunt':         'Applications from 19 October on a weekly quota — 5, then 10, then 15. Referrals and follow-ups.',
+    'Build':            'Implement what the morning explained. Build, do not read.',
+    'Deep Build':       'The largest uninterrupted block of the week. Project work only.',
+    'Study':            'Chapter reading and theory.',
+    'Interview Drill':  'Problems, mocks, and speaking aloud. Always out loud.',
+    'Review + Apply':   'The weekly review, and the week\'s last applications.',
   };
   const mkSlots = list => (list ?? []).map(s => [s.time.replace('–',' – '), s.name, slotBlurb[s.name] ?? '']).map(([t,n,d]) => `
       <div class="rm-schedule-slot">
@@ -246,18 +251,18 @@ function buildRoadmapPage(plan) {
 <div class="roadmap-page">
 
   <div class="rm-header">
-    <div class="rm-eyebrow">THE 137-DAY CAMPAIGN</div>
+    <div class="rm-eyebrow">THE 350-DAY PLAN</div>
     <h1 class="rm-title">${fmt(plan.meta.start)} → ${fmt(plan.meta.end)}</h1>
     <p class="rm-subtitle">
       ${plan.meta.totalDays} dated days · ${plan.meta.totalWeeks} weeks · ${plan.meta.totalTasks} scheduled tasks · ${plan.meta.totalHours} hours.<br>
       ${plan.meta.workingDays} working days · ${plan.meta.restDays} rest days.<br>
-      Four tracks in parallel: Engineering · IELTS · Business · Job Hunt.<br>
-      <strong>From 1 September: 3h Mon–Fri, 6h Saturday, Sunday off — 21 hours a week.</strong>
+      Three tracks in parallel: Engineering · Job Hunt · Communication.<br>
+      <strong>2h Mon–Fri, 4h Saturday, Sunday off — 14 hours a week, every week.</strong>
     </p>
   </div>
 
   <div class="rm-roles-section">
-    <div class="rm-section-label">TARGET ROLES &amp; REALISTIC REMOTE COMPENSATION</div>
+    <div class="rm-section-label">THE MARKET MAP — WHERE YOU ARE AND WHERE THIS GOES</div>
     <div class="rm-roles-grid">
       ${roles.map(([icon,name,stack,salary,phase,cls]) => `
       <div class="rm-role-card ${cls}">
@@ -273,16 +278,16 @@ function buildRoadmapPage(plan) {
   ${blockHtml}
 
   <div class="rm-schedule-section">
-    <div class="rm-section-label">THE WEEKDAY (3h, while employed) — from 1 September</div>
+    <div class="rm-section-label">THE WEEKDAY (2h, while employed full-time)</div>
     <div class="rm-schedule-grid">${weekdaySlots}</div>
   </div>
 
   <div class="rm-schedule-section">
-    <div class="rm-section-label">SATURDAY (6h) &middot; SUNDAY OFF</div>
+    <div class="rm-section-label">SATURDAY (4h) &middot; SUNDAY OFF</div>
     <div class="rm-schedule-grid">${saturdaySlots}</div>
     <div class="rm-phase-desc" style="margin-top:14px">
       Sunday carries no tasks at all. It is a scheduled rest day and it is what makes
-      eighteen consecutive weeks possible. The streak counter treats it as neutral.
+      fifty consecutive weeks possible. The streak counter treats it as neutral.
     </div>
   </div>
 
@@ -292,15 +297,16 @@ function buildRoadmapPage(plan) {
   </div>
 
   <div class="rm-rules-section">
-    <div class="rm-section-label">THE SEVEN RULES</div>
+    <div class="rm-section-label">THE EIGHT RULES</div>
     <div class="rm-rules-grid">
-      <div class="rm-rule"><span class="rm-rule-num">1</span><div><strong>The dawn block is untouchable.</strong> 05:30–07:00, every working day. Evening study is the first thing life cancels; 05:30 is not.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">2</span><div><strong>Build every day.</strong> Every chapter produces something you wrote and ran. A day with no commit did not happen.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">3</span><div><strong>Commit publicly every day.</strong> The contribution graph is the cheapest credibility signal available, and it compounds for 137 days.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">4</span><div><strong>Start applying before you feel ready.</strong> Applications open 6 October regardless. The funnel takes weeks and you cannot buy that time back.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">5</span><div><strong>Never send the same proposal twice.</strong> Generic proposals have a near-zero response rate and teach you nothing.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">6</span><div><strong>Miss one day, fine. Miss two, diagnose.</strong> Never try to catch up — resume on today.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">1</span><div><strong>The dawn block is untouchable.</strong> 05:00–06:30, every working day. Evening study is the first thing life cancels; 05:00 is not.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">2</span><div><strong>No AI writes code until 1 February 2027.</strong> Documentation is allowed. Concept explanations are allowed <em>after</em> twenty minutes of genuine attempt. Generated code is not.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">3</span><div><strong>Commit publicly every day.</strong> A day with no commit did not happen. The contribution graph compounds for 350 days.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">4</span><div><strong>Twenty minutes before you look anything up.</strong> Stuck means stuck for twenty minutes. Most of the time you solve it in eight.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">5</span><div><strong>Start applying before you feel ready.</strong> Applications open 19 October regardless, on a ramping weekly quota. The funnel takes 4–8 weeks and you cannot buy that time back.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">6</span><div><strong>Miss one day, fine. Miss two, diagnose.</strong> Never try to catch up — resume on today. Cut breadth, keep depth.</div></div>
       <div class="rm-rule"><span class="rm-rule-num">7</span><div><strong>Milestones are pass or fail.</strong> "Mostly" is a no. Be as strict as the interviewer will be.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">8</span><div><strong>Ignore everything marked LATER.</strong> Only the core chapters are scheduled. If it is not in the week you are on, it is not your problem yet.</div></div>
     </div>
   </div>
 
@@ -500,7 +506,7 @@ function buildReaderHtml(chapters, manifest, plan, stats) {
         <div id="plan-pane" class="plan-pane"></div>
         <div id="welcome-pane" class="welcome-pane" style="display:none">
           <h2>Career Book</h2>
-          <p>The complete curriculum — foundations through cloud, AI engineering, system design, IELTS, and building a client business — wired to a dated ${plan ? plan.meta.totalDays + '-day' : ''} plan.</p>
+          <p>Fundamentals through cloud, AI engineering, system design, interviewing and negotiation — wired to a dated ${plan ? plan.meta.totalDays + '-day' : ''} plan that ends in a signed offer.</p>
           <div class="welcome-stats">
             <div class="welcome-stat"><strong>${stats.phases}</strong><span>Phases</span></div>
             <div class="welcome-stat"><strong>${stats.chapters}</strong><span>Chapters</span></div>

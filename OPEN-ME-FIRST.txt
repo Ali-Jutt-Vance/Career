@@ -1,0 +1,34 @@
+CAREER BOOK — Backend Mastery, 0 to Hired
+=========================================
+25 Sep 2026 -> 12 Sep 2027 · 353 days · 3-day lead-in + 50 weeks · 14h/week · 706 hours
+(Week 0 = Fri 25 + Sat 26 Sep, Sunday off. Week 1 starts Monday 28 Sep 2026.)
+
+TO OPEN THE BOOK (no install, nothing to run):
+  curriculum\output\index.html   <- double-click it
+
+  It opens on today's plan. Keys: T = today, / = search, arrows = prev/next day.
+
+TO GET THE DESKTOP ICON (chromeless window, own profile, custom icon):
+  Double-click  "Install Desktop Icon.cmd"  in this folder.
+  Or open PowerShell in this folder and run:
+      powershell -ExecutionPolicy Bypass -File curriculum\app\install-app.ps1
+  That creates "Career Book" on your Desktop and in the Start Menu.
+
+TO REBUILD AFTER EDITING (optional):
+  cd curriculum
+  npm install
+  npm run build      <- regenerates the plan + reader, runs all assertions + smoke test
+
+WHAT IS IN HERE
+  curriculum\phases\           163 chapters across 14 phases
+  curriculum\plan\plan-data.js THE PLAN - 50 weeks authored day by day, CORE list, DSA ladder
+  curriculum\output\index.html the built reader app (this is the book)
+  README.md                    the full explanation - read this one
+
+NOT INCLUDED (regenerate or ignore)
+  node_modules\                run: npm install
+  curriculum\app\profile\      your reading progress on the OTHER pc - deliberately left out
+  curriculum\output\*.pdf      large, rebuild with: npm run pdf
+
+NOTE: your tick-box progress lives in the browser profile, not in these files,
+so it does not travel between PCs. Use git if you want the two machines in sync.

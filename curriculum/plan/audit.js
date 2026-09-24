@@ -6,7 +6,9 @@
  */
 const fs   = require('fs-extra');
 const path = require('path');
-const { WEEKS } = require('./plan-data');
+const { WEEKS, CORE } = require('./plan-data');
+
+const CORE_SET = new Set(CORE);
 
 const ROOT   = path.join(__dirname, '..');
 const PHASES = path.join(ROOT, 'phases');
@@ -19,8 +21,8 @@ const REQUIRED = [
   'Interview Preparation', 'Practical Tasks', 'Self Assessment', 'Cheat Sheet',
 ];
 
-// Chapters that legitimately use a different arc (IELTS, plan, mission, appendix).
-const EXEMPT_PHASES = ['phase-0-mission', 'phase-10-ielts-english', 'phase-12-daily-execution-plan', 'phase-13-appendix'];
+// Chapters that legitimately use a different arc (mission, communication, job hunt, plan, appendix).
+const EXEMPT_PHASES = ['phase-0-mission', 'phase-10-english-communication', 'phase-11-job-hunt-pakistan', 'phase-12-daily-execution-plan', 'phase-13-appendix'];
 
 function analyse(relPath) {
   const file = path.join(PHASES, relPath + '.md');
@@ -44,8 +46,11 @@ function band(relPath) {
   return { min: 5000, label: 'standard' };
 }
 
-function status(a, b) {
+function status(a, b, ref) {
   if (!a) return 'MISSING';
+  // Chapters the plan does not schedule are LATER: reference material, held to
+  // no depth target, and deliberately not counted as work outstanding.
+  if (ref && !CORE_SET.has(ref)) return 'LATER';
   if (a.words >= b.min && a.missing.length === 0) return 'DONE';
   if (a.words >= b.min * 1.4 && a.missing.length <= 2) return 'GOOD';
   return 'TODO';
@@ -77,8 +82,9 @@ function main() {
   }
 
   let rows = '';
-  const counts = { DONE: 0, GOOD: 0, TODO: 0, MISSING: 0 };
+  const counts = { DONE: 0, GOOD: 0, TODO: 0, MISSING: 0, LATER: 0 };
   let totalWords = 0;
+  let coreWords = 0;
 
   rows += '| # | Week | Chapter | Words | Target | Missing sections | Status |\n';
   rows += '|---|---|---|---|---|---|---|\n';
@@ -86,24 +92,34 @@ function main() {
   ordered.forEach((o, i) => {
     const a = analyse(o.ref);
     const b = band(o.ref);
-    const s = status(a, b);
+    const s = status(a, b, o.ref);
+    const isCore = CORE_SET.has(o.ref);
     counts[s]++;
-    if (a) totalWords += a.words;
-    const miss = a && a.missing.length
+    if (a) { totalWords += a.words; if (isCore) coreWords += a.words; }
+    const miss = !isCore ? '—' : (a && a.missing.length
       ? (a.missing.length > 4 ? `${a.missing.length} sections` : a.missing.join(', '))
-      : '—';
-    rows += `| ${i + 1} | ${o.week ? 'W' + o.week : '–'} | \`${o.ref}\` | ${a ? a.words.toLocaleString('en-GB') : '—'} | ${b.min.toLocaleString('en-GB')} | ${miss} | **${s}** |\n`;
+      : '—');
+    const target = isCore ? b.min.toLocaleString('en-GB') : '–';
+    rows += `| ${i + 1} | ${o.week ? 'W' + o.week : '–'} | \`${o.ref}\` | ${a ? a.words.toLocaleString('en-GB') : '—'} | ${target} | ${miss} | **${s}** |\n`;
   });
+
+  const coreCount = counts.DONE + counts.GOOD + counts.TODO + counts.MISSING;
+  const pctDone = coreCount ? Math.round(((counts.DONE + counts.GOOD) / coreCount) * 100) : 0;
 
   const summary =
 `**${ordered.length} chapters · ${totalWords.toLocaleString('en-GB')} words total**
 
-| Status | Count |
-|---|---|
-| DONE | ${counts.DONE} |
-| GOOD | ${counts.GOOD} |
-| TODO | ${counts.TODO} |
-| MISSING | ${counts.MISSING} |
+**${coreCount} are CORE** — scheduled by the plan and held to a depth target
+(${coreWords.toLocaleString('en-GB')} words, **${pctDone}% at target**). The other ${counts.LATER} are **LATER**:
+reference material, no target, and not work you are behind on.
+
+| Status | Count | |
+|---|---|---|
+| DONE | ${counts.DONE} | core, at target |
+| GOOD | ${counts.GOOD} | core, deep enough |
+| TODO | ${counts.TODO} | core, needs expansion |
+| MISSING | ${counts.MISSING} | core, file absent |
+| LATER | ${counts.LATER} | not in the plan |
 
 _Last audited: ${new Date().toISOString().slice(0, 16).replace('T', ' ')}_
 
@@ -117,10 +133,11 @@ _Last audited: ${new Date().toISOString().slice(0, 16).replace('T', ' ')}_
   fs.writeFileSync(STATUS, out, 'utf8');
 
   console.log(`\n  Audited ${ordered.length} chapters · ${totalWords.toLocaleString('en-GB')} words`);
-  console.log(`  DONE ${counts.DONE} · GOOD ${counts.GOOD} · TODO ${counts.TODO}\n`);
+  console.log(`  CORE ${coreCount}: DONE ${counts.DONE} · GOOD ${counts.GOOD} · TODO ${counts.TODO} (${pctDone}% at target)`);
+  console.log(`  LATER ${counts.LATER}: reference only, no target\n`);
 
-  const todo = ordered.filter(o => status(analyse(o.ref), band(o.ref)) === 'TODO');
-  console.log('  Next up (plan order):');
+  const todo = ordered.filter(o => status(analyse(o.ref), band(o.ref), o.ref) === 'TODO');
+  console.log('  Next up (CORE, in plan order):');
   todo.slice(0, 12).forEach(o => {
     const a = analyse(o.ref);
     console.log(`    ${o.week ? 'W' + o.week : '– '}  ${String(a ? a.words : 0).padStart(6)}w  ${o.ref}`);

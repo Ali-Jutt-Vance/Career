@@ -1,251 +1,125 @@
 # Phase 0 — Chapter 6: The Scoreboard
 
-> *"What gets measured gets managed — even when it is pointless to measure and manage it."* — Simon Caulkin, on the misuse of Drucker
+> *"You cannot manage what you refuse to look at."*
 
 ---
 
 ## Chapter Overview
 
-The quote above is a warning as much as an instruction. Measuring the wrong things produces confident, well-tracked failure. This chapter defines the small number of metrics that actually predict whether you close a job by 1 January, and explicitly names the ones that feel productive but predict nothing.
+Feelings about progress are unreliable in both directions. In week two you will feel like you are failing while doing everything correctly. In week nine you will feel productive during a week where nothing shipped and no applications went out. Both feelings are wrong, and the only defence is a small set of numbers you record honestly and compare over time.
 
-## Leading versus lagging
+This chapter defines what to measure, what not to measure, and how the weekly review works. It is short on purpose. A scoreboard that takes forty minutes to update stops being updated somewhere around week four.
 
-A **lagging indicator** tells you the outcome: offers received, revenue earned, band score. These are what you want, and they are useless for steering, because by the time they move it is too late to change what caused them.
+## The baseline, recorded on day one
 
-A **leading indicator** tells you whether the outcome is coming: applications sent, proposals sent, problems solved, commits pushed. These move daily and they are the only things you actually control.
+Before anything else, record where you are starting. This takes one session and it becomes the most valuable page in your repository, because in December it is the only thing that can tell you honestly how far you moved.
 
-**Manage the leading indicators. Grade yourself on the lagging ones at block boundaries.**
+Create `BASELINE.md` on day one and fill in all of it:
 
-The failure mode this prevents is checking your inbox for offers every day in October. The inbox is a lagging indicator and staring at it produces nothing but anxiety. The question that matters in October is "did I send five applications today", because that is the input, and the input is the only part you own.
+| Measure | How to record it |
+|---|---|
+| **Coding, cold** | Three LeetCode Easy problems, 25 minutes each, no help of any kind. Record how many you finished unaided. |
+| **Coding, aloud** | Attempt one Easy problem while narrating out loud, recorded on your phone. Note how long you were silent. |
+| **JavaScript** | Answer ten questions from the Phase 1 Chapter 1 self-assessment, closed book. Score out of ten. |
+| **SQL** | Write, on paper, a query joining three tables with a GROUP BY. Did you finish it? Yes or no. |
+| **Explaining** | Record two minutes explaining any system you have worked on. Listen back once. Note where you stalled. |
+| **Paperwork** | Current CV, LinkedIn and GitHub, exactly as they are today. Screenshot all three. |
+| **Position** | Title, salary, and one honest paragraph on what you personally built in three years versus what a tool built for you. |
 
-## The daily scoreboard
+The last row is the uncomfortable one and it is the one that matters. Write it honestly. Nobody else reads this file, and a dishonest baseline makes every later comparison meaningless.
 
-Five numbers, checked in the app, taking under a minute.
+## The seven weekly numbers
 
-| Metric | Target | Why it matters |
+Seven numbers, recorded every Saturday in the review. That is all.
+
+| # | Number | Why it is on the list |
 |---|---|---|
-| **Tasks completed** | 3 of 3 weekdays · 3 of 3 Saturday | The direct measure of whether the day happened |
-| **Streak** | Unbroken | The identity metric. Sundays are neutral — they never break it. |
-| **Commits pushed** | ≥ 1 on working days | Proof that building happened rather than only reading |
-| **Applications** (from 6 Oct) | 5 per weekday | The single strongest predictor of a January offer |
-| **Proposals** (from 31 Aug) | 3 per weekday | The pipeline input |
+| 1 | **Hours actually worked** | Counted, not estimated. The gap between felt and actual effort is usually between five and eight hours. |
+| 2 | **Days with a commit** | The proxy for whether building actually happened. Target: six. |
+| 3 | **Problems solved unaided** | Cold generation, the skill that atrophied. The only measure that tracks the core repair. |
+| 4 | **Applications sent** | Target: 25 a week from week 4. This is the only number that can produce an offer. |
+| 5 | **Replies and interviews** | The conversion measure. Applications with no replies mean the CV is wrong, not the market. |
+| 6 | **AI rule breaches** | Recorded as data, not guilt. The pattern in them is the useful part. |
+| 7 | **Deliverable: met or not** | Pass or fail. No partial credit and no redefinition after the fact. |
 
-The reader app tracks the first two automatically. The other three go in `LOG.md`.
+### What not to measure
 
-## The weekly scoreboard
+**Chapters read.** Reading is an input, not an outcome, and it is the easiest number to inflate while learning nothing. A week of four chapters read and no code written is a failed week regardless of what the count says.
 
-Reviewed in the 30-minute weekly review. Nine numbers.
+**Hours "spent studying" when the phone was in the room.** Count the block only if the block actually happened.
 
-| Metric | Weekly target | Notes |
+**How motivated you feel.** It has no predictive value. Some of the most productive weeks feel flat.
+
+**Anything you would be tempted to round upward.** If you find yourself deciding whether something counts, it does not count.
+
+## The weekly review
+
+Saturday, 17:30 to 18:30. It is the last hour of the working week and the most valuable one in the system, because it is the only mechanism that catches a problem while it is still one week old.
+
+Work through it in order, in `LOG.md`:
+
+**1. The seven numbers.** Record them, then look at last week's beside them. The direction matters more than any single value.
+
+**2. The deliverable.** Met or not met. Pass or fail. If it was not met, write the actual reason — not "I was busy", but what specifically consumed the time.
+
+**3. The milestone.** Same, and the milestone is the stricter of the two. If you find yourself arguing that it was mostly met, it was not met.
+
+**4. Three questions.**
+- What worked this week that I should repeat?
+- What did I avoid, and why did I avoid it?
+- What is the single biggest thing standing between me and the offer, right now?
+
+The second question is the useful one. Avoidance is highly informative — people avoid the thing they are worst at, which is invariably the thing that most needs the hours. If you notice you have avoided speaking aloud for three weeks running, that is your diagnosis.
+
+**5. Read next week ahead.** Ten minutes. Know what is coming, note anything that needs preparing, and check whether any interview is scheduled that will need the days moved around.
+
+## The monthly and block reviews
+
+At the end of each of the six blocks, add three harder questions to the weekly review:
+
+- **Which track did I quietly drop?** Under pressure, one of the three always suffers, and it is almost always the job hunt, because it is the least satisfying and its rewards are the most delayed. Dropping it in November costs you December.
+- **Did I redefine any milestone to make it passable?** This is the most common way plans fail while appearing to succeed.
+- **What does the funnel say?** Applications, replies, interviews, stage reached. Where the funnel stops tells you exactly what to fix: no replies means the CV, failed technicals mean the coding, failed finals mean the communication.
+
+## Reading the funnel
+
+The job-hunt numbers diagnose themselves if you look at where the drop-off is. This is the most actionable table in the book from week 6 onwards.
+
+| Symptom | The problem is almost certainly | The fix |
 |---|---|---|
-| Working days completed | 6 of 6 | 4 is acceptable. 2 is a broken week that needs diagnosis. Sunday is not counted. |
-| Chapters finished | 3–5 | Per the week's chapter list |
-| Algorithm problems | 8–10 | Cumulative target 140+ by January |
-| Systems designed and spoken | 2–3 | From week 12 onward. Recorded, not just thought about. |
-| Applications sent | 25 | From 6 October |
-| Proposals sent | 10 | From 31 August |
-| IELTS sections completed | 3–5 | Full timed sections, not exercises. Rises sharply from week 11. |
-| Sundays actually taken off | 1 of 1 | Working Sundays in October is why December collapses |
-| Milestone | Pass / fail | Binary. No partial credit. |
-| Project progress | Something shipped | Deployed, merged, or published |
+| 40+ applications, fewer than 3 replies | The CV, or the targeting | Rewrite the CV to outcomes; check you are applying at the right tier |
+| Replies but no screening calls | The first message, or the profile | Rewrite the LinkedIn About; respond faster and more specifically |
+| Screening calls that end there | The self-introduction, or the English | Rehearse the two-minute introduction until it is automatic |
+| Technical rounds failing | Cold generation, and speaking while coding | More unaided problems, all of them aloud |
+| Final rounds failing | Communication, or behavioural answers | Written STAR stories, and mock interviews with real people |
+| Offers below target | Negotiation, or the tier you are applying to | Phase 11 Chapter 6, and apply higher |
 
-## The block scoreboard
+The point of the table is that "I am not getting a job" is never the diagnosis. It is always one specific stage, and each stage has a different fix.
 
-At the end of every block the lagging indicators get graded. This is where you find out whether the leading indicators are actually producing anything.
+## The December accounting
 
-### Block I · End of week 2 · Monday 31 August
+On the final Saturday, rerun every baseline measurement exactly as you ran it on day one. Same three problems, same self-quiz, same two-minute recording, same closed-book SQL query on paper.
 
-| Target | Pass condition |
-|---|---|
-| IELTS booked and paid | Booked ✓ |
-| Upwork, Fiverr, LinkedIn live | All three complete ✓ |
-| Payment infrastructure working | Payoneer + Wise verified and tested ✓ |
-| Algorithm problems | ≥ 25 |
-| Positioning statement | Written and tested |
-| Commit streak | 14 days |
-| Calendar reset for the 3h budget | Blocks moved, Sundays marked busy |
+Put the two sets of numbers side by side in the log.
 
-### Block II · End of week 6 · Monday 28 September
+This is not a ceremony. It is the only way to see the change clearly, because by then the new ability will feel normal and you will have completely forgotten what day one felt like. That is how skill acquisition works — it erases the memory of its own absence — and it is why the day-one recording is worth making even though listening back to it will be unpleasant.
 
-| Target | Pass condition |
-|---|---|
-| Project 1 auth | Refresh rotation + OAuth + RBAC, defensible out loud in 3 minutes |
-| IDOR sweep | Every lookup carries the ownership predicate |
-| Algorithm problems | ≥ 55 |
-| Proposals | ≥ 60 sent, response rate known |
-| IELTS | ≥ 6 timed sections completed |
-| Dawn block | Still happening at 05:30, four weeks into the reduced budget |
-
-### Block III · End of week 10 · Monday 26 October
-
-| Target | Pass condition |
-|---|---|
-| Project 1 | **LIVE at a public HTTPS URL, auto-deploying** |
-| Query optimisation | 3 queries under 50ms, with plans before and after |
-| Applications | Open since 6 Oct, ≥ 60 sent |
-| Algorithm problems | ≥ 85 |
-| Public writing | ≥ 1 technical post published with real numbers |
-| IELTS full mocks | ≥ 2 completed, predicted band known |
-
-### Block IV · End of week 13 · Monday 16 November
-
-| Target | Pass condition |
-|---|---|
-| IELTS | **Taken on 14 November** |
-| AWS | Project 1 on ECS + RDS, architecture diagrammed |
-| System designs delivered | ≥ 4 recorded |
-| Applications | ≥ 100 total |
-| Interviews | ≥ 2 screens completed |
-| First client | Contract signed, or a diagnosed reason why not |
-
-### Block V · End of week 16 · Monday 7 December
-
-| Target | Pass condition |
-|---|---|
-| Project 2 (AI/RAG) | **Live, with a measured precision@5** |
-| Portfolio page | Published, both projects linked, custom domain |
-| System designs delivered | ≥ 10 recorded |
-| IELTS band | 7.5+ received |
-| Applications | ≥ 130 total |
-| Interview processes | ≥ 3 active |
-| Algorithm problems | ≥ 115 |
-
-### Final · Day 137 · 1 January 2027
-
-| Target | Pass condition |
-|---|---|
-| **Offer** | **Signed or in negotiation** |
-| **or Client revenue** | **≥ $1,500 in a single month** |
-| IELTS | 7.5+ certificate in hand |
-| Projects | 2 live with case studies, plus a portfolio page |
-| Applications | ≥ 150 |
-| Proposals | ≥ 130 |
-| Algorithm problems | ≥ 140 |
-| Working days completed | ≥ 100 of 120 |
-
-## The funnel, which is the real diagnostic tool
-
-When results are not appearing, the useless response is "apply more". The useful response is to find the stage that is broken, because each stage has a completely different fix.
-
-### Job funnel
-
-```
-Applications sent
-   ↓  8–15% expected
-Recruiter screens
-   ↓  50–70% expected
-Technical interviews
-   ↓  40–60% expected
-Final rounds
-   ↓  25–40% expected
-Offers
-```
-
-**Reading it:**
-
-| Symptom | Broken stage | The actual fix |
-|---|---|---|
-| 50 applications, 0 screens | Application → screen | The résumé and profile. Not the volume. Rewrite them. |
-| Screens happen, no technicals | Screen → technical | Your verbal self-presentation, or a compensation mismatch surfacing early |
-| Technicals fail | Technical → final | Algorithms or system design. The recordings tell you which. |
-| Finals fail | Final → offer | Behavioural depth, or seniority signals. Usually the stories. |
-| Offers below target | Negotiation | Practise the conversation. Get a competing process running. |
-
-The most common error is diagnosing this as "I need to apply more" when the true rate at the first stage is zero. Ten times zero is still zero. Fix the stage, then increase the volume.
-
-### Client funnel
-
-```
-Proposals sent
-   ↓  10–20% expected
-Replies
-   ↓  40–60% expected
-Calls
-   ↓  25–40% expected
-Contracts
-```
-
-| Symptom | Broken stage | The actual fix |
-|---|---|---|
-| 30 proposals, 0 replies | Proposal → reply | Positioning is too broad, or proposals are generic. Rewrite the positioning. |
-| Replies but no calls | Reply → call | Response speed, or no clear next step offered |
-| Calls but no contracts | Call → contract | Pricing, or failing to restate their problem before proposing a solution |
-| Contracts but low value | Pricing | Move from hourly to outcome pricing. Raise the rate. |
-
-## What not to measure
-
-These feel like progress and predict nothing. Some of them actively mislead.
-
-- **Hours spent.** Four hours of tutorial watching is not four hours of work. Measure completed tasks and shipped output.
-- **Chapters read.** Reading without building is roughly ten per cent effective. A chapter without a commit did not happen.
-- **Videos watched.** The most comfortable form of fake progress available.
-- **Notes taken.** Notes are a by-product. Extensive notes with no implementation is a warning sign, not an achievement.
-- **Total problems solved, unqualified.** Fifty easy problems is not progress after week 4. Count mediums.
-- **Tools set up.** Configuring your editor, trying a new note system, redesigning your workflow — all pure avoidance. It always occurs in the week the material gets hard.
-- **Followers or likes.** Post because writing clarifies thinking and because it produces inbound interest. The engagement number is not the point.
-
-If a metric can be increased without producing anything a stranger could evaluate, it is not a metric.
-
-## The one-page dashboard
-
-Keep this at the top of `LOG.md` and update it at the weekly review.
-
-```markdown
-# SCOREBOARD — updated Sat 10 Oct 2026 (Day 54 of 137)
-
-Streak:        46 working days
-Days left:     83   (72 working)
-
-ENGINEERING
-  Chapters:    34 / 145
-  Problems:    71   (44 easy · 26 medium · 1 hard)
-  Designs:     0 recorded  (starts W12)
-  Projects:    P1 deploying this week · P2 starts W15
-
-JOB HUNT
-  Applications: 22        Screens: 2      Technicals: 0     Offers: 0
-  Funnel:       app→screen 9%  ✓ healthy
-
-BUSINESS
-  Proposals:    71        Replies: 9      Calls: 3          Contracts: 1
-  Funnel:       prop→reply 13% ✓ healthy
-  Revenue:      $250
-
-IELTS
-  Mocks:        2         Predicted: L7.5 R7.0 W6.5 S7.0
-  Weakest:      Writing Task 2 — coherence
-  Exam:         14 Nov (35 days)
-
-REST
-  Sundays taken off:  6 / 6   ✓ holding
-
-THIS WEEK'S ONE PRIORITY
-  Get Writing Task 2 to Band 7 structure. Everything else is on track.
-```
-
-One page. Ten seconds to read. It tells you immediately where the problem is — in this example, writing, and nothing else.
-
-## Practical Tasks
-
-1. Copy the dashboard template into the top of `LOG.md` today, with zeros in it.
-2. Build the application tracker and the proposal tracker as two spreadsheets, with a column for every funnel stage.
-3. Put the five block-review dates in your calendar: 31 Aug, 28 Sep, 26 Oct, 16 Nov, 7 Dec, and the final on 1 Jan.
-4. Write your five daily numbers on a sticky note where you work.
-5. At the first block review, calculate your two funnel conversion rates. From then on you are steering with data rather than feeling.
+Two outcomes are acceptable in December. A signed offer is one. The other is no offer yet, plus a written eight-week plan naming the three specific gaps the interviews exposed, dated, at the same twenty-eight hours a week. What is not acceptable is arriving at 27 December without knowing which of those two you are in.
 
 ## Self Assessment
 
-- Do I know the difference between a leading and a lagging indicator, and am I managing the right one?
-- Can I name the single stage of my job funnel that is currently weakest?
-- Am I measuring anything on the "do not measure" list and mistaking it for progress?
-- Is my dashboard current, or has it not been updated in two weeks?
+- Have I created BASELINE.md and filled in every row, including the uncomfortable one?
+- Am I counting hours, or estimating them?
+- Which of the three tracks am I most likely to quietly drop when a week gets hard?
+- When I read the funnel table, which row am I currently in?
+- Have I recorded my two-minute explanation on day one? It is the single most useful thing in the file and the easiest to skip.
 
 ## Cheat Sheet
 
-- **Manage leading indicators daily. Grade lagging indicators at block boundaries.**
-- **Daily five:** tasks 3/3 · streak · ≥1 commit · 5 applications · 3 proposals
-- **Block reviews:** 31 Aug · 28 Sep · 26 Oct · 16 Nov · 7 Dec · 1 Jan
-- **Job funnel:** apply → screen 8–15% → technical 50–70% → final 40–60% → offer 25–40%
-- **Client funnel:** proposal → reply 10–20% → call 40–60% → contract 25–40%
-- **Fix the broken stage, then raise the volume. Ten times zero is zero.**
-- **Never measure:** hours · chapters read · videos · notes · tools configured · likes
+- **Seven weekly numbers:** hours worked · days with a commit · problems solved unaided · applications sent · replies and interviews · AI breaches · deliverable met.
+- **Do not count chapters read.** Inputs are not outcomes.
+- **Weekly review: Saturday 17:30–18:30.** Numbers, deliverable, milestone, three questions, read next week ahead.
+- **The most informative question is "what did I avoid?"** Avoidance points directly at the weakest skill.
+- **Milestones are pass or fail.** Redefining one to make it passable is the most common silent failure.
+- **The funnel diagnoses itself:** no replies means the CV · failed technicals mean cold coding · failed finals mean communication.
+- **Rerun every baseline in December,** side by side with day one. Skill erases the memory of its own absence.
