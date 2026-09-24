@@ -47,11 +47,12 @@ Write-Host "  Browser : $Browser"
 
 if (-not (Test-Path $Profile)) { New-Item -ItemType Directory -Path $Profile | Out-Null }
 
-# file:/// URL with forward slashes
-$Url = 'file:///' + ($Index -replace '\\', '/')
+# Proper file:/// URL — spaces in the path (e.g. "DUNYA TRADER") become %20,
+# otherwise the browser receives a truncated path and shows ERR_FILE_NOT_FOUND.
+$Url = ([System.Uri]$Index).AbsoluteUri
 
 $AppArgs = @(
-  "--app=$Url"
+  "--app=`"$Url`""
   "--user-data-dir=`"$Profile`""
   '--window-size=1500,940'
   '--no-first-run'
