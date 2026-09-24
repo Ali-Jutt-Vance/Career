@@ -55,10 +55,10 @@
  */
 
 const TRACKS = {
-  ENG:  { label: 'Engineering',   color: '#2563eb' },
-  JOB:  { label: 'Job Hunt',      color: '#dc2626' },
-  COMM: { label: 'Communication', color: '#7c3aed' },
-  REV:  { label: 'Review',        color: '#64748b' },
+  ENG:  { label: 'Engineering',   color: '#5b84b8' },
+  JOB:  { label: 'Job Hunt',      color: '#c0705a' },
+  COMM: { label: 'Communication', color: '#8f7bbf' },
+  REV:  { label: 'Review',        color: '#7f8a96' },
 };
 
 const SLOTS = {
