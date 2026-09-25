@@ -254,7 +254,7 @@
         <div class="rest-icon">☀</div>
         <h3>Day off</h3>
         <p>No tasks today. Sunday is a scheduled rest day and it is part of the plan, not a gap in it —
-           it is what makes eighteen straight weeks possible.</p>
+           it is what makes fifty straight weeks possible.</p>
         <p class="rest-note">Your streak is safe. Resting on a rest day counts as following the plan.</p>
       </div>` : `
       <div class="plan-tasks">
@@ -277,6 +277,8 @@
         </label>`).join('')}
         <div class="pt-footer">${Math.floor(day.totalMins / 60)}h ${day.totalMins % 60}m scheduled${day.dow === 'Saturday' ? ' · Saturday schedule' : ''}</div>
       </div>`}
+
+      ${renderRoutine(day)}
 
       <div class="plan-side-grid">
         <div class="plan-card">
@@ -304,6 +306,31 @@
 
     bindPlanPane();
     updateBreadcrumbForPlan(day);
+  }
+
+  /** The whole-day timetable (prayers, gym, sleep) around the plan's slots. */
+  function renderRoutine(day) {
+    const R = PLAN.routine;
+    if (!R) return '';
+    const key = day.dow === 'Sunday' ? 'sunday' : (day.dow === 'Saturday' ? 'saturday' : 'weekday');
+    const label = { weekday: 'Weekday', saturday: 'Saturday', sunday: 'Sunday' }[key];
+    const chapterId = 'phase-0-mission--the-whole-day';
+    return `
+      <div class="plan-routine">
+        <div class="pr-head">
+          <h3>Your whole day <span class="pr-kind-label">${label}</span></h3>
+          <a class="pw-chapter-link" data-chapter="${chapterId}" href="#${chapterId}">The Whole Day →</a>
+        </div>
+        ${R[key].map(r => `
+        <div class="pr-row pr-${r.kind}">
+          <span class="pr-time">${esc(r.time)}</span>
+          <span class="pr-dot"></span>
+          <div class="pr-body">
+            <div class="pr-what">${esc(r.what)}</div>
+            ${r.note ? `<div class="pr-note">${esc(r.note)}</div>` : ''}
+          </div>
+        </div>`).join('')}
+      </div>`;
   }
 
   function bindPlanPane() {

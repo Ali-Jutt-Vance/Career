@@ -1,5 +1,7 @@
 # Phase 0 — Chapter 5: The Operating System
 
+> **Updated timetable.** The budget tables below belong to an older, heavier version of the plan. The current plan is 2h on weekdays (05:00–06:30 and 13:00–13:30), 4h on Saturday and Sunday off — and your full daily timetable, with prayers, Quran, gym, park sessions and sleep, is in **Chapter 7: The Whole Day**. The reasoning in this chapter about early mornings, sleep and bad weeks still applies.
+
 > *"Motivation gets you through week one. A system gets you through week eleven."*
 
 ---

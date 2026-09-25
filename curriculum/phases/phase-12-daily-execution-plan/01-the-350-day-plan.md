@@ -254,7 +254,7 @@ This is not a moral position about AI. It is a targeted correction. Three years 
 
 ### Core and Later
 
-**136 chapters are CORE** — the ones this plan schedules. Everything else in the book is **LATER**: reference material for when a job actually needs it, and explicitly *not* something you are behind on. Kubernetes, Terraform, microservices, GraphQL, MongoDB and the rest are all real subjects and none of them will get you this job. A chapter that is not in the plan is not homework you are failing to do.
+**137 chapters are CORE** — the ones this plan schedules. Everything else in the book is **LATER**: reference material for when a job actually needs it, and explicitly *not* something you are behind on. Kubernetes, Terraform, microservices, GraphQL, MongoDB and the rest are all real subjects and none of them will get you this job. A chapter that is not in the plan is not homework you are failing to do.
 
 ## How to use this
 
@@ -286,5 +286,5 @@ At the end of every block:
 - **From Monday 26 October 2026:** applications on the weekly quota — 5, then 10, then 15 (390 total)
 - **No AI writes code until Monday 1 February 2027**
 - **DSA every Saturday, 60m, AI-free — 217 problems across the ladder**
-- **136 chapters are CORE. Everything else is LATER, and not your problem.**
+- **137 chapters are CORE. Everything else is LATER, and not your problem.**
 - **Deadline:** Saturday 11 September 2027

@@ -16,7 +16,7 @@
 
 const fs   = require('fs-extra');
 const path = require('path');
-const { TRACKS, SLOTS, ANCHORS, APPLY_QUOTA, CORE, WEEKS } = require('./plan-data');
+const { TRACKS, SLOTS, ANCHORS, APPLY_QUOTA, CORE, WEEKS, ROUTINE } = require('./plan-data');
 
 const ROOT       = path.join(__dirname, '..');
 const DATA_DIR   = path.join(ROOT, 'data');
@@ -183,6 +183,7 @@ function buildPlan() {
     core: CORE,
     tracks: TRACKS,
     slots: SLOTS,
+    routine: ROUTINE,
     blocks,
     weeks,
     days,

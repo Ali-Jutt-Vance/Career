@@ -114,6 +114,7 @@ const CORE = [
   'phase-0-mission/04-the-ai-dependency-problem',
   'phase-0-mission/05-the-operating-system',
   'phase-0-mission/06-the-scoreboard',
+  'phase-0-mission/07-the-whole-day',
   // Phase 1 — language and craft
   'phase-1-programming-foundations/01-javascript',
   'phase-1-programming-foundations/02-typescript',
@@ -281,6 +282,7 @@ const WEEKS = [
   theme: 'Three days before Week 1 begins. No theory yet — just the machine, the repository and the routine, set up so that Monday at 05:00 is spent learning and not installing things. The no-AI rule starts today.',
   chapters: [
     'phase-0-mission/01-how-to-use-this-book',
+    'phase-0-mission/07-the-whole-day',
   ],
   deliverable: 'A working machine (Node LTS, Git, VS Code, a terminal you are comfortable in), a GitHub account with a profile photo and name, and a first commit in a practice repository.',
   milestone: 'Both lead-in days done at their scheduled times, including the 05:00 start on Friday. Sunday taken off properly.',
@@ -292,7 +294,7 @@ const WEEKS = [
     { focus: 'Walk through the plan, then a first warm-up', tasks: [
       ['ENG','dawn','Skim Phase 0 Chapter 1 (How to Use This Book) — you read it properly on Monday. Then go through the Plan tab: read the Phase 12 overview chapter (The Plan) end to end, and look through Weeks 1–4 day by day. Then put the plan\'s times in your phone calendar as recurring events — 05:00–06:30 and 13:00–13:30 on weekdays, 08:00–13:00 on Saturdays.'],
       ['ENG','mid','DSA warm-up, no AI: create a LeetCode account and solve two Easy array problems (for example Two Sum and Contains Duplicate). Take up to twenty-five minutes each. This is not the baseline — that is on Tuesday. It only gets the rust off.'],
-      ['REV','late','First review: write down which setup steps were harder than they should have been, and what time you actually woke up on Friday. Get everything for Monday ready tonight — the laptop, the chapter open, the alarm set. Sunday is off.'],
+      ['REV','late','First review: write down which setup steps were harder than they should have been, and what time you actually woke up on Friday. Then read Phase 0 Chapter 7 (The Whole Day): set up your prayer-times app, gym split and phone rules, and book the urologist and dermatologist from its 30-day health checklist. Get everything for Monday ready tonight — the laptop, the chapter open, the alarm set. Sunday is off.'],
     ]},
     { focus: 'Rest day — no tasks', rest: true, tasks: [] },
   ],
@@ -2420,4 +2422,48 @@ const WEEKS = [
 
 ];
 
-module.exports = { TRACKS, SLOTS, ANCHORS, APPLY_QUOTA, CORE, WEEKS };
+/**
+ * ROUTINE — the whole day around the plan's study slots: prayers, Quran,
+ * office, gym, park, sleep. Shown in the app's Plan tab under each day's
+ * tasks. Full reasoning in Phase 0 Chapter 7 (The Whole Day).
+ * kind: study | faith | health | work | life | sleep
+ * The study rows must match SLOTS above.
+ */
+const ROUTINE = {
+  weekday: [
+    { time: '04:40',       kind: 'faith',  what: 'Wake · wudu · Fajr', note: 'Nov–Feb: Fajr starts after 05:00 — pray at 06:30' },
+    { time: '05:00–06:30', kind: 'study',  what: 'Deep Work — today\'s plan task' },
+    { time: '06:30–06:50', kind: 'faith',  what: 'Quran — recitation with translation' },
+    { time: '06:50–07:45', kind: 'life',   what: 'Shower · protein breakfast · dress' },
+    { time: '07:45–19:00', kind: 'work',   what: 'Office and travel', note: 'Dhuhr, Asr (and Maghrib in winter) at the office · audio, not feeds, on the commute' },
+    { time: '13:00–13:30', kind: 'study',  what: 'Job / English — today\'s lunch task', note: 'Dhuhr and lunch in the rest of the break' },
+    { time: '19:00–20:00', kind: 'health', what: 'Gym', note: 'Mon push · Tue legs · Wed pull · Thu legs + core · Fri full body · pray Maghrib first if it is in' },
+    { time: '20:20',       kind: 'faith',  what: 'Home · shower · Isha' },
+    { time: '20:30–21:00', kind: 'life',   what: 'Dinner — protein and vegetables' },
+    { time: '21:00–21:20', kind: 'life',   what: 'Family time — no screens' },
+    { time: '21:20–21:35', kind: 'life',   what: 'Tomorrow ready · 5-min muhasaba · phone out of the bedroom' },
+    { time: '21:45',       kind: 'sleep',  what: 'Sleep' },
+  ],
+  saturday: [
+    { time: '05:00',       kind: 'faith',  what: 'Wake · Fajr' },
+    { time: '05:20–05:45', kind: 'faith',  what: 'Quran' },
+    { time: '06:00–07:15', kind: 'health', what: 'Park — brisk walk, easy jog, stretching' },
+    { time: '08:00–13:00', kind: 'study',  what: 'Deep Build · DSA Drill · Review + Apply — today\'s plan tasks' },
+    { time: '13:00',       kind: 'faith',  what: 'Dhuhr · lunch · short nap' },
+    { time: 'Afternoon',   kind: 'life',   what: 'Errands, barber, groceries, prepare the week' },
+    { time: '17:00–18:00', kind: 'life',   what: 'Money and business hour' },
+    { time: 'Evening',     kind: 'life',   what: 'Family, friends · 2 episodes max, chosen in advance' },
+    { time: '22:00',       kind: 'sleep',  what: 'Sleep' },
+  ],
+  sunday: [
+    { time: '05:00',       kind: 'faith',  what: 'Wake · Fajr' },
+    { time: '05:20–06:00', kind: 'faith',  what: 'Quran with tafsir — the long session' },
+    { time: '06:15–07:45', kind: 'health', what: 'Long park session — walk, jog or intervals, bodyweight, mobility' },
+    { time: '12:00–12:50', kind: 'life',   what: 'Weekly planning + money review' },
+    { time: 'Afternoon',   kind: 'life',   what: 'Rest, family, relatives, friends' },
+    { time: 'Evening',     kind: 'life',   what: 'Prepare the week — clothes, gym bag, meals' },
+    { time: '21:45',       kind: 'sleep',  what: 'Sleep — Monday starts at 04:40' },
+  ],
+};
+
+module.exports = { TRACKS, SLOTS, ANCHORS, APPLY_QUOTA, CORE, WEEKS, ROUTINE };

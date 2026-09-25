@@ -22,6 +22,7 @@ Three days before Week 1 begins. No theory yet — just the machine, the reposit
 **Chapters this week:**
 
 - [How To Use This Book](#phase-0-mission--how-to-use-this-book)
+- [The Whole Day](#phase-0-mission--the-whole-day)
 
 **Deliverable:** A working machine (Node LTS, Git, VS Code, a terminal you are comfortable in), a GitHub account with a profile photo and name, and a first commit in a practice repository.
 
@@ -48,7 +49,7 @@ Three days before Week 1 begins. No theory yet — just the machine, the reposit
 |---|---|---|
 | `08:00–10:00` | **Engineering** | Skim Phase 0 Chapter 1 (How to Use This Book) — you read it properly on Monday. Then go through the Plan tab: read the Phase 12 overview chapter (The Plan) end to end, and look through Weeks 1–4 day by day. Then put the plan's times in your phone calendar as recurring events — 05:00–06:30 and 13:00–13:30 on weekdays, 08:00–13:00 on Saturdays. |
 | `10:30–11:30` | **Engineering** | DSA warm-up, no AI: create a LeetCode account and solve two Easy array problems (for example Two Sum and Contains Duplicate). Take up to twenty-five minutes each. This is not the baseline — that is on Tuesday. It only gets the rust off. |
-| `12:00–13:00` | **Review** | First review: write down which setup steps were harder than they should have been, and what time you actually woke up on Friday. Get everything for Monday ready tonight — the laptop, the chapter open, the alarm set. Sunday is off. |
+| `12:00–13:00` | **Review** | First review: write down which setup steps were harder than they should have been, and what time you actually woke up on Friday. Then read Phase 0 Chapter 7 (The Whole Day): set up your prayer-times app, gym split and phone rules, and book the urologist and dermatologist from its 30-day health checklist. Get everything for Monday ready tonight — the laptop, the chapter open, the alarm set. Sunday is off. |
 
 *Total: 4h 0m*
 
