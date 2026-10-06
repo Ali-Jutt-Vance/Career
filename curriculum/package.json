@@ -1,7 +1,7 @@
 {
   "name": "career-book",
   "version": "2.0.0",
-  "description": "Career Book — Software Engineering Mastery. 145 chapters, a dated 137-day execution plan, and a desktop reader app.",
+  "description": "Career Book — Software Engineering Mastery. 96 core chapters, a dated 252-day execution plan, and a desktop reader app.",
   "scripts": {
     "build": "node build.js",
     "build:all": "node build.js --all",

@@ -22,3 +22,6 @@ $RECYCLE.BIN/
 
 # Local-only Claude Code permissions
 .claude/settings.local.json
+
+# Business data with contact details — keep off this public repo
+*.xlsx

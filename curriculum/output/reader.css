@@ -733,6 +733,23 @@ body {
 :root[data-theme="dark"] .top-bar,
 :root[data-theme="dark"] .sidebar { background: var(--bg-sidebar); }
 
+/* reader.css hardcodes light surfaces — re-point them at theme tokens. */
+:root[data-theme="dark"] .menu-btn,
+:root[data-theme="dark"] .nav-btn,
+:root[data-theme="dark"] .view-toggle,
+:root[data-theme="dark"] .qa-block,
+:root[data-theme="dark"] .qa-question { background: var(--bg-content); color: var(--ink-soft); border-color: var(--border); }
+:root[data-theme="dark"] .nav-btn:hover:not(:disabled),
+:root[data-theme="dark"] .view-toggle:hover,
+:root[data-theme="dark"] .qa-question:hover { background: var(--accent-soft); color: var(--accent-hover); border-color: var(--accent); }
+:root[data-theme="dark"] .chapter-pane :not(pre) > code { background: var(--accent-soft); }
+:root[data-theme="dark"] .chapter-pane pre code { background: transparent; }
+:root[data-theme="dark"] .interview-section-header { background: linear-gradient(135deg, #1e2637 0%, #1a2a24 100%); }
+:root[data-theme="dark"] .chapter-pane tbody tr:nth-child(even) { background: rgba(255,255,255,.03); }
+:root[data-theme="dark"] .chapter-pane blockquote { background: var(--accent-soft); }
+:root[data-theme="dark"] .chapter-link .iq-badge { background: #3a2f12; color: #fcd34d; }
+:root[data-theme="dark"] .plan-hero { background: linear-gradient(135deg, #1f3a68 0%, #2c4f8a 100%); }
+
 .icon-btn { min-width: 34px; padding: 4px 8px; font-weight: 600; }
 
 /* ── Plan pane ──────────────────────────────────────────── */
