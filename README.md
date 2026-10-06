@@ -25,7 +25,7 @@ browsing. The app opens on **today's plan** every time.
 
 Zero to backend expert, in the specific shape a three-year backend developer is hired at.
 
-**Frontend is demoted on purpose.** Two weeks, late (W46–W47), and only far enough to put
+**Frontend is demoted on purpose.** One week, late (W25), and only far enough to put
 a usable interface on your own APIs and not be helpless when a full-stack interviewer
 asks. The frontend chapters stay in the book as reference. They are not the skill, and
 the plan no longer pretends they are.
@@ -39,22 +39,23 @@ scheduled, and held to a depth target.
 
 | | Before | Now |
 |---|---|---|
-| Span | 252 days · 36 weeks | **350 days · 50 weeks** (21 Sep 2026 → 5 Sep 2027) |
-| Total work | 504 hours | **700 hours** |
-| Core chapters | 96, frontend on the critical path | **134, backend-shaped** |
+| Span | 252 days · 36 weeks | **188 days · 27 weeks** (21 Sep 2026 → 27 Mar 2027), 30h/week from 7 Oct |
+| Total work | 504 hours | **769 hours** |
+| Core chapters | 96, frontend on the critical path | **137, backend-shaped** |
 | NestJS | one week | **a seven-week block** |
 | Databases | 9 weeks, SQL only | **9 weeks, SQL + MongoDB + scaling** |
 | Jenkins, Prometheus, Grafana, queues, brokers, Redis, MCP | Later | **Core** |
-| Frontend | 6 weeks, critical path | **2 weeks, late, "passable"** |
+| Frontend | 6 weeks, critical path | **1 week, late, "passable"** |
 | Projects | 2 | **3** |
 
 Two chapters that did not exist have been written: **Jenkins** (Phase 5 Ch 16) and
 **Testing** (Phase 9 Ch 5).
 
-> **Note on dates.** The plan starts **Monday 21 September 2026**. If you worked through
-> 7–19 September under an older schedule, weeks 1–3 cover that ground again at half the
-> pace — treat it as revision, or skip ahead. Redo BASELINE.md either way: the end of this
-> plan is measured against it.
+> **Note on dates.** The plan starts **Monday 21 September 2026**. Weeks 1–3 run at the
+> original 14 hours a week; from **Wednesday 7 October 2026** the plan runs at 30 hours a
+> week and closes on **Saturday 27 March 2027**. Sunday 11 October is a one-off catch-up day
+> for anything left from weeks 1–3. Redo BASELINE.md either way: the end of this plan is
+> measured against it.
 
 ---
 
@@ -101,14 +102,14 @@ and the Plan tab shows that routine under every day's tasks.
 
 ## The rule that makes it work
 
-**For the first eighteen weeks, no AI writes code for you.** Not a line.
+**Until 1 December 2026, no AI writes code for you.** Not a line.
 
 Documentation is allowed. This book is allowed. Asking an AI to *explain a concept* is
 allowed **after** twenty minutes of genuine attempt. Generated code is not.
 
-On **25 January 2027** it comes back permanently, under one clause: *you must be able to
+On **1 December 2026** it comes back permanently, under one clause: *you must be able to
 explain, unaided, every line of code in your repository.* Reviewer and teacher, never
-author. The Saturday drill stays AI-free for all fifty weeks, because interviews are.
+author. The weekend drill stays AI-free for the whole plan, because interviews are.
 
 Three years of outsourced thinking is the hole this plan digs you out of, and you cannot
 dig out of it with a shovel that digs for you. Phase 0 Chapter 4 is the argument.
@@ -119,10 +120,10 @@ dig out of it with a shovel that digs for you. Phase 0 Chapter 4 is the argument
 
 | | |
 |---|---|
-| **134 core chapters** | held to a depth target · the rest is reference |
-| **350 days** | 21 Sep 2026 → 5 Sep 2027 — **300 working, 50 rest** |
-| **650 tasks** | **700 hours**, three tracks in parallel |
-| **50 weeks** | 10 blocks, each with a deliverable and a pass/fail milestone |
+| **137 core chapters** | held to a depth target · the rest is reference |
+| **188 days** | 21 Sep 2026 → 27 Mar 2027 — **186 working, 2 rest** |
+| **765 tasks** | **769 hours**, three tracks in parallel |
+| **27 weeks** | 10 blocks, each with a deliverable and a pass/fail milestone |
 | **390 applications** | on a ramping weekly quota |
 | **3 projects** | Express API · NestJS service · retrieval service |
 
@@ -144,7 +145,7 @@ dig out of it with a shovel that digs for you. Phase 0 Chapter 4 is the argument
 ### The three tracks, every working day
 
 - **Engineering** — chapters, and code you wrote yourself. Three shipped, deployed services.
-- **Job Hunt** — CV, GitHub, applications from **19 October**, referrals, interviews, offers
+- **Job Hunt** — CV, GitHub, applications from **17 October**, referrals, interviews, offers
 - **Communication** — English, explaining your work, thinking out loud, negotiation
 
 ---
@@ -231,11 +232,11 @@ before a call.
 
 ## The eight rules
 
-1. **The dawn block is untouchable.** 05:00–06:30, every working day.
-2. **No AI writes code until 25 January 2027.** Documentation yes. Generated code no.
+1. **The dawn block is untouchable.** After Fajr and the Quran, every weekday.
+2. **No AI writes code until 1 December 2026.** Documentation yes. Generated code no.
 3. **Commit publicly every day.** A day with no commit did not happen.
 4. **Twenty minutes before you look anything up.** Most of the time you solve it in eight.
-5. **Start applying before you feel ready.** 19 October, regardless.
+5. **Start applying before you feel ready.** 17 October, regardless.
 6. **Miss one day, fine. Miss two, diagnose.** Never catch up — resume on today.
 7. **Milestones are pass or fail.** "Mostly" is a no.
 8. **Ignore everything marked LATER.** If it is not in the week you are on, it is not
@@ -244,7 +245,7 @@ before a call.
 When you fall behind: **cut breadth, preserve depth.** Drop the reference reading, keep
 the building and the job hunt.
 
-The risk in a sixteen-week plan is burnout. The risk in a fifty-week plan is drift —
+The risk in a sixteen-week plan is burnout. The risk in a six-month plan is drift —
 weeks that pass without anything shipping. That is what the weekly milestone is for, and
 why it is pass or fail.
 
@@ -260,7 +261,7 @@ cd curriculum
 npm run build          # plan + reader + smoke test    (~12s)
 npm run build:all      # + PDF + icon + shortcut
 npm run pdf            # include the PDF render        (slow)
-npm run plan           # regenerate the 350-day plan only
+npm run plan           # regenerate the plan only
 npm run test           # smoke-test the reader in a real browser
 npm run install:app    # recreate the Desktop shortcut
 node plan/audit.js     # chapter-depth audit → EXPANSION-STATUS.md
@@ -291,10 +292,10 @@ curriculum/
 scheduled in a week must be in `CORE` or the build fails — deliberately, so breadth
 cannot creep back one week at a time.
 
-The build **asserts** on every run: 350 continuous days starting on a Monday, 50 Sundays
-off with zero tasks, weekdays exactly 120 minutes and Saturdays exactly 240, every week at
-exactly 14h, every week carrying a review, applications opening on Monday 19 October with
-a quota from that week on and none before, every anchor inside the plan, and every chapter
+The build **asserts** on every run: 188 continuous days from Monday 21 September 2026,
+weekdays exactly 240 minutes and weekend days exactly 300 from 7 October, every full week
+at exactly 30h with no authored task lost, every week carrying a review, applications
+opening on Saturday 17 October, every anchor inside the plan, and every chapter
 reference resolving to a real file that is in `CORE`. If any of that breaks, the build
 fails. Browser smoke checks then drive the built app for real.
 

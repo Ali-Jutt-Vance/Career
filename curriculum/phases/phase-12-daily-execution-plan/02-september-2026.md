@@ -40,7 +40,7 @@ Nothing improves until it is measured honestly. This week you write down exactly
 | Time | Track | Task |
 |---|---|---|
 | `05:00–06:30` | **Engineering** | Read Phase 0 Chapter 1 (How to Use This Book) and Chapter 2 (The Mission) end to end. Then start Chapter 4 (The AI Dependency Problem) — it is about you, and it is not an insult. |
-| `13:00–13:30` | **Job Hunt** | Open BASELINE.md. Write three things: your current title and salary, the title and salary you want by 4 September 2027, and one honest paragraph naming what you personally built in three years versus what an AI built for you. Nobody else reads this. Lying here costs you the plan. |
+| `13:00–13:30` | **Job Hunt** | Open BASELINE.md. Write three things: your current title and salary, the title and salary you want by 27 March 2027, and one honest paragraph naming what you personally built in three years versus what an AI built for you. Nobody else reads this. Lying here costs you the plan. |
 
 *Total: 2h 0m*
 

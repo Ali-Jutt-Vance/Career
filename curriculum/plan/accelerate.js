@@ -196,15 +196,18 @@ function accelerate(legacyDays) {
     const y = year ? Number(year) : m >= 8 ? 2026 : 2027;
     return iso(new Date(Date.UTC(y, m, Number(day))));
   };
+  // A weekday written before the date ("Saturday 19 December") is recomputed,
+  // because a date that moves usually lands on a different day of the week.
   const remap = (text) =>
-    text.replace(/\b(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December)( (\d{4}))?/g,
-      (all, d, mon, _y, y) => {
+    text.replace(/\b(?:(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) )?(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December)( (\d{4}))?/g,
+      (all, dow, d, mon, _y, y) => {
         const to = oldToNew.get(oldISOFromText(d, mon, y));
         if (!to) return all;
         const nd = parse(to);
-        return `${nd.getUTCDate()} ${MONTH[nd.getUTCMonth()]}${y ? ' ' + nd.getUTCFullYear() : ''}`;
+        return `${dow ? DOW[nd.getUTCDay()] + ' ' : ''}${nd.getUTCDate()} ${MONTH[nd.getUTCMonth()]}${y ? ' ' + nd.getUTCFullYear() : ''}`;
       });
-  for (const d of days) for (const t of d.tasks) t.text = remap(t.text);
+  // Kept days too: they can point forward (Day 1 names the final deadline).
+  for (const d of [...kept, ...days]) for (const t of d.tasks) t.text = remap(t.text);
 
   const anchors = { ...ANCHORS };
   for (const [k, v] of Object.entries(ANCHORS)) if (oldToNew.has(v)) anchors[k] = oldToNew.get(v);

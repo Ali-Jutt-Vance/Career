@@ -215,7 +215,7 @@ Money is a tool for the life above, not the goal itself. Keep it halal, keep it 
 
 | Age | Period | Career | Money | Health & life |
 |---|---|---|---|---|
-| **24** | Sep 2026 – Sep 2027 | This book. Backend job at 3–5× salary. | Track every rupee. Build a **3-month emergency fund**. No new debt. | Diagnose and start treating the health concerns. Gym habit fixed. Digital rules held. |
+| **24** | Sep 2026 – Mar 2027 | This book — the plan closes 27 March 2027. Backend job at 3–5× salary. | Track every rupee. Build a **3-month emergency fund**. No new debt. | Diagnose and start treating the health concerns. Gym habit fixed. Digital rules held. |
 | **25** | 2027 – 2028 | Excel in the new job. Aim for a raise or a remote role. | Save **30–40%** of income. **6-month emergency fund.** Start investing in Shariah-compliant mutual funds and gold, monthly. | Retests show progress. Strength and fitness clearly up. |
 | **26** | 2028 – 2029 | Senior-level skills. Start a **small side business or freelancing** to learn selling, clients and delivery. | Buy a **car in cash**, not on interest. | Keep the routine; it is now automatic. |
 | **27** | 2029 – 2030 | Grow the side business if it is working; drop it and try the next if not. | Savings for the wedding and the first year of marriage. | Health confirmed with your doctors before marriage. |

@@ -10,10 +10,10 @@ This chapter covers weeks 6, 7, 8, 9, 10, 11 of the 27-week plan. Every day belo
 |---|---|---|---|---|---|---|
 | **W6** | 01 Nov – 01 Nov | 30h | 6 | Sliding window — variable size → Strings — parsing & building | The Node Runtime — Modules, npm, Process + Node Internals — Event Loop Phases, Streams, Buffers | You can explain module resolution, the difference between CommonJS and ESM, and what an unhandled rejection does to a Node process. · AND: You can name the event loop phases in order, explain what runs in the thread pool and what does not, and demonstrate backpressure with code you wrote. |
 | **W7** | 02 Nov – 08 Nov | 30h | 6 | Strings — anagrams & palindromes → Prefix sums | Express — Routing, Middleware, the Request Lifecycle + REST API Design a Reviewer Would Approve | You can draw the path of a request through an Express app from memory, including where errors go and why middleware order is not cosmetic. · AND: You can defend every status code your API returns, and explain cursor versus offset pagination and when each breaks. |
-| **W8** | 09 Nov – 15 Nov | 30h | 8 | Matrix traversal → Stacks — monotonic & matching | Validation, Error Handling, Logging + Deploy It — The API Goes Public | You can trace a single request end to end through your logs by its id, and you can explain the difference between an operational error and a programmer error. · AND: ANCHOR — the API is reachable from the public internet on Saturday 15 November. Application quota rises to five a week because the CV now points at something running. |
+| **W8** | 09 Nov – 15 Nov | 30h | 8 | Matrix traversal → Stacks — monotonic & matching | Validation, Error Handling, Logging + Deploy It — The API Goes Public | You can trace a single request end to end through your logs by its id, and you can explain the difference between an operational error and a programmer error. · AND: ANCHOR — the API is reachable from the public internet on Sunday 15 November. Application quota rises to five a week because the CV now points at something running. |
 | **W9** | 16 Nov – 22 Nov | 30h | 10 | Queues & deques → Linked lists — traversal & reversal | SQL I — Selects, Joins, Thinking in Sets + SQL II — Window Functions and the Hard Queries | You can write a three-table join with grouping and a having clause from a blank editor, first try, without looking up the syntax. · AND: You can produce a per-group top-N query and a running total with a window function, from memory, and explain what the frame clause does. |
 | **W10** | 23 Nov – 29 Nov | 30h | 10 | Linked lists — cycle & merge → Binary search — exact match | Schema Design and Normalization + PostgreSQL in Depth | Given a described business problem you can produce a normalised schema on paper in twenty minutes and defend each decision. · AND: You can use psql without a GUI, and you can explain why timestamptz and numeric exist and what goes wrong without them. |
-| **W11** | 30 Nov – 30 Nov | 30h | 10 | Binary search — on the answer → Sorting — custom comparators | Indexes and Query Plans + Transactions and Concurrency — and AI Comes Back | You can read an EXPLAIN ANALYZE plan, say which line is the problem, and predict whether an index will help before you create it. · AND: ANCHOR — AI unlocked on Monday 1 December, as reviewer and teacher, never author. And you can describe a race condition you personally reproduced. |
+| **W11** | 30 Nov – 30 Nov | 30h | 10 | Binary search — on the answer → Sorting — custom comparators | Indexes and Query Plans + Transactions and Concurrency — and AI Comes Back | You can read an EXPLAIN ANALYZE plan, say which line is the problem, and predict whether an index will help before you create it. · AND: ANCHOR — AI unlocked on Tuesday 1 December, as reviewer and teacher, never author. And you can describe a race condition you personally reproduced. |
 
 ---
 
@@ -190,7 +190,7 @@ A deployed thing you can link to changes every conversation you have from here o
 
 **Deliverable:** Project 1 with schema validation on every input, a real error taxonomy with custom error classes, and structured logging where a request id flows through every log line for one request. · ALSO: PROJECT 1 API DEPLOYED at a public URL over HTTPS, with a health check, environment-based configuration, and a README a stranger can follow.
 
-**Milestone:** You can trace a single request end to end through your logs by its id, and you can explain the difference between an operational error and a programmer error. · AND: ANCHOR — the API is reachable from the public internet on Saturday 15 November. Application quota rises to five a week because the CV now points at something running.
+**Milestone:** You can trace a single request end to end through your logs by its id, and you can explain the difference between an operational error and a programmer error. · AND: ANCHOR — the API is reachable from the public internet on Sunday 15 November. Application quota rises to five a week because the CV now points at something running.
 
 **Applications this week:** 8
 
@@ -536,7 +536,7 @@ Transactions separate a developer from an engineer in a backend interview. Two u
 
 **Deliverable:** A written before-and-after for five queries you indexed, with the EXPLAIN ANALYZE output for each and the timing difference. · ALSO: week-19/ containing a demonstrated lost-update race condition and three different correct fixes, each with the SQL and a written explanation of its trade-off.
 
-**Milestone:** You can read an EXPLAIN ANALYZE plan, say which line is the problem, and predict whether an index will help before you create it. · AND: ANCHOR — AI unlocked on Monday 1 December, as reviewer and teacher, never author. And you can describe a race condition you personally reproduced.
+**Milestone:** You can read an EXPLAIN ANALYZE plan, say which line is the problem, and predict whether an index will help before you create it. · AND: ANCHOR — AI unlocked on Tuesday 1 December, as reviewer and teacher, never author. And you can describe a race condition you personally reproduced.
 
 **Applications this week:** 10
 

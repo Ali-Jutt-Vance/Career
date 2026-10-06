@@ -2358,7 +2358,7 @@ const WEEKS = [
     'phase-10-english-communication/09-interview-under-pressure',
   ],
   deliverable: 'Four designs produced under a clock on one page each, a written script for the first five minutes of any design round, and at least three mock interviews with real people with written feedback.',
-  milestone: 'ANCHOR — first mock with a real person on Monday 16 August. Three mocks done by Saturday, feedback written down and acted on.',
+  milestone: 'ANCHOR — first mock with a real person on Monday 23 August. Three mocks done by Saturday, feedback written down and acted on.',
   d: [
     { focus: 'ANCHOR — mock 1, and the answer structure', tasks: [
       ['ENG','dawn','MOCK 1 — coding, with a real person. A friend, a peer, a paid interviewer. Live, watched, timed. It will be worse than practising alone and that is the entire reason to do it. Get written feedback.'],

@@ -3,8 +3,9 @@
  *   1. data/plan.json                             (consumed by the reader app)
  *   2. phases/phase-12-daily-execution-plan/*.md   (part of the book)
  *
- * One budget, no regimes: 2h Mon–Fri, 4h Saturday, Sunday off. 14h a week,
- * fifty weeks, 21 September 2026 → 5 September 2027.
+ * Weeks 1–3 (from 21 September 2026) keep the original budget: 2h Mon–Fri,
+ * 4h Saturday, Sunday off. From 7 October 2026 plan/accelerate.js repacks the
+ * rest at 30h a week; the plan closes on 27 March 2027.
  *
  * Weeks run Monday → Sunday. Day specs are authored in calendar order, six
  * per week; the Sunday rest day is appended automatically.
