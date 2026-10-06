@@ -254,7 +254,7 @@
         <div class="rest-icon">☀</div>
         <h3>Day off</h3>
         <p>No tasks today. Sunday is a scheduled rest day and it is part of the plan, not a gap in it —
-           it is what makes fifty straight weeks possible.</p>
+           it is what keeps the whole plan sustainable.</p>
         <p class="rest-note">Your streak is safe. Resting on a rest day counts as following the plan.</p>
       </div>` : `
       <div class="plan-tasks">

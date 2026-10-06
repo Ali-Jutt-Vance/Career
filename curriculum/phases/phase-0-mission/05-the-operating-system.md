@@ -1,6 +1,6 @@
 # Phase 0 — Chapter 5: The Operating System
 
-> **Updated timetable.** The budget tables below belong to an older, heavier version of the plan. The current plan is 2h on weekdays (05:00–06:30 and 13:00–13:30), 4h on Saturday and Sunday off — and your full daily timetable, with prayers, Quran, gym, park sessions and sleep, is in **Chapter 7: The Whole Day**. The reasoning in this chapter about early mornings, sleep and bad weeks still applies.
+> **Updated timetable.** The budget tables below belong to an older version of the plan. Since 7 October 2026 the plan runs at 30 hours a week — 4h on weekdays (deep work after Fajr and Quran, office study 10:00–11:00 and 16:00–17:00, English 21:30–22:00) and 5h on Saturday and Sunday — and your full daily timetable, with prayers, Quran, gym, park sessions and sleep, is in **Chapter 7: The Whole Day**. The reasoning in this chapter about early mornings, sleep and bad weeks still applies.
 
 > *"Motivation gets you through week one. A system gets you through week eleven."*
 

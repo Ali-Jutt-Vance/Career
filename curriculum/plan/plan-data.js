@@ -1,5 +1,5 @@
 /**
- * THE BACKEND MASTERY PLAN — 25 September 2026 → 12 September 2027
+ * THE BACKEND MASTERY PLAN — 21 September 2026 → 5 September 2027
  * ===============================================================
  *
  * Built for: three years at a small company, very little real coding, AI writing
@@ -41,7 +41,7 @@
  *
  * THE RULE: for the first eighteen weeks, no AI writes code for you. Not a line.
  * Documentation yes; asking an AI to *explain* after twenty minutes of genuine
- * attempt, yes. Generated code, no. From 1 February AI returns as a reviewer and
+ * attempt, yes. Generated code, no. From 25 January AI returns as a reviewer and
  * a rubber duck, never as an author.
  *
  * THREE PROJECTS, each one the previous one's argument taken further:
@@ -74,18 +74,56 @@ const SLOTS = {
   rest: [],
 };
 
-/** Anchor dates the whole plan bends around. These do not move. */
+/**
+ * THE ACCELERATED TIMETABLE — from CUTOVER on, 30 hours a week.
+ *
+ *   WEEKDAY (4h)                              SATURDAY & SUNDAY (5h each)
+ *     After Fajr + Quran     Deep Work   90m     10:00–12:00  Deep Build       120m
+ *     10:00–11:00 + 16:00–17:00 Office  120m     12:30–13:30  DSA Drill         60m
+ *     21:30–22:00  English (after gym)   30m     14:00–15:00  Review            60m
+ *                                                15:30–16:30  Apply / Catch-up  60m
+ *
+ * The dawn block has no fixed clock time: it starts after Fajr, the prayer and
+ * thirty minutes of Quran, so it moves with Fajr through the year.
+ *
+ * Nothing is rewritten. build-plan.js repacks the authored days that fall on or
+ * after CUTOVER: each new weekday carries two old weekdays' work, each weekend
+ * day one old Saturday — two old weeks per new week, so the 50-week plan
+ * finishes in about half the time. CATCH_UP is a one-off Sunday to clear
+ * anything left from the first three weeks.
+ */
+const CUTOVER  = '2026-10-07';
+const CATCH_UP = '2026-10-11';
+
+const SLOTS_V2 = {
+  weekday: [
+    { id: 'dawn',   time: 'After Fajr + Quran',        mins: 90,  name: 'Deep Work' },
+    { id: 'office', time: '10:00–11:00 + 16:00–17:00', mins: 120, name: 'Office Study' },
+    { id: 'eve',    time: '21:30–22:00',               mins: 30,  name: 'English (after gym)' },
+  ],
+  weekend: [
+    { id: 'build',  time: '10:00–12:00', mins: 120, name: 'Deep Build' },
+    { id: 'drill',  time: '12:30–13:30', mins: 60,  name: 'DSA Drill' },
+    { id: 'review', time: '14:00–15:00', mins: 60,  name: 'Review' },
+    { id: 'extra',  time: '15:30–16:30', mins: 60,  name: 'Apply / Catch-up' },
+  ],
+};
+
+/**
+ * Anchor dates of the original 50-week plan. build-plan.js moves each one to
+ * the date its work lands on in the accelerated timetable.
+ */
 const ANCHORS = {
-  start:       '2026-09-25',  // Day 1 — the lead-in (Week 0)
-  cvReady:     '2026-10-24',  // CV, LinkedIn and GitHub finished — the gate
-  applyStart:  '2026-10-26',  // Applications open, on a weekly quota
-  apiLive:     '2026-12-26',  // Project 1 API deployed at a public URL
-  aiUnlock:    '2027-02-01',  // AI allowed back — as reviewer, never as author
-  project1:    '2027-02-27',  // Project 1 complete: full data layer, SQL + NoSQL
-  project2:    '2027-05-15',  // Project 2 live: NestJS, queues, Redis, tested
-  project3:    '2027-08-07',  // Project 3 live: retrieval service, measured
-  mockStart:   '2027-08-30',  // First mock interview with a real person
-  deadline:    '2027-09-11',  // Final review — the plan closes
+  start:       '2026-09-21',  // Day 1
+  cvReady:     '2026-10-17',  // CV, LinkedIn and GitHub finished — the gate
+  applyStart:  '2026-10-19',  // Applications open, on a weekly quota
+  apiLive:     '2026-12-19',  // Project 1 API deployed at a public URL
+  aiUnlock:    '2027-01-25',  // AI allowed back — as reviewer, never as author
+  project1:    '2027-02-20',  // Project 1 complete: full data layer, SQL + NoSQL
+  project2:    '2027-05-08',  // Project 2 live: NestJS, queues, Redis, tested
+  project3:    '2027-07-31',  // Project 3 live: retrieval service, measured
+  mockStart:   '2027-08-23',  // First mock interview with a real person
+  deadline:    '2027-09-04',  // Final review — the plan closes
 };
 
 /**
@@ -273,33 +311,6 @@ const WEEKS = [
 // is a Nest user. No AI writes a line of code in this block.
 // ══════════════════════════════════════════════════════════════════
 {
-  // WEEK 0 — the lead-in. The plan starts on Friday 25 September, so the
-  // first calendar week is short: Friday, Saturday, and Sunday off. It sets
-  // up the tools and the habit so that Week 1 opens on Monday already moving.
-  n: 0, block: 'I — Foundations', leadIn: true,
-  dsa: { topic: 'Warm-up — arrays', problems: 2 },
-  title: 'The Lead-In: Tools, Repository, and the First Early Morning',
-  theme: 'Three days before Week 1 begins. No theory yet — just the machine, the repository and the routine, set up so that Monday at 05:00 is spent learning and not installing things. The no-AI rule starts today.',
-  chapters: [
-    'phase-0-mission/01-how-to-use-this-book',
-    'phase-0-mission/07-the-whole-day',
-  ],
-  deliverable: 'A working machine (Node LTS, Git, VS Code, a terminal you are comfortable in), a GitHub account with a profile photo and name, and a first commit in a practice repository.',
-  milestone: 'Both lead-in days done at their scheduled times, including the 05:00 start on Friday. Sunday taken off properly.',
-  d: [
-    { focus: 'Set up the machine — before anything else', tasks: [
-      ['ENG','dawn','Install Node.js LTS, Git and VS Code. Configure git user.name and user.email. From a terminal, check that node -v, npm -v and git --version all work. Create a folder called practice, run git init, add a README.md with one line, and commit it. No AI — use the official install pages.'],
-      ['JOB','lunch','Log in to GitHub (create an account if needed). Set a real profile photo, your full name and your city. This profile is going to be read by recruiters in a month, so it starts looking professional today.'],
-    ]},
-    { focus: 'Walk through the plan, then a first warm-up', tasks: [
-      ['ENG','dawn','Skim Phase 0 Chapter 1 (How to Use This Book) — you read it properly on Monday. Then go through the Plan tab: read the Phase 12 overview chapter (The Plan) end to end, and look through Weeks 1–4 day by day. Then put the plan\'s times in your phone calendar as recurring events — 05:00–06:30 and 13:00–13:30 on weekdays, 08:00–13:00 on Saturdays.'],
-      ['ENG','mid','DSA warm-up, no AI: create a LeetCode account and solve two Easy array problems (for example Two Sum and Contains Duplicate). Take up to twenty-five minutes each. This is not the baseline — that is on Tuesday. It only gets the rust off.'],
-      ['REV','late','First review: write down which setup steps were harder than they should have been, and what time you actually woke up on Friday. Then read Phase 0 Chapter 7 (The Whole Day): set up your prayer-times app, gym split and phone rules, and book the urologist and dermatologist from its 30-day health checklist. Get everything for Monday ready tonight — the laptop, the chapter open, the alarm set. Sunday is off.'],
-    ]},
-    { focus: 'Rest day — no tasks', rest: true, tasks: [] },
-  ],
-},
-{
   n: 1, block: 'I — Foundations',
   dsa: { topic: 'Arrays & hashing', problems: 3 },
   title: 'The Honest Audit, and JavaScript You Actually Understand',
@@ -316,7 +327,7 @@ const WEEKS = [
   d: [
     { focus: 'The audit — write down where you really are', tasks: [
       ['ENG','dawn','Read Phase 0 Chapter 1 (How to Use This Book) and Chapter 2 (The Mission) end to end. Then start Chapter 4 (The AI Dependency Problem) — it is about you, and it is not an insult.'],
-      ['JOB','lunch','Open BASELINE.md. Write three things: your current title and salary, the title and salary you want by 11 September 2027, and one honest paragraph naming what you personally built in three years versus what an AI built for you. Nobody else reads this. Lying here costs you the plan.'],
+      ['JOB','lunch','Open BASELINE.md. Write three things: your current title and salary, the title and salary you want by 4 September 2027, and one honest paragraph naming what you personally built in three years versus what an AI built for you. Nobody else reads this. Lying here costs you the plan.'],
     ]},
     { focus: 'The coding baseline — three problems, no help', tasks: [
       ['ENG','dawn','Create the GitHub repository backend-mastery (public). Add LOG.md and BASELINE.md, commit, push. Then the coding baseline: three LeetCode Easy problems, twenty-five minutes each, no AI, no searching beyond language documentation. Record how many you finished unaided. If the answer is zero, write zero.'],
@@ -392,6 +403,7 @@ const WEEKS = [
     'phase-1-programming-foundations/01-javascript',
     'phase-1-programming-foundations/10-clean-code',
     'phase-10-english-communication/01-speaking-about-your-work',
+    'phase-0-mission/07-the-whole-day',
   ],
   deliverable: 'week-03/ containing an order-analysis script built with map/filter/reduce, and a written record of four bugs you introduced deliberately and fixed using only the debugger.',
   milestone: 'You can use reduce correctly from memory, and you can set a breakpoint, step into a call, and read the call stack without looking anything up.',
@@ -435,7 +447,7 @@ const WEEKS = [
     'phase-11-job-hunt-pakistan/08-portfolio-and-personal-brand',
   ],
   deliverable: 'CV version one as a real PDF, a rewritten LinkedIn profile, a GitHub profile with a README and no empty repositories, and week-04/ with hand-written promise exercises.',
-  milestone: 'GATE — CV, LinkedIn and GitHub finished by Saturday 24 October. Not "nearly". A stranger can find you, read one page, and know what you do. And you can explain the event loop out loud in ninety seconds.',
+  milestone: 'GATE — CV, LinkedIn and GitHub finished by Saturday 17 October. Not "nearly". A stranger can find you, read one page, and know what you do. And you can explain the event loop out loud in ninety seconds.',
   d: [
     { focus: 'The event loop — why JavaScript does not block', tasks: [
       ['ENG','dawn','Phase 1 Chapter 7 (Asynchronous Programming) — the event loop. Call stack, task queue, microtask queue. Draw it on paper. Then predict the output of five setTimeout/Promise ordering puzzles before running them.'],
@@ -593,7 +605,7 @@ const WEEKS = [
 // between a Node user and a Node engineer is whether they can say what
 // blocks the loop, what a stream is for, and what happens between a
 // request arriving and a response leaving. Project 1 starts here and the
-// API is on the public internet by 26 December.
+// API is on the public internet by 19 December.
 // ══════════════════════════════════════════════════════════════════
 {
   n: 8, block: 'II — Node and Express',
@@ -809,7 +821,7 @@ const WEEKS = [
     'phase-11-job-hunt-pakistan/04-referrals-and-recruiters',
   ],
   deliverable: 'PROJECT 1 API DEPLOYED at a public URL over HTTPS, with a health check, environment-based configuration, and a README a stranger can follow.',
-  milestone: 'ANCHOR — the API is reachable from the public internet on Saturday 26 December. Application quota rises to five a week because the CV now points at something running.',
+  milestone: 'ANCHOR — the API is reachable from the public internet on Saturday 19 December. Application quota rises to five a week because the CV now points at something running.',
   d: [
     { focus: 'Configuration and secrets', tasks: [
       ['ENG','dawn','Make Project 1 deployable: every secret and every environment difference in environment variables, validated at startup so the process refuses to boot with a missing one. Then check your git history for anything you committed earlier and deal with it honestly.'],
@@ -1057,7 +1069,7 @@ const WEEKS = [
     'phase-10-english-communication/05-small-talk-and-first-five-minutes',
   ],
   deliverable: 'week-19/ containing a demonstrated lost-update race condition and three different correct fixes, each with the SQL and a written explanation of its trade-off.',
-  milestone: 'ANCHOR — AI unlocked on Monday 1 February, as reviewer and teacher, never author. And you can describe a race condition you personally reproduced.',
+  milestone: 'ANCHOR — AI unlocked on Monday 25 January, as reviewer and teacher, never author. And you can describe a race condition you personally reproduced.',
   d: [
     { focus: 'AI UNLOCKED — the rules of use', tasks: [
       ['ENG','dawn','Read the final section of Phase 0 Chapter 4 again. Then write the AI clause into your repository README: I may use AI to review, explain and check, never to author, and I must be able to explain every line here unaided. Eighteen weeks of building the muscle end today; do not undo them in a fortnight.'],
@@ -1179,7 +1191,7 @@ const WEEKS = [
     'phase-7-system-design/07-database-scaling',
   ],
   deliverable: 'A working local replica of your Postgres database with reads served from it, one partitioned table with a demonstrated pruning benefit, and a written scaling path for Project 1 from one server to many.',
-  milestone: 'BLOCK III CLOSES — ANCHOR: Project 1 has a complete, indexed, transactional data layer across SQL and NoSQL by Saturday 27 February. You can explain replication lag and why it breaks read-after-write.',
+  milestone: 'BLOCK III CLOSES — ANCHOR: Project 1 has a complete, indexed, transactional data layer across SQL and NoSQL by Saturday 20 February. You can explain replication lag and why it breaks read-after-write.',
   d: [
     { focus: 'Replication, and the lag problem', tasks: [
       ['ENG','dawn','Phase 3 Chapter 9 (Replication) — primary and replica, synchronous versus asynchronous, and failover. Set up a local replica. Then write to the primary, read immediately from the replica, and see stale data. That is read-after-write, and it is a real interview question.'],
@@ -1645,7 +1657,7 @@ const WEEKS = [
     'phase-11-job-hunt-pakistan/08-portfolio-and-personal-brand',
   ],
   deliverable: 'PROJECT 2 LIVE — deployed, documented, with a demo account, an architecture diagram, a two-minute demo video, and the measured numbers from weeks 18, 28, 30 and 31 in the README.',
-  milestone: 'ANCHOR — Project 2 live by Saturday 15 May. A NestJS service with a real data layer, auth, queues, caching, real-time and tests, running at a public URL.',
+  milestone: 'ANCHOR — Project 2 live by Saturday 8 May. A NestJS service with a real data layer, auth, queues, caching, real-time and tests, running at a public URL.',
   d: [
     { focus: 'Deploy it', tasks: [
       ['ENG','dawn','Deploy Project 2 — API, worker, Postgres and Redis. The worker is a separate process and must be deployed as one; discovering that today is better than discovering it in week 41.'],
@@ -2165,7 +2177,7 @@ const WEEKS = [
     'phase-8-ai-engineering/07-ai-saas',
   ],
   deliverable: 'PROJECT 3 LIVE — deployed with a demo account, guardrails and cost caps, a README stating measured retrieval accuracy and cost per query, and one MCP server exposing a Project 2 capability as a tool.',
-  milestone: 'ANCHOR — Project 3 live by Saturday 7 August, with measured retrieval quality. Three shipped backend services, all linkable, all explainable line by line.',
+  milestone: 'ANCHOR — Project 3 live by Saturday 31 July, with measured retrieval quality. Three shipped backend services, all linkable, all explainable line by line.',
   d: [
     { focus: 'Tool calling and loops', tasks: [
       ['ENG','dawn','Phase 8 Chapter 5 (AI Agents) — tool use, the agent loop, and where it goes wrong: loops that do not terminate, tools with side effects, and costs that compound. Add one tool call to Project 3 and cap the iterations.'],
@@ -2346,7 +2358,7 @@ const WEEKS = [
     'phase-10-english-communication/09-interview-under-pressure',
   ],
   deliverable: 'Four designs produced under a clock on one page each, a written script for the first five minutes of any design round, and at least three mock interviews with real people with written feedback.',
-  milestone: 'ANCHOR — first mock with a real person on Monday 30 August. Three mocks done by Saturday, feedback written down and acted on.',
+  milestone: 'ANCHOR — first mock with a real person on Monday 16 August. Three mocks done by Saturday, feedback written down and acted on.',
   d: [
     { focus: 'ANCHOR — mock 1, and the answer structure', tasks: [
       ['ENG','dawn','MOCK 1 — coding, with a real person. A friend, a peer, a paid interviewer. Live, watched, timed. It will be worse than practising alone and that is the entire reason to do it. Get written feedback.'],
@@ -2390,7 +2402,7 @@ const WEEKS = [
     'phase-9-software-engineering/04-three-year-developer-interview-guide',
   ],
   deliverable: 'A written final accounting — every number from BASELINE.md then and now, the full application funnel — and a concrete plan for the next eight weeks with dates on it.',
-  milestone: 'DEADLINE — the plan closes on Saturday 11 September 2027. The accounting is written, the next eight weeks are planned, and nothing is left vague.',
+  milestone: 'DEADLINE — the plan closes on Saturday 4 September 2027. The accounting is written, the next eight weeks are planned, and nothing is left vague.',
   d: [
     { focus: 'Know your number before anyone asks', tasks: [
       ['ENG','dawn','Read Phase 11 Chapter 6 (Negotiating Your Offer). Write three numbers down: what you will ask for, what you will accept, and what you will walk away from. Written, before any conversation.'],
@@ -2423,47 +2435,46 @@ const WEEKS = [
 ];
 
 /**
- * ROUTINE — the whole day around the plan's study slots: prayers, Quran,
+ * ROUTINE — the whole day around the accelerated timetable: prayers, Quran,
  * office, gym, park, sleep. Shown in the app's Plan tab under each day's
  * tasks. Full reasoning in Phase 0 Chapter 7 (The Whole Day).
  * kind: study | faith | health | work | life | sleep
- * The study rows must match SLOTS above.
+ * The study rows must match SLOTS_V2 above.
  */
 const ROUTINE = {
   weekday: [
-    { time: '04:40',       kind: 'faith',  what: 'Wake · wudu · Fajr', note: 'Nov–Feb: Fajr starts after 05:00 — pray at 06:30' },
-    { time: '05:00–06:30', kind: 'study',  what: 'Deep Work — today\'s plan task' },
-    { time: '06:30–06:50', kind: 'faith',  what: 'Quran — recitation with translation' },
-    { time: '06:50–07:45', kind: 'life',   what: 'Shower · protein breakfast · dress' },
-    { time: '07:45–19:00', kind: 'work',   what: 'Office and travel', note: 'Dhuhr, Asr (and Maghrib in winter) at the office · audio, not feeds, on the commute' },
-    { time: '13:00–13:30', kind: 'study',  what: 'Job / English — today\'s lunch task', note: 'Dhuhr and lunch in the rest of the break' },
-    { time: '19:00–20:00', kind: 'health', what: 'Gym', note: 'Mon push · Tue legs · Wed pull · Thu legs + core · Fri full body · pray Maghrib first if it is in' },
-    { time: '20:20',       kind: 'faith',  what: 'Home · shower · Isha' },
-    { time: '20:30–21:00', kind: 'life',   what: 'Dinner — protein and vegetables' },
-    { time: '21:00–21:20', kind: 'life',   what: 'Family time — no screens' },
-    { time: '21:20–21:35', kind: 'life',   what: 'Tomorrow ready · 5-min muhasaba · phone out of the bedroom' },
-    { time: '21:45',       kind: 'sleep',  what: 'Sleep' },
+    { time: 'Fajr',        kind: 'faith',  what: 'Wake 15 min before Fajr · wudu · Fajr', note: 'Oct ≈ 04:50 · winter ≈ 05:35 · follow your prayer app' },
+    { time: '+ 30 min',    kind: 'faith',  what: 'Quran — recitation with translation' },
+    { time: '+ 90 min',    kind: 'study',  what: 'Deep Work — today\'s plan task', note: 'Starts after the Quran, so it moves with Fajr' },
+    { time: 'until 07:45', kind: 'life',   what: 'Shower · protein breakfast · dress' },
+    { time: '07:45–19:00', kind: 'work',   what: 'Office and travel', note: 'Dhuhr and Asr at the office · audio, not feeds, on the commute' },
+    { time: '10:00–11:00', kind: 'study',  what: 'Office study — today\'s lesson' },
+    { time: '16:00–17:00', kind: 'study',  what: 'Office study — lesson + job-hunt task' },
+    { time: '19:00–20:00', kind: 'life',   what: 'Home · Maghrib · light early dinner · rest' },
+    { time: '20:00–21:00', kind: 'health', what: 'Gym', note: 'Mon push · Tue legs · Wed pull · Thu legs + core · Fri full body' },
+    { time: '21:05–21:30', kind: 'faith',  what: 'Shower · Isha · protein snack' },
+    { time: '21:30–22:00', kind: 'study',  what: 'English — today\'s plan task' },
+    { time: '22:00–22:15', kind: 'life',   what: 'Tomorrow ready · 5-min muhasaba · phone out of the bedroom' },
+    { time: '22:15',       kind: 'sleep',  what: 'Sleep' },
   ],
   saturday: [
-    { time: '05:00',       kind: 'faith',  what: 'Wake · Fajr' },
-    { time: '05:20–05:45', kind: 'faith',  what: 'Quran' },
-    { time: '06:00–07:15', kind: 'health', what: 'Park — brisk walk, easy jog, stretching' },
-    { time: '08:00–13:00', kind: 'study',  what: 'Deep Build · DSA Drill · Review + Apply — today\'s plan tasks' },
-    { time: '13:00',       kind: 'faith',  what: 'Dhuhr · lunch · short nap' },
-    { time: 'Afternoon',   kind: 'life',   what: 'Errands, barber, groceries, prepare the week' },
+    { time: 'Fajr',        kind: 'faith',  what: 'Fajr · Quran (30 min)' },
+    { time: '06:30–07:45', kind: 'health', what: 'Park — brisk walk, easy jog, stretching' },
+    { time: '08:00–10:00', kind: 'life',   what: 'Breakfast · family · get ready' },
+    { time: '10:00–16:30', kind: 'study',  what: 'Build · Drill · Review · Apply — today\'s plan tasks', note: 'Dhuhr in the 12:00 break, Asr in the 15:00 break' },
     { time: '17:00–18:00', kind: 'life',   what: 'Money and business hour' },
-    { time: 'Evening',     kind: 'life',   what: 'Family, friends · 2 episodes max, chosen in advance' },
+    { time: 'Evening',     kind: 'life',   what: 'Maghrib · family, friends · 2 episodes max, chosen in advance · Isha' },
     { time: '22:00',       kind: 'sleep',  what: 'Sleep' },
   ],
   sunday: [
-    { time: '05:00',       kind: 'faith',  what: 'Wake · Fajr' },
-    { time: '05:20–06:00', kind: 'faith',  what: 'Quran with tafsir — the long session' },
-    { time: '06:15–07:45', kind: 'health', what: 'Long park session — walk, jog or intervals, bodyweight, mobility' },
-    { time: '12:00–12:50', kind: 'life',   what: 'Weekly planning + money review' },
-    { time: 'Afternoon',   kind: 'life',   what: 'Rest, family, relatives, friends' },
-    { time: 'Evening',     kind: 'life',   what: 'Prepare the week — clothes, gym bag, meals' },
-    { time: '21:45',       kind: 'sleep',  what: 'Sleep — Monday starts at 04:40' },
+    { time: 'Fajr',        kind: 'faith',  what: 'Fajr · Quran with tafsir — the long session' },
+    { time: '06:30–08:00', kind: 'health', what: 'Long park session — walk, jog or intervals, bodyweight, mobility' },
+    { time: '08:00–10:00', kind: 'life',   what: 'Breakfast · family' },
+    { time: '10:00–16:30', kind: 'study',  what: 'Build · Drill · Review · Apply — today\'s plan tasks', note: 'Dhuhr in the 12:00 break, Asr in the 15:00 break' },
+    { time: '17:00–17:50', kind: 'life',   what: 'Weekly planning + money review' },
+    { time: 'Evening',     kind: 'life',   what: 'Maghrib · prepare the week — clothes, gym bag, meals · Isha' },
+    { time: '22:00',       kind: 'sleep',  what: 'Sleep — Monday starts at Fajr' },
   ],
 };
 
-module.exports = { TRACKS, SLOTS, ANCHORS, APPLY_QUOTA, CORE, WEEKS, ROUTINE };
+module.exports = { TRACKS, SLOTS, SLOTS_V2, CUTOVER, CATCH_UP, ANCHORS, APPLY_QUOTA, CORE, WEEKS, ROUTINE };

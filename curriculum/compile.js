@@ -69,7 +69,7 @@ const PHASE_META = {
   'phase-0-mission': {
     number: 'PHASE 0',
     title: 'Mission & Method',
-    desc: 'The goal, the deadline, how learning actually works, the AI habit that has to be undone, and the system that runs all 350 days.',
+    desc: 'The goal, the deadline, how learning actually works, the AI habit that has to be undone, and the system that runs the whole plan.',
     topics: ['How to Use This Book','The Mission','How Learning Actually Works','The AI Dependency Problem','The Operating System','The Scoreboard']
   },
   'phase-1-programming-foundations': {
@@ -141,8 +141,8 @@ const PHASE_META = {
   'phase-12-daily-execution-plan': {
     number: 'PHASE 12',
     title: 'The Daily Execution Plan',
-    desc: 'All 353 days, dated and scheduled — 25 September 2026 to 12 September 2027. Open this every morning.',
-    topics: ['The 350-Day Plan','September 2026','October 2026','November 2026','December 2026','January 2027','February 2027','March 2027','April 2027','May 2027','June 2027','July 2027','August 2027','September 2027']
+    desc: 'All 188 days, dated and scheduled — 21 September 2026 to 27 March 2027, at 30 hours a week from 7 October. Open this every morning.',
+    topics: ['The Plan','September 2026','October 2026','November 2026','December 2026','January 2027','February 2027','March 2027']
   },
   'phase-13-appendix': {
     number: 'PHASE 13',
@@ -156,7 +156,7 @@ const PHASE_META = {
 function buildCoverPage(stats, plan) {
   return `
 <div class="cover-page">
-  <div class="cover-eyebrow">The 350-Day Plan</div>
+  <div class="cover-eyebrow">The Accelerated Plan</div>
   <h1>From Stuck<br>to Hired</h1>
   <div class="cover-subtitle">
     JavaScript · Node · React · PostgreSQL · AWS<br>
@@ -167,7 +167,7 @@ function buildCoverPage(stats, plan) {
     ${stats.phases} Phases · ${stats.chapters} Chapters · ${stats.words.toLocaleString('en-GB')} Words · 2 Shipped Projects<br>
     ${plan ? `${plan.meta.totalDays} dated days · ${plan.meta.totalTasks} scheduled tasks · ${plan.meta.totalHours} hours<br>` : ''}
     Three years of maintenance work → a real engineering job at 3× the salary<br><br>
-    <strong style="color:#bfdbfe;">25 September 2026 → 12 September 2027</strong>
+    <strong style="color:#bfdbfe;">21 September 2026 → 27 March 2027</strong>
   </div>
   <div class="cover-phases">
     ${PHASE_ORDER.filter(k => PHASE_META[k]).map(k => `<div class="cover-phase-item">${PHASE_META[k].number}: ${PHASE_META[k].title}</div>`).join('')}
@@ -251,7 +251,7 @@ function buildRoadmapPage(plan) {
 <div class="roadmap-page">
 
   <div class="rm-header">
-    <div class="rm-eyebrow">THE 350-DAY PLAN</div>
+    <div class="rm-eyebrow">THE ACCELERATED PLAN</div>
     <h1 class="rm-title">${fmt(plan.meta.start)} → ${fmt(plan.meta.end)}</h1>
     <p class="rm-subtitle">
       ${plan.meta.totalDays} dated days · ${plan.meta.totalWeeks} weeks · ${plan.meta.totalTasks} scheduled tasks · ${plan.meta.totalHours} hours.<br>
@@ -300,8 +300,8 @@ function buildRoadmapPage(plan) {
     <div class="rm-section-label">THE EIGHT RULES</div>
     <div class="rm-rules-grid">
       <div class="rm-rule"><span class="rm-rule-num">1</span><div><strong>The dawn block is untouchable.</strong> 05:00–06:30, every working day. Evening study is the first thing life cancels; 05:00 is not.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">2</span><div><strong>No AI writes code until 1 February 2027.</strong> Documentation is allowed. Concept explanations are allowed <em>after</em> twenty minutes of genuine attempt. Generated code is not.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">3</span><div><strong>Commit publicly every day.</strong> A day with no commit did not happen. The contribution graph compounds for 350 days.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">2</span><div><strong>No AI writes code until 1 December 2026.</strong> Documentation is allowed. Concept explanations are allowed <em>after</em> twenty minutes of genuine attempt. Generated code is not.</div></div>
+      <div class="rm-rule"><span class="rm-rule-num">3</span><div><strong>Commit publicly every day.</strong> A day with no commit did not happen. The contribution graph compounds every day of the plan.</div></div>
       <div class="rm-rule"><span class="rm-rule-num">4</span><div><strong>Twenty minutes before you look anything up.</strong> Stuck means stuck for twenty minutes. Most of the time you solve it in eight.</div></div>
       <div class="rm-rule"><span class="rm-rule-num">5</span><div><strong>Start applying before you feel ready.</strong> Applications open 19 October regardless, on a ramping weekly quota. The funnel takes 4–8 weeks and you cannot buy that time back.</div></div>
       <div class="rm-rule"><span class="rm-rule-num">6</span><div><strong>Miss one day, fine. Miss two, diagnose.</strong> Never try to catch up — resume on today. Cut breadth, keep depth.</div></div>

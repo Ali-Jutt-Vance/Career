@@ -1,6 +1,6 @@
 # Career Book — Backend Mastery, 0 to Hired
 
-**One book. One app. One deadline: 11 September 2027.**
+**One book. One app. One deadline: 27 March 2027 (accelerated from 4 September 2027).**
 
 Everything in this folder is a single system with a single purpose — a signed offer as a
 **backend engineer** at a top-tier Pakistani company, on Node, NestJS, TypeScript,
@@ -39,8 +39,8 @@ scheduled, and held to a depth target.
 
 | | Before | Now |
 |---|---|---|
-| Span | 252 days · 36 weeks | **3-day lead-in + 50 weeks** (25 Sep 2026 → 12 Sep 2027) |
-| Total work | 504 hours | **706 hours** |
+| Span | 252 days · 36 weeks | **350 days · 50 weeks** (21 Sep 2026 → 5 Sep 2027) |
+| Total work | 504 hours | **700 hours** |
 | Core chapters | 96, frontend on the critical path | **134, backend-shaped** |
 | NestJS | one week | **a seven-week block** |
 | Databases | 9 weeks, SQL only | **9 weeks, SQL + MongoDB + scaling** |
@@ -51,11 +51,10 @@ scheduled, and held to a depth target.
 Two chapters that did not exist have been written: **Jenkins** (Phase 5 Ch 16) and
 **Testing** (Phase 9 Ch 5).
 
-> **Note on dates.** The plan starts **Friday 25 September 2026** with a three-day
-> **Week 0 lead-in** (Friday: set up the machine and GitHub · Saturday: walk through the plan
-> and a DSA warm-up · Sunday: off). **Week 1 starts Monday 28 September 2026**, and every
-> week from there runs Monday to Sunday. Redo BASELINE.md in Week 1 either way: the end of
-> this plan is measured against it.
+> **Note on dates.** The plan starts **Monday 21 September 2026**. If you worked through
+> 7–19 September under an older schedule, weeks 1–3 cover that ground again at half the
+> pace — treat it as revision, or skip ahead. Redo BASELINE.md either way: the end of this
+> plan is measured against it.
 
 ---
 
@@ -72,22 +71,31 @@ a hollow middle fills faster than an empty one.
 
 ---
 
-## The schedule
+## The schedule — accelerated from 7 October 2026
 
 | | Mon–Fri | Saturday | Sunday |
 |---|---|---|---|
-| **Every week, all 50** | **2h** | **4h** | **OFF** |
+| **Weeks 1–3** | 2h | 4h | OFF |
+| **From 7 Oct 2026** | **4h** | **5h** | **5h** |
 
-**Fourteen hours a week, held for fifty straight weeks.** One budget, no ramp, no second
-regime. Sunday carries no tasks and the streak counter treats it as neutral, so resting
-never breaks it.
+**Thirty hours a week.** Nothing was cut: every authored day from 7 October on is repacked
+two original weeks per new week (`plan/accelerate.js`), so the plan written for fifty weeks
+now closes on **Saturday 27 March 2027**. Sunday 11 October is a one-off catch-up day.
 
-**Weekday (2h)** — `05:00–06:30` deep work (90m) · `13:00–13:30` job hunt or English (30m)
-**Saturday (4h)** — `08:00–10:00` deep build (120m) · `10:30–11:30` drill (60m) · `12:00–13:00` review + apply (60m)
+**Weekday (4h)**
+- After Fajr, the prayer and 30 minutes of Quran — deep work (90m). This block moves with Fajr.
+- `10:00–11:00` + `16:00–17:00` — office study (120m: a 90m lesson + a 30m job-hunt task)
+- `21:30–22:00` — English, at home after the gym (`20:00–21:00`)
 
-The dawn block is what makes this work while employed. Evening study is the first thing
-life cancels, which is why none is scheduled. The dawn block carries study on some days
-and building on others — the day's spec says which. Do not merge them.
+**Saturday & Sunday (5h each)** — morning jog, then `10:00–12:00` deep build (120m) ·
+`12:30–13:30` drill (60m) · `14:00–15:00` review (60m) · `15:30–16:30` apply / catch-up (60m)
+
+The Personal OS phone app carries the same plan and rings an alarm for every block, 10 minutes
+before every prayer, and for the gym, jog and sleep.
+
+The whole day around those blocks — prayers, Quran, gym, weekend park sessions, sleep,
+health, digital rules and the 24-to-28 life roadmap — is **Phase 0 Chapter 7: The Whole Day**,
+and the Plan tab shows that routine under every day's tasks.
 
 ---
 
@@ -98,7 +106,7 @@ and building on others — the day's spec says which. Do not merge them.
 Documentation is allowed. This book is allowed. Asking an AI to *explain a concept* is
 allowed **after** twenty minutes of genuine attempt. Generated code is not.
 
-On **1 February 2027** it comes back permanently, under one clause: *you must be able to
+On **25 January 2027** it comes back permanently, under one clause: *you must be able to
 explain, unaided, every line of code in your repository.* Reviewer and teacher, never
 author. The Saturday drill stays AI-free for all fifty weeks, because interviews are.
 
@@ -112,9 +120,9 @@ dig out of it with a shovel that digs for you. Phase 0 Chapter 4 is the argument
 | | |
 |---|---|
 | **134 core chapters** | held to a depth target · the rest is reference |
-| **353 days** | 25 Sep 2026 → 12 Sep 2027 — **302 working, 51 rest** |
-| **655 tasks** | **706 hours**, three tracks in parallel |
-| **50 weeks + lead-in** | 10 blocks, each with a deliverable and a pass/fail milestone |
+| **350 days** | 21 Sep 2026 → 5 Sep 2027 — **300 working, 50 rest** |
+| **650 tasks** | **700 hours**, three tracks in parallel |
+| **50 weeks** | 10 blocks, each with a deliverable and a pass/fail milestone |
 | **390 applications** | on a ramping weekly quota |
 | **3 projects** | Express API · NestJS service · retrieval service |
 
@@ -187,17 +195,16 @@ shipped services attached is worth ten in week 5.
 
 | Date | Anchor |
 |---|---|
-| 25 Sep 2026 | Day 1 — Week 0 lead-in: machine, GitHub, routine |
-| 28 Sep 2026 | Week 1 — the honest audit, BASELINE.md written |
-| 24 Oct 2026 | CV, LinkedIn and GitHub finished — **this is a gate** |
-| **26 Oct 2026** | **APPLICATIONS OPEN — on the weekly quota** |
-| 26 Dec 2026 | Project 1 API deployed at a public URL |
-| **1 Feb 2027** | **AI unlocked — reviewer, never author** |
-| 27 Feb 2027 | Project 1 data layer complete — SQL and NoSQL |
-| 15 May 2027 | Project 2 live — NestJS, queues, Redis, tested |
-| 7 Aug 2027 | Project 3 live — retrieval service, measured |
-| 30 Aug 2027 | First mock interview with a real person |
-| **11 Sep 2027** | **DEADLINE — final accounting** |
+| 21 Sep 2026 | Day 1 — the honest audit, BASELINE.md written |
+| 17 Oct 2026 | CV, LinkedIn and GitHub finished — **this is a gate** |
+| **17 Oct 2026** | **APPLICATIONS OPEN — on the weekly quota** |
+| 15 Nov 2026 | Project 1 API deployed at a public URL |
+| **1 Dec 2026** | **AI unlocked — reviewer, never author** |
+| 19 Dec 2026 | Project 1 data layer complete — SQL and NoSQL |
+| 24 Jan 2027 | Project 2 live — NestJS, queues, Redis, tested |
+| 7 Mar 2027 | Project 3 live — retrieval service, measured |
+| 16 Mar 2027 | First mock interview with a real person |
+| **27 Mar 2027** | **DEADLINE — final accounting** |
 
 ---
 
@@ -225,10 +232,10 @@ before a call.
 ## The eight rules
 
 1. **The dawn block is untouchable.** 05:00–06:30, every working day.
-2. **No AI writes code until 1 February 2027.** Documentation yes. Generated code no.
+2. **No AI writes code until 25 January 2027.** Documentation yes. Generated code no.
 3. **Commit publicly every day.** A day with no commit did not happen.
 4. **Twenty minutes before you look anything up.** Most of the time you solve it in eight.
-5. **Start applying before you feel ready.** 26 October, regardless.
+5. **Start applying before you feel ready.** 19 October, regardless.
 6. **Miss one day, fine. Miss two, diagnose.** Never catch up — resume on today.
 7. **Milestones are pass or fail.** "Mostly" is a no.
 8. **Ignore everything marked LATER.** If it is not in the week you are on, it is not

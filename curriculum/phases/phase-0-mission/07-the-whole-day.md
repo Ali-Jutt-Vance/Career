@@ -6,13 +6,13 @@
 
 ## Chapter Overview
 
-The plan in this book is fourteen hours a week. Your life is one hundred and sixty-eight. This chapter is about the other one hundred and fifty-four: the ones that decide whether the fourteen actually happen.
+Since 7 October 2026 the plan in this book runs at **thirty hours a week** — the fifty-week plan repacked into about half the time, closing on 27 March 2027. Your life is one hundred and sixty-eight hours. This chapter is about all of them, because the other one hundred and thirty-eight decide whether the thirty actually happen.
 
 You are 24. The goals are clear, and they are bigger than a job:
 
-- **Career:** a real backend engineering job at 3–5× today's salary by September 2027 — this book.
+- **Career:** a real backend engineering job at 3–5× today's salary — this book.
 - **Deen:** five prayers on time, and the Quran every single day.
-- **Body:** strong, fit and healthy — gym five days a week, parks at the weekend.
+- **Body:** strong, fit and healthy — gym five days a week, the park every weekend morning.
 - **Health:** get the hair, fertility and erection concerns properly diagnosed and treated *now*, years before marriage, not the month before it.
 - **Mind:** control of your attention — no more whole seasons in a day, no more hours lost to feeds.
 - **Character:** composure, self-control, and the kind of presence people trust.
@@ -21,16 +21,17 @@ You are 24. The goals are clear, and they are bigger than a job:
 
 These are not eight separate projects. They are one project, and the daily timetable is where it lives. Every goal above is either *in* the timetable, or it is a wish.
 
-**This chapter replaces the budget tables in Chapter 5 (The Operating System).** That chapter was written for an older, heavier plan with evening study. The Plan tab in the app shows the timetable below on every day, next to that day's tasks.
+**This chapter replaces the budget tables in Chapter 5 (The Operating System).** The Plan tab in the app shows the routine below on every day, under that day's tasks.
 
 ## The fixed facts the timetable is built on
 
 | Fact | Consequence |
 |---|---|
-| Office is **08:00–19:00** including travel, Monday–Friday | Everything else fits before 08:00 or after 19:00 |
-| The gym is **five minutes from home**, on the way back | Gym runs **19:00–20:00**, straight from office, no going home first |
-| The plan's study slots are **05:00–06:30** and **13:00–13:30** | These are fixed and non-negotiable |
-| You need **7 hours of sleep** | Muscle, hair, testosterone, sperm quality and self-control all depend on it — so bed is **21:45** |
+| Office is **08:00–19:00** including travel, Monday–Friday | Everything else fits before 08:00 or after 19:00 — plus two study hours inside the office day |
+| The plan's weekday slots: **deep work after Fajr + Quran (90 min)**, **office study 10:00–11:00 and 16:00–17:00**, **English 21:30–22:00** | These are fixed. The dawn block moves with Fajr through the year. |
+| The gym is **five minutes from home** | Gym runs **20:00–21:00**, after an hour at home to pray, eat lightly and rest |
+| Weekends carry **5 hours of study each, 10:00–16:30** | The mornings before 10:00 belong to Fajr, the Quran and the park |
+| You need **about 7 hours of sleep** | Muscle, hair, testosterone, sperm quality and self-control all depend on it — so bed is **22:15** on weekdays, **22:00** at the weekend |
 | Fajr, Dhuhr, Asr, Maghrib, Isha move through the year | The timetable fixes the *routine*; the prayer app fixes the exact minute |
 
 Install a reliable prayer-times app for your city (for example *Muslim Pro* or *Athan*) with the Hanafi or Shafi Asr setting you follow, and turn on the adhan notification for all five. The times below are the routine around the prayers, not the prayer times themselves.
@@ -39,72 +40,72 @@ Install a reliable prayer-times app for your city (for example *Muslim Pro* or *
 
 | Time | What | Why it is here |
 |---|---|---|
-| **04:40** | Wake up · wudu · **Fajr** | Straight up at the first alarm. Phone stays on the charger outside the bedroom. |
-| **05:00–06:30** | 📘 **Deep Work — the day's plan task** | The largest block of the plan. Nothing at work can cancel it. |
-| **06:30–06:50** | 📖 **Quran** — recitation with translation | Daily, even if only one page. Consistency beats length. |
-| 06:50–07:45 | Shower, breakfast (protein), dress | Eggs, dahi, paratha only occasionally. Eat properly — you train tonight. |
+| **Fajr − 15 min** | Wake up · wudu · **Fajr** | Straight up at the first alarm. Phone stays on the charger outside the bedroom. |
+| **+ 30 min** | 📖 **Quran** — recitation with translation | Every day, before anything else touches your mind. |
+| **+ 90 min** | 📘 **Deep Work — the day's plan task** | The plan's largest weekday block. It follows the Quran, so it moves with Fajr. |
+| until 07:45 | Shower, breakfast (protein), dress | Eggs, dahi, paratha only occasionally. Eat properly — you train tonight. |
 | 07:45 | Leave | Commute: English podcast, tech talk or Quran audio. No feeds. |
-| 08:00–19:00 | 🏢 Office and travel | Dhuhr and Asr at the office. Maghrib at the office, on the way, or before the gym. |
-| **13:00–13:30** | 💼 **Job / English — the day's lunch task** | The plan's second slot. Pray Dhuhr and eat in the rest of your lunch break. |
-| **19:00–20:00** | 🏋️ **Gym** — see the weekly split below | Straight from office. Gym bag packed the night before. |
-| 20:05–20:20 | Home · shower | |
-| **20:20** | **Isha** (and Maghrib first, if it is still in time) | |
-| 20:30–21:00 | Dinner — protein and vegetables | Not late, not heavy, no sugar-loaded drinks. |
-| 21:00–21:20 | Family time — no screens | Talk to your parents. It costs nothing and it matters. |
-| 21:20–21:35 | Tomorrow ready · **5-minute muhasaba** · phone out of the bedroom | Bag packed, clothes out, tomorrow's task read in the app. |
-| 21:35–21:45 | Wind down — read, adhkar | No screens in bed. |
-| **21:45** | 😴 **Sleep** | 6h 55m to 04:40. Protect this more than anything else on the page. |
+| 08:00–19:00 | 🏢 Office and travel | Dhuhr and Asr at the office — keep a prayer mat in your drawer. |
+| **10:00–11:00** | 💻 **Office study — the day's lesson** | Agree this with your manager, or use a quiet room; this time must be genuinely yours. |
+| **16:00–17:00** | 💻 **Office study — lesson + job-hunt task** | |
+| 19:00–20:00 | Home · **Maghrib** (when it is in) · light early dinner · rest | Eat at least an hour before training. |
+| **20:00–21:00** | 🏋️ **Gym** — see the weekly split below | Five minutes from home. Gym bag packed the night before. |
+| 21:05–21:30 | Shower · **Isha** · protein snack | Dahi, milk, eggs or a chicken roll — not sweets. |
+| **21:30–22:00** | 🗣️ **English — the day's plan task** | The plan's last slot. Speak aloud; it wakes you less than reading a screen. |
+| 22:00–22:15 | Tomorrow ready · **5-minute muhasaba** · phone out of the bedroom | Bag packed, clothes out, tomorrow's task read in the app. |
+| **22:15** | 😴 **Sleep** | About 6½ hours in October, 7+ hours in winter when Fajr is later. |
 
 ### The prayers across the year
 
-| Season | Fajr | What to do |
+| Season | Fajr (approx.) | Effect on the morning |
 |---|---|---|
-| **Mar–Oct** | Already in by 04:40 | Pray at 04:40, before the study block. |
-| **May–Jul** | Sunrise is close to 05:00 | Never delay Fajr to "after one more thing". Pray first, then study. |
-| **Nov–Feb** | Starts after 05:00 | Pray in a 10-minute pause inside the block, or at 06:30 before the Quran — sunrise is well after 06:30 in winter. |
+| **Oct** | ≈ 04:50 | Wake 04:35 · Quran 05:00 · Deep Work 05:30–07:00 |
+| **Nov–Feb** | ≈ 05:15–05:40 | Wake ≈ 05:15 · Deep Work ends ≈ 07:45 — tight; if it overruns, shorten the Quran to 20 minutes, never skip it |
+| **Mar** | ≈ 04:50–05:15 | Comfortable again |
 
-Maghrib is the one to watch: in winter it falls around 17:15, inside office hours; in summer it can fall around 19:15, as you arrive at the gym — pray it *before* you train, not after. Keep a clean prayer mat in your office drawer and one in your gym bag.
+Maghrib falls inside office hours in winter (≈ 17:15) — pray it at the office. Isha is after the gym. Never delay a prayer for "one more task": pray first, then continue.
 
-## Saturday — the long study day
+**Protect the sleep.** On the October Fajr times this weekday gives about 6½ hours. Two rules keep that survivable: be in bed at 22:15 *exactly*, and use the weekend to sleep by 22:00. If you feel constantly drained, cut the gym to four days before you cut sleep.
+
+## The weekend — Saturday and Sunday
+
+Both days carry five hours of plan work, 10:00–16:30. The mornings before 10:00 are for faith and the body; the evenings are for people.
+
+### Saturday
 
 | Time | What |
 |---|---|
-| **05:00** | Wake · **Fajr** (earlier in summer — follow the app) |
-| 05:20–05:45 | 📖 **Quran** |
-| **06:00–07:15** | 🌳 **Park: walk and jog** — 10 min brisk walk, 40 min easy jog (walk breaks allowed), 15 min stretching |
-| 07:15–08:00 | Shower, breakfast |
-| **08:00–10:00** | 🔨 **Deep Build** — plan task |
-| 10:00–10:30 | Break, tea, walk around |
-| **10:30–11:30** | 🧩 **DSA Drill** — plan task |
-| 11:30–12:00 | Break |
-| **12:00–13:00** | 📝 **Review + Apply** — the weekly review, and the week's applications |
-| 13:00 | **Dhuhr** · lunch |
-| 14:00–14:30 | Nap (optional, 20–30 minutes, no longer) |
-| Afternoon | Asr · errands, barber, groceries, prepare the week's gym clothes and meals |
-| 17:00–18:00 | 💰 **Money and business hour** — read a business or finance book, or work on the money plan below |
-| Evening | Maghrib · family, friends · **screen allowance (see the digital rules)** · Isha |
+| **Fajr** | Fajr · 📖 **Quran** (30 min) |
+| **06:30–07:45** | 🌳 **Park: walk and jog** — 10 min brisk walk, 40 min easy jog (walk breaks allowed), 15 min stretching |
+| 08:00–10:00 | Shower, breakfast, family |
+| **10:00–12:00** | 🔨 **Deep Build** — plan task |
+| 12:00–12:30 | **Dhuhr** · lunch |
+| **12:30–13:30** | 🧩 **DSA Drill** — plan task |
+| **14:00–15:00** | 📝 **Review** — plan task |
+| 15:00–15:30 | **Asr** · tea |
+| **15:30–16:30** | 📮 **Apply / Catch-up** — plan task |
+| 17:00–18:00 | 💰 **Money and business hour** — a business or finance book, or the money plan below |
+| Evening | **Maghrib** · family, friends · **screen allowance (see the digital rules)** · **Isha** |
 | **22:00** | Sleep |
 
-## Sunday — rest, faith, body and planning
-
-No plan tasks. Sunday is rest from *study*, not from *life*.
+### Sunday
 
 | Time | What |
 |---|---|
-| **05:00** | Wake · **Fajr** |
-| 05:20–06:00 | 📖 **Quran with tafsir** — the long session of the week |
-| **06:15–07:45** | 🌳 **Long park session** — 20 min brisk walk, 30 min jog or intervals, 20 min bodyweight (push-ups, squats, lunges, planks), 10 min mobility |
-| 08:00–12:00 | Breakfast · family · free time |
-| **12:00–12:50** | 🗓️ **Weekly planning (30 min) + money review (20 min)** |
-| 13:00 | **Dhuhr** · lunch |
-| Afternoon | Rest, relatives, friends, a proper outing. Asr. |
-| Evening | Maghrib · prepare the week — clothes ironed, gym bag, lunch plan · Isha |
-| 21:15 | Phone out of the bedroom |
-| **21:45** | Sleep — Monday starts at 04:40 |
+| **Fajr** | Fajr · 📖 **Quran with tafsir** — the long session of the week |
+| **06:30–08:00** | 🌳 **Long park session** — 20 min brisk walk, 30 min jog or intervals, 20 min bodyweight (push-ups, squats, lunges, planks), 10 min mobility |
+| 08:00–10:00 | Breakfast · family |
+| **10:00–16:30** | 📘 **Plan tasks** — same blocks as Saturday, with Dhuhr and Asr in the breaks |
+| **17:00–17:50** | 🗓️ **Weekly planning (30 min) + money review (20 min)** |
+| Evening | **Maghrib** · prepare the week — clothes ironed, gym bag, lunch plan · **Isha** |
+| 21:30 | Phone out of the bedroom |
+| **22:00** | Sleep — Monday starts at Fajr |
+
+There is no study-free day in the accelerated plan, so rest has to be built *into* each day: the park, the family hours, a proper sleep. Protect them as seriously as the study blocks.
 
 ## The gym — five days, one hour
 
-Five days, one hour, straight from office. The goal is strength, a lean waist and good posture, not a bodybuilding show. Train hard, finish by 20:00, and **never use a stimulant pre-workout in the evening** — caffeine at 19:00 is still in your blood at 23:00 and will wreck the sleep everything else depends on.
+Five days, one hour, 20:00–21:00. The goal is strength, a lean waist and good posture, not a bodybuilding show. Train hard, finish by 21:00, and **never use a stimulant pre-workout** — caffeine at 20:00 is still in your blood at 01:00 and will wreck the sleep everything else depends on.
 
 | Day | Session | Main lifts |
 |---|---|---|
@@ -132,7 +133,7 @@ Five days, one hour, straight from office. The goal is strength, a lean waist an
 | **Sugar** | No soft drinks, no packaged juices. Mithai at occasions, not daily. |
 | **Fried food** | Samosa and pakora once a week, not once a day. |
 | **Caffeine** | None after 14:00 |
-| **Sleep** | 21:45 on weekdays, 22:00 at the weekend — same wake time within an hour, every day |
+| **Sleep** | 22:15 on weekdays, 22:00 at the weekend — wake for Fajr every day |
 
 Sleep is not rest from the plan. It is the plan's hidden fourth track. Testosterone is produced mostly during sleep; muscle is built during sleep; willpower is restored by sleep. A man who sleeps five hours cannot out-train, out-eat or out-pray the damage.
 
@@ -174,9 +175,9 @@ A whole season in a day is not rest. It is the same loop that took three years o
 
 | Rule | Detail |
 |---|---|
-| **No series or anime Monday–Friday** | None. The evenings are gym, family, sleep. |
+| **No series or anime Monday–Friday** | None. The evenings are gym, English, sleep. |
 | **Saturday evening allowance: 2 episodes, chosen in advance** | Decide *which* two before you start. Watch on a TV or laptop at a table — never in bed, never on the phone. |
-| **Sunday: 1 film or 2 episodes, in the afternoon** | Not at night. Not in bed. |
+| **Sunday: nothing on screen** | Sunday evening is for preparing the week and sleeping early. |
 | **Never start a new series on a weekday** | New series are the binge trigger. |
 | **Delete social media apps from the phone** | Use LinkedIn on the laptop only, for the job hunt. Everything else, check on desktop once a day if at all. |
 | **Phone sleeps outside the bedroom** | Buy a ₨500 alarm clock. This single rule fixes both your mornings and your nights. |
@@ -192,7 +193,7 @@ Charisma is not a personality you are born with. It is mostly **calm, attention 
 
 **Daily habits**
 
-1. **Keep small promises.** Wake at 04:40 when you said you would. Self-respect is built from promises to yourself that you kept — and people can feel it.
+1. **Keep small promises.** Wake for Fajr when you said you would. Self-respect is built from promises to yourself that you kept — and people can feel it.
 2. **Pause before you answer.** Two seconds. It reads as confidence and prevents most of what you later regret.
 3. **Speak slower and a little lower.** Nervous speech is fast speech. The Communication track in this book trains exactly this.
 4. **Eye contact and posture.** Shoulders back, chin level. The gym gives you the body for it; you still have to use it.
@@ -200,7 +201,7 @@ Charisma is not a personality you are born with. It is mostly **calm, attention 
 6. **Control anger.** *"The strong man is not the one who wrestles others; the strong man is the one who controls himself when angry."* (Bukhari) When angry: stay silent, sit down, make wudu.
 7. **Dress clean and simple.** Ironed clothes, trimmed hair and beard, clean shoes. It costs little and changes how people treat you.
 
-**The 5-minute muhasaba (every night, 21:20)** — three lines in a notebook:
+**The 5-minute muhasaba (every night, 22:00)** — three lines in a notebook:
 
 - What did I do well today?
 - Where did I lose control — of my time, my tongue, my eyes, my temper?
@@ -228,12 +229,12 @@ Money is a tool for the life above, not the goal itself. Keep it halal, keep it 
 
 | Book plan slot | Where it sits in your day |
 |---|---|
-| 05:00–06:30 weekday Deep Work | Between Fajr and the Quran |
-| 13:00–13:30 weekday Job / English | Your lunch break, with Dhuhr |
-| 08:00–13:00 Saturday | After the park and breakfast |
-| Sunday | Rest from study — faith, body, family, planning |
+| Weekday Deep Work (90 min) | After Fajr and 30 minutes of Quran |
+| Weekday Office Study (2 × 60 min) | 10:00–11:00 and 16:00–17:00, at the office |
+| Weekday English (30 min) | 21:30–22:00, after the gym and Isha |
+| Weekend plan blocks (5h) | 10:00–16:30, after the park, with Dhuhr and Asr in the breaks |
 
-The plan asks for 14 hours a week. The rest of this timetable is what makes those 14 hours possible for fifty weeks — and what makes the person at the end of them worth hiring, and worth marrying.
+The plan asks for thirty hours a week. The rest of this timetable is what makes those hours possible until March — and what makes the person at the end of them worth hiring, and worth marrying.
 
 ## Self Assessment
 
@@ -242,7 +243,7 @@ Every Sunday during weekly planning, answer honestly:
 - How many of the 35 prayers this week did I pray on time?
 - Did I read the Quran every day, even one page?
 - How many of the 5 gym sessions did I attend? How many park sessions?
-- What was my average sleep? How many nights was I in bed by 21:45?
+- What was my average sleep? How many nights was I in bed by 22:15?
 - How many episodes did I watch? Did I keep the phone out of the bedroom every night?
 - Have I booked, attended, or followed up the doctor appointments?
 - What did I save this month, as a percentage of income?
@@ -250,9 +251,9 @@ Every Sunday during weekly planning, answer honestly:
 
 ## Cheat Sheet
 
-- **Weekday:** 04:40 Fajr · 05:00 study · 06:30 Quran · 08:00–19:00 office · 13:00 job task · 19:00 gym · 20:20 Isha · 21:20 muhasaba · **21:45 sleep**
-- **Saturday:** 05:00 Fajr · 06:00 park · 08:00–13:00 study · 17:00 money hour · 2 episodes max · 22:00 sleep
-- **Sunday:** 05:00 Fajr · Quran with tafsir · 06:15 long park session · 12:00 weekly planning + money review · rest · 21:45 sleep
+- **Weekday:** Fajr · Quran 30 min · Deep Work 90 min · office 08:00–19:00 with study 10–11 and 16–17 · 19:00 home, Maghrib, light dinner · 20:00 gym · 21:05 Isha · 21:30 English · 22:00 muhasaba · **22:15 sleep**
+- **Saturday:** Fajr + Quran · 06:30 park · 10:00–16:30 plan · 17:00 money hour · 2 episodes max · 22:00 sleep
+- **Sunday:** Fajr + Quran with tafsir · 06:30 long park session · 10:00–16:30 plan · 17:00 weekly planning + money review · 22:00 sleep
 - **Gym:** Mon push · Tue legs · Wed pull · Thu legs + core · Fri full body + conditioning · no steroids, ever
 - **Health:** urologist, dermatologist, blood tests in the first 30 days · retest January 2027 · no desi tonics, no self-medication
 - **Digital:** no series on weekdays · phone out of the bedroom · no social apps on the phone · adult content blocked

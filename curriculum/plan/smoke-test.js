@@ -6,17 +6,21 @@
  */
 const puppeteer = require('puppeteer');
 const path = require('path');
-const { ANCHORS, SLOTS } = require('./plan-data');
+const { SLOTS, SLOTS_V2, CUTOVER } = require('./plan-data');
 
-// The shape the plan is contracted to. Keep in step with build-plan.js —
-// build-plan asserts these against the source; this asserts them against the
-// app that was actually built from it.
-const TOTAL_DAYS    = 353;   // 3-day lead-in + 50 full weeks
-const TOTAL_WEEKS   = 51;    // Week 0 (lead-in) + Weeks 1–50
-const WEEKLY_HOURS  = 14;
-const TOTAL_HOURS   = 706;
+// The shape the plan is contracted to comes from data/plan.json, which
+// build-plan.js asserts against the source; this asserts the app that was
+// actually built from it embeds the same plan.
+const BUILT         = require('../data/plan.json');
+const ANCHORS       = BUILT.anchors;
+const TOTAL_DAYS    = BUILT.meta.totalDays;
+const TOTAL_WEEKS   = BUILT.meta.totalWeeks;
+const WEEKLY_HOURS  = BUILT.meta.weeklyHours;
+const TOTAL_HOURS   = BUILT.meta.totalHours;
 const WEEKDAY_MINS  = SLOTS.weekday.reduce((a, s) => a + s.mins, 0);
 const SATURDAY_MINS = SLOTS.saturday.reduce((a, s) => a + s.mins, 0);
+const V2_WEEKDAY_MINS = SLOTS_V2.weekday.reduce((a, s) => a + s.mins, 0);
+const V2_WEEKEND_MINS = SLOTS_V2.weekend.reduce((a, s) => a + s.mins, 0);
 
 const URL = 'file:///' + path.join(__dirname, '..', 'output', 'index.html').replace(/\\/g, '/');
 
@@ -133,29 +137,33 @@ function check(name, ok, detail) {
   const backOnPlan = await page.$eval('#plan-pane', el => el.style.display !== 'none');
   check('Today button returns to the plan', backOnPlan);
 
-  // ── The 14h budget + Sunday rest ────────────────────────────
-  const budget = await page.evaluate(([wdMins, satMins, weekly]) => {
+  // ── The budgets: original before the cutover, accelerated after ─
+  const budget = await page.evaluate(([wdMins, satMins, v2wd, v2we, weekly, cutover]) => {
     const P = window.__PLAN__;
-    const sun = P.days.filter(d => d.dow === 'Sunday');
-    const wd  = P.days.filter(d => !d.isWeekend);
-    const sat = P.days.filter(d => d.dow === 'Saturday');
+    const before = P.days.filter(d => d.date < cutover);
+    const after  = P.days.filter(d => d.date >= cutover);
+    const sun = before.filter(d => d.dow === 'Sunday');
+    const full = P.weeks.filter(w => w.dates[0] > cutover && w.dates.length === 7);
     return {
-      restCount:  sun.length,
+      restCount:  P.days.filter(d => d.isRest).length,
+      sundays:    sun.length,
       restEmpty:  sun.every(d => d.tasks.length === 0 && d.isRest),
-      weekdayOK:  wd.every(d => d.totalMins === wdMins),
-      saturdayOK: sat.every(d => d.totalMins === satMins),
-      weeklyOK:   P.weeks.every(w => w.leadIn || w.hours === weekly),
+      weekdayOK:  before.filter(d => !d.isWeekend).every(d => d.totalMins === wdMins)
+               && after.filter(d => !d.isWeekend).every(d => d.totalMins === v2wd),
+      saturdayOK: before.filter(d => d.dow === 'Saturday').every(d => d.totalMins === satMins)
+               && after.filter(d => d.isWeekend).every(d => d.totalMins === v2we),
+      weeklyOK:   full.every(w => w.hours === weekly),
       totalHours: P.meta.totalHours,
       totalWeeks: P.weeks.length,
       applyStart: P.anchors.applyStart,
       quotaOK:    P.weeks.filter(w => w.applyQuota > 0).length > 0,
       firstSunday: sun.length ? sun[0].date : null,
     };
-  }, [WEEKDAY_MINS, SATURDAY_MINS, WEEKLY_HOURS]);
-  check(`${TOTAL_WEEKS} Sundays are rest days`, budget.restCount === TOTAL_WEEKS && budget.restEmpty, budget.restCount + ' rest days');
-  check(`weekdays are exactly ${WEEKDAY_MINS}m`, budget.weekdayOK);
-  check(`Saturdays are exactly ${SATURDAY_MINS}m`, budget.saturdayOK);
-  check(`every full week is exactly ${WEEKLY_HOURS}h`, budget.weeklyOK);
+  }, [WEEKDAY_MINS, SATURDAY_MINS, V2_WEEKDAY_MINS, V2_WEEKEND_MINS, WEEKLY_HOURS, CUTOVER]);
+  check(`only Sundays before ${CUTOVER} are rest days`, budget.restCount === budget.sundays && budget.restEmpty, budget.restCount + ' rest days');
+  check(`weekdays are exactly ${WEEKDAY_MINS}m, then ${V2_WEEKDAY_MINS}m`, budget.weekdayOK);
+  check(`weekend days are exactly ${SATURDAY_MINS}m, then ${V2_WEEKEND_MINS}m`, budget.saturdayOK);
+  check(`every full accelerated week is exactly ${WEEKLY_HOURS}h`, budget.weeklyOK);
   check(`the plan has ${TOTAL_WEEKS} weeks`, budget.totalWeeks === TOTAL_WEEKS, budget.totalWeeks + ' weeks');
   check(`total is ${TOTAL_HOURS} hours`, budget.totalHours === TOTAL_HOURS, budget.totalHours + 'h');
   check('applications open on the anchor date', budget.applyStart === ANCHORS.applyStart, budget.applyStart);
