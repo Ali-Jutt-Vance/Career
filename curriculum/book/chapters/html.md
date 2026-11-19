@@ -731,7 +731,7 @@ Layout shifts as images load; users tap the wrong thing. **Fix:** `width` and `h
 
 **A field's value is missing on the server.** Missing `name`, a `disabled` input (disabled fields are not submitted — use `readonly` if the value must be sent but not edited), or an unchecked checkbox.
 
-**Validate the HTML.** The W3C's Nu HTML Checker (validator.w3.org/nu) reports invalid nesting, duplicate IDs and missing attributes. Browser extensions and the "Lighthouse" panel in Chrome's developer tools report accessibility and SEO problems.
+**Validate the HTML.** The W3C's free online Nu HTML Checker reports invalid nesting, duplicate IDs and missing attributes. Browser extensions and the "Lighthouse" panel in Chrome's developer tools report accessibility and SEO problems.
 
 ## Security
 
