@@ -1,816 +1,297 @@
-/**
- * Career Book — Interactive Reader
+/* Becoming a Software Engineer — reader app
  *
- *   Plan tab      — today's tasks, tick boxes, streak, countdown, week/block navigation
- *   Chapters tab  — the full curriculum with reading position saved
- *   Q&A tab       — every interview section in the book, collapsed
- *   Search        — full text across all chapters, not just titles
- *   Theme + type  — dark/light and font scale, persisted
- *
- * All progress lives in localStorage under one key so it survives rebuilds.
+ * One page is visible at a time (home, a chapter, glossary or index).
+ * Navigation is by URL hash:
+ *   #home  #<chapter-id>  #<chapter-id>--<section>  #glossary--A  #index--B
+ * The only thing remembered between visits is where you stopped reading,
+ * your theme and your text size.
  */
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'career-book-v2';
-  const SAVE_DEBOUNCE_MS = 800;
-
-  const manifest = window.__BOOK_MANIFEST__ || [];
-  const PLAN     = window.__PLAN__ || null;
-
-  let currentChapterId = null;
-  let interviewOnly = false;
-  let saveTimer = null;
-  let activePanel = PLAN ? 'plan' : 'chapters';
-  let viewDate = null; // ISO date currently shown in the Plan pane
-
-  const $  = (sel, ctx = document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+  const BOOK = window.__BOOK__;
+  const order = BOOK.order;
+  const chapterById = new Map(BOOK.chapters.map(c => [c.id, c]));
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
 
   const els = {
-    app:           $('.reader-app'),
-    sidebar:       $('.sidebar'),
-    overlay:       $('.sidebar-overlay'),
-    menuBtn:       $('.menu-btn'),
-    searchInput:   $('#chapter-search'),
-    planNav:       $('#plan-nav'),
-    chaptersNav:   $('#chapters-nav'),
-    interviewNav:  $('#interview-nav'),
-    searchResults: $('#search-results'),
-    tabs:          $$('.sidebar-tab'),
-    breadcrumb:    $('.breadcrumb'),
-    prevBtn:       $('#prev-chapter'),
-    nextBtn:       $('#next-chapter'),
-    todayBtn:      $('#today-btn'),
-    interviewBtn:  $('#interview-toggle'),
-    themeBtn:      $('#theme-toggle'),
-    fontUp:        $('#font-larger'),
-    fontDown:      $('#font-smaller'),
-    contentScroll: $('.content-scroll'),
-    planPane:      $('#plan-pane'),
-    welcomePane:   $('#welcome-pane'),
-    saveToast:     $('.save-toast'),
-    progressBar:   $('.progress-bar'),
+    app: $('.app'),
+    scroller: $('#scroller'),
+    crumb: $('#crumb'),
+    prev: $('#prev-btn'),
+    next: $('#next-btn'),
+    search: $('#search'),
+    results: $('#search-results'),
+    nav: $('#nav'),
+    bar: $('#read-progress-bar'),
   };
 
-  // ── State ───────────────────────────────────────────────────
+  // ── Small persistent preferences (safe if storage is unavailable) ──
+  const store = {
+    get(key, fallback) {
+      try { const v = localStorage.getItem('book:' + key); return v === null ? fallback : JSON.parse(v); }
+      catch (e) { return fallback; }
+    },
+    set(key, value) {
+      try { localStorage.setItem('book:' + key, JSON.stringify(value)); } catch (e) { /* ignore */ }
+    },
+  };
 
-  function loadState() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-    catch { return {}; }
+  let currentPage = null;
+
+  // ── Pages and routing ──────────────────────────────────────────────
+  function parseHash() {
+    const raw = decodeURIComponent(location.hash.replace(/^#/, ''));
+    if (!raw) return { page: 'home', target: null };
+    const page = raw.split('--')[0];
+    if (!order.includes(page)) return { page: 'home', target: null };
+    return { page, target: raw.includes('--') ? raw : null };
   }
 
-  function saveState(partial, quiet) {
-    const state = { ...loadState(), ...partial, savedAt: Date.now() };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    if (!quiet) showSaveToast();
+  function showPage(pageId, targetId, restoreScroll) {
+    const pageEl = document.getElementById('page-' + pageId);
+    if (!pageEl) return;
+    if (currentPage !== pageId) {
+      $$('.page.active').forEach(p => p.classList.remove('active'));
+      pageEl.classList.add('active');
+      currentPage = pageId;
+      updateChrome(pageId);
+    }
+    requestAnimationFrame(() => {
+      if (targetId) {
+        const t = document.getElementById(targetId);
+        if (t) { t.scrollIntoView({ block: 'start' }); }
+      } else if (typeof restoreScroll === 'number') {
+        els.scroller.scrollTop = restoreScroll;
+      } else {
+        els.scroller.scrollTop = 0;
+      }
+      onScroll();
+    });
+    els.app.classList.remove('side-open');
+    if (pageId !== 'home') store.set('last', { page: pageId, scroll: 0 });
   }
 
-  function getDone() { return loadState().done || {}; }
-
-  function setTaskDone(taskId, done) {
-    const d = getDone();
-    if (done) d[taskId] = 1; else delete d[taskId];
-    saveState({ done: d }, true);
+  function route() {
+    const { page, target } = parseHash();
+    showPage(page, target);
   }
 
-  function showSaveToast() {
-    if (!els.saveToast) return;
-    els.saveToast.classList.add('show');
-    clearTimeout(els.saveToast._timer);
-    els.saveToast._timer = setTimeout(() => els.saveToast.classList.remove('show'), 1400);
+  function go(pageId) {
+    if (location.hash === '#' + pageId) route();
+    else location.hash = pageId;
   }
 
-  // ── Date helpers ────────────────────────────────────────────
+  function updateChrome(pageId) {
+    // Sidebar highlight
+    $$('.nav-ch.active').forEach(li => li.classList.remove('active'));
+    $$('.nav-ref .nav-ch-link.active').forEach(a => a.classList.remove('active'));
+    const li = els.nav.querySelector(`.nav-ch[data-id="${pageId}"]`);
+    if (li) {
+      li.classList.add('active');
+      const part = li.closest('.nav-part');
+      if (part) part.classList.remove('collapsed');
+      li.scrollIntoView({ block: 'nearest' });
+    }
+    const ref = els.nav.querySelector(`.nav-ref .nav-ch-link[data-id="${pageId}"]`);
+    if (ref) ref.classList.add('active');
 
-  function todayISO() {
-    const n = new Date();
-    return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`;
-  }
-
-  function daysBetween(a, b) {
-    return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
-  }
-
-  /** The plan day for today, or the nearest edge if today is outside the range. */
-  function resolveToday() {
-    if (!PLAN) return null;
-    const t = todayISO();
-    const exact = PLAN.days.find(d => d.date === t);
-    if (exact) return exact;
-    if (t < PLAN.meta.start) return PLAN.days[0];
-    return PLAN.days[PLAN.days.length - 1];
-  }
-
-  function dayByDate(date) {
-    return PLAN ? PLAN.days.find(d => d.date === date) : null;
-  }
-
-  // ── Progress maths ──────────────────────────────────────────
-
-  function dayCompletion(day) {
-    const done = getDone();
-    const n = day.tasks.filter(t => done[t.id]).length;
-    if (day.isRest) return { done: 0, total: 0, pct: 1, rest: true };
-    return { done: n, total: day.tasks.length, pct: day.tasks.length ? n / day.tasks.length : 0 };
-  }
-
-  function overallStats() {
-    if (!PLAN) return null;
-    const done = getDone();
-    const today = todayISO();
-    let tasksDone = 0, tasksTotal = 0, daysComplete = 0, elapsedDays = 0, restDays = 0;
-
-    for (const day of PLAN.days) {
-      tasksTotal += day.tasks.length;
-      const n = day.tasks.filter(t => done[t.id]).length;
-      tasksDone += n;
-      if (n === day.tasks.length && day.tasks.length) daysComplete++;
-      if (day.isRest) restDays++;
-      if (day.date <= today) elapsedDays++;
+    // Breadcrumb
+    const ch = chapterById.get(pageId);
+    if (ch) {
+      els.crumb.innerHTML = `${esc(ch.part)} › <strong>${ch.number}. ${esc(ch.title)}</strong>`;
+      document.title = `${ch.number}. ${ch.title} — ${BOOK.title}`;
+    } else {
+      const names = { home: 'Contents', glossary: 'Glossary', index: 'Index' };
+      els.crumb.innerHTML = `<strong>${names[pageId] || ''}</strong>`;
+      document.title = pageId === 'home' ? BOOK.title : `${names[pageId]} — ${BOOK.title}`;
     }
 
-    // Streak: consecutive worked days counting back from today. Rest days (every
-    // Sunday) are NEUTRAL — they are skipped over rather than breaking it,
-    // because resting on a scheduled day off is compliance, not failure.
-    let streak = 0;
-    const upto = PLAN.days.filter(d => d.date <= today);
-    for (let i = upto.length - 1; i >= 0; i--) {
-      const day = upto[i];
-      if (day.isRest) continue;                       // skip, do not break
-      const n = day.tasks.filter(t => done[t.id]).length;
-      if (n === 0) break;
-      streak++;
-    }
-
-    const remaining = Math.max(0, daysBetween(today, PLAN.meta.end));
-
-    return {
-      tasksDone, tasksTotal, daysComplete, streak, remaining, restDays,
-      elapsedDays: Math.max(0, Math.min(elapsedDays, PLAN.days.length)),
-      totalDays: PLAN.days.length,
-      pct: tasksTotal ? tasksDone / tasksTotal : 0,
-    };
+    // Previous / next
+    const i = order.indexOf(pageId);
+    els.prev.disabled = i <= 0;
+    els.next.disabled = i >= order.length - 1;
   }
 
-  function trackTotals() {
-    if (!PLAN) return [];
-    const done = getDone();
-    const acc = {};
-    for (const day of PLAN.days) {
-      for (const t of day.tasks) {
-        if (!acc[t.track]) acc[t.track] = { label: t.trackLabel, color: t.color, done: 0, total: 0 };
-        acc[t.track].total++;
-        if (done[t.id]) acc[t.track].done++;
+  function step(delta) {
+    const i = order.indexOf(currentPage);
+    const j = i + delta;
+    if (j >= 0 && j < order.length) go(order[j]);
+  }
+
+  // ── Scrolling: progress bar, current section, remembered position ──
+  let saveTimer = null;
+  function onScroll() {
+    const s = els.scroller;
+    const max = s.scrollHeight - s.clientHeight;
+    els.bar.style.width = (max > 0 ? Math.min(100, (s.scrollTop / max) * 100) : 0) + '%';
+
+    if (chapterById.has(currentPage)) {
+      const heads = $$(`#page-${currentPage} .chapter-body h2`);
+      let current = null;
+      const top = s.getBoundingClientRect().top + 90;
+      for (const h of heads) { if (h.getBoundingClientRect().top <= top) current = h.id; else break; }
+      $$('.nav-sec.current').forEach(a => a.classList.remove('current'));
+      if (current) {
+        const link = els.nav.querySelector(`.nav-sec[href="#${CSS.escape(current)}"]`);
+        if (link) link.classList.add('current');
       }
     }
-    return Object.entries(acc).map(([k, v]) => ({ track: k, ...v }));
+
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      if (currentPage && currentPage !== 'home') store.set('last', { page: currentPage, scroll: Math.round(s.scrollTop) });
+    }, 400);
   }
 
-  // ── Plan pane rendering ─────────────────────────────────────
-
+  // ── Search ─────────────────────────────────────────────────────────
   function esc(s) {
-    return String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
-
-  function renderPlanPane(date) {
-    if (!PLAN || !els.planPane) return;
-
-    const day = dayByDate(date) || resolveToday();
-    if (!day) return;
-    viewDate = day.date;
-
-    const week  = PLAN.weeks.find(w => w.n === day.week);
-    const stats = overallStats();
-    const comp  = dayCompletion(day);
-    const done  = getDone();
-    const isToday = day.date === todayISO();
-
-    const idx  = PLAN.days.findIndex(d => d.date === day.date);
-    const prev = idx > 0 ? PLAN.days[idx - 1] : null;
-    const next = idx < PLAN.days.length - 1 ? PLAN.days[idx + 1] : null;
-
-    const tracks = trackTotals();
-
-    const anchorList = [
-      ['CV + GitHub done',   PLAN.anchors.cvReady],
-      ['APPLICATIONS OPEN',  PLAN.anchors.applyStart],
-      ['API live',           PLAN.anchors.apiLive],
-      ['AI unlocked',        PLAN.anchors.aiUnlock],
-      ['Project 1 live',     PLAN.anchors.project1],
-      ['Project 2 live',     PLAN.anchors.project2],
-      ['First mock',         PLAN.anchors.mockStart],
-      ['DEADLINE',           PLAN.anchors.deadline],
-    ];
-
-    els.planPane.innerHTML = `
-      <div class="plan-hero">
-        <div class="plan-hero-top">
-          <div>
-            <div class="plan-eyebrow">${isToday ? 'TODAY' : 'PLAN'} · DAY ${day.n} OF ${PLAN.meta.totalDays}</div>
-            <h1 class="plan-date">${esc(day.pretty)}</h1>
-            <div class="plan-focus">${esc(day.focus)}</div>
-          </div>
-          <div class="plan-countdown">
-            <div class="pc-num">${stats.remaining}</div>
-            <div class="pc-label">days to<br>${new Date(PLAN.meta.end + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })}</div>
-          </div>
-        </div>
-
-        <div class="plan-metrics">
-          <div class="pm"><strong>${stats.streak}</strong><span>Day streak</span></div>
-          <div class="pm"><strong>${day.isRest ? '—' : comp.done + '/' + comp.total}</strong><span>${day.isRest ? 'Rest day' : 'Today'}</span></div>
-          <div class="pm"><strong>${Math.round(stats.pct * 100)}%</strong><span>Overall</span></div>
-          <div class="pm"><strong>${stats.daysComplete}</strong><span>Days complete</span></div>
-          <div class="pm"><strong>${stats.tasksDone}</strong><span>Tasks done</span></div>
-        </div>
-
-        <div class="plan-day-nav">
-          <button class="pdn-btn" data-goto="${prev ? prev.date : ''}" ${prev ? '' : 'disabled'}>← ${prev ? esc(prev.short) : ''}</button>
-          <button class="pdn-btn pdn-today" data-goto="today">Today</button>
-          <button class="pdn-btn" data-goto="${next ? next.date : ''}" ${next ? '' : 'disabled'}>${next ? esc(next.short) : ''} →</button>
-        </div>
-      </div>
-
-      <div class="plan-week-card">
-        <div class="pw-label">WEEK ${week.n} · BLOCK ${esc(week.block)}</div>
-        <h2 class="pw-title">${esc(week.title)}</h2>
-        <p class="pw-theme">${esc(week.theme)}</p>
-        <div class="pw-row"><span class="pw-tag">Deliverable</span><div>${esc(week.deliverable)}</div></div>
-        <div class="pw-row"><span class="pw-tag pw-tag-ms">Milestone</span><div>${esc(week.milestone)}</div></div>
-        ${week.chapters.length ? `
-        <div class="pw-chapters">
-          <span class="pw-tag">Chapters</span>
-          <div>${week.chapters.map(c => {
-            const id = c.split('/')[0] + '--' + c.split('/')[1].replace(/^\d+-/, '');
-            const meta = manifest.find(m => m.id === id);
-            return `<a class="pw-chapter-link" data-chapter="${id}" href="#${id}">${esc(meta ? meta.title : c)}</a>`;
-          }).join('')}</div>
-        </div>` : ''}
-      </div>
-
-      ${day.isRest ? `
-      <div class="plan-rest">
-        <div class="rest-icon">☀</div>
-        <h3>Day off</h3>
-        <p>No tasks today. Sunday is a scheduled rest day and it is part of the plan, not a gap in it —
-           it is what keeps the whole plan sustainable.</p>
-        <p class="rest-note">Your streak is safe. Resting on a rest day counts as following the plan.</p>
-      </div>` : `
-      <div class="plan-tasks">
-        <div class="pt-header">
-          <h3>${isToday ? "Today's schedule" : "Schedule"}</h3>
-          <div class="pt-progress"><div class="pt-progress-fill" style="width:${comp.pct * 100}%"></div></div>
-        </div>
-        ${day.tasks.map(t => `
-        <label class="task ${done[t.id] ? 'task-done' : ''}" data-task="${t.id}">
-          <input type="checkbox" ${done[t.id] ? 'checked' : ''} data-task-check="${t.id}">
-          <span class="task-check"></span>
-          <div class="task-body">
-            <div class="task-meta">
-              <span class="task-time">${esc(t.time)}</span>
-              <span class="task-track" style="--tc:${t.color}">${esc(t.trackLabel)}</span>
-              <span class="task-mins">${t.mins}m</span>
-            </div>
-            <div class="task-text">${esc(t.text)}</div>
-          </div>
-        </label>`).join('')}
-        <div class="pt-footer">${Math.floor(day.totalMins / 60)}h ${day.totalMins % 60}m scheduled${day.dow === 'Saturday' ? ' · Saturday schedule' : ''}</div>
-      </div>`}
-
-      ${renderRoutine(day)}
-
-      <div class="plan-side-grid">
-        <div class="plan-card">
-          <h3>Track progress</h3>
-          ${tracks.map(t => `
-            <div class="track-row">
-              <div class="track-row-top"><span style="color:${t.color}">●</span> ${esc(t.label)}<em>${t.done}/${t.total}</em></div>
-              <div class="track-bar"><div style="width:${t.total ? (t.done / t.total) * 100 : 0}%;background:${t.color}"></div></div>
-            </div>`).join('')}
-        </div>
-
-        <div class="plan-card">
-          <h3>Fixed anchors</h3>
-          ${anchorList.map(([label, d]) => {
-            const delta = daysBetween(todayISO(), d);
-            const cls = delta < 0 ? 'anchor-past' : (delta <= 14 ? 'anchor-soon' : '');
-            return `<div class="anchor-row ${cls}">
-              <span>${esc(label)}</span>
-              <em>${delta < 0 ? 'passed' : (delta === 0 ? 'today' : delta + 'd')}</em>
-            </div>`;
-          }).join('')}
-        </div>
-      </div>
-    `;
-
-    bindPlanPane();
-    updateBreadcrumbForPlan(day);
-  }
-
-  /** The whole-day timetable (prayers, gym, sleep) around the plan's slots. */
-  function renderRoutine(day) {
-    const R = PLAN.routine;
-    if (!R) return '';
-    const key = day.dow === 'Sunday' ? 'sunday' : (day.dow === 'Saturday' ? 'saturday' : 'weekday');
-    const label = { weekday: 'Weekday', saturday: 'Saturday', sunday: 'Sunday' }[key];
-    const chapterId = 'phase-0-mission--the-whole-day';
-    return `
-      <div class="plan-routine">
-        <div class="pr-head">
-          <h3>Your whole day <span class="pr-kind-label">${label}</span></h3>
-          <a class="pw-chapter-link" data-chapter="${chapterId}" href="#${chapterId}">The Whole Day →</a>
-        </div>
-        ${R[key].map(r => `
-        <div class="pr-row pr-${r.kind}">
-          <span class="pr-time">${esc(r.time)}</span>
-          <span class="pr-dot"></span>
-          <div class="pr-body">
-            <div class="pr-what">${esc(r.what)}</div>
-            ${r.note ? `<div class="pr-note">${esc(r.note)}</div>` : ''}
-          </div>
-        </div>`).join('')}
-      </div>`;
-  }
-
-  function bindPlanPane() {
-    $$('[data-task-check]', els.planPane).forEach(cb => {
-      cb.addEventListener('change', () => {
-        setTaskDone(cb.dataset.taskCheck, cb.checked);
-        cb.closest('.task').classList.toggle('task-done', cb.checked);
-        // Re-render only the numbers, keeping scroll position.
-        const scroll = els.contentScroll.scrollTop;
-        renderPlanPane(viewDate);
-        buildPlanNav();
-        els.contentScroll.scrollTop = scroll;
-        showSaveToast();
-      });
-    });
-
-    $$('[data-goto]', els.planPane).forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.goto;
-        if (!target) return;
-        showPlan(target === 'today' ? resolveToday().date : target);
-      });
-    });
-
-    $$('[data-chapter]', els.planPane).forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        switchPanel('chapters');
-        navigateToChapter(link.dataset.chapter);
-      });
-    });
-  }
-
-  function updateBreadcrumbForPlan(day) {
-    if (!els.breadcrumb) return;
-    els.breadcrumb.innerHTML = `<strong>Day ${day.n}</strong> › ${esc(day.pretty)} › Week ${day.week}`;
-  }
-
-  function showPlan(date) {
-    activePanel = 'plan';
-    $$('.chapter-pane').forEach(p => p.classList.remove('active'));
-    if (els.welcomePane) els.welcomePane.style.display = 'none';
-    if (els.planPane) els.planPane.style.display = '';
-    renderPlanPane(date || viewDate || (resolveToday() && resolveToday().date));
-    els.contentScroll.scrollTop = 0;
-    if (PLAN) {
-      const st = overallStats();
-      if (els.progressBar) els.progressBar.style.width = `${st.pct * 100}%`;
-    }
-    saveState({ lastPanel: 'plan', lastPlanDate: viewDate }, true);
-  }
-
-  // ── Sidebar ─────────────────────────────────────────────────
-
-  function buildPlanNav() {
-    if (!PLAN || !els.planNav) return;
-    const done = getDone();
-    const today = todayISO();
-
-    let html = '';
-    for (const block of PLAN.blocks) {
-      const weeks = block.weeks.map(n => PLAN.weeks.find(w => w.n === n));
-      html += `<div class="plan-block">
-        <div class="plan-block-label">BLOCK ${esc(block.name)}</div>`;
-
-      for (const w of weeks) {
-        const days = PLAN.days.filter(d => d.week === w.n);
-        const work  = days.filter(d => !d.isRest);
-        const wDone = work.reduce((a, d) => a + d.tasks.filter(t => done[t.id]).length, 0);
-        const wTot  = work.reduce((a, d) => a + d.tasks.length, 0);
-        const isCurrent = days.some(d => d.date === today);
-
-        html += `<div class="plan-week-group ${isCurrent ? 'current' : ''}">
-          <button class="plan-week-toggle" type="button">
-            <span class="arrow">▸</span>
-            <span class="pwt-name">W${w.n} · ${esc(w.title)}</span>
-            <span class="pwt-count">${wDone}/${wTot}</span>
-          </button>
-          <div class="plan-day-list">
-            ${days.map(d => {
-              const n = d.tasks.filter(t => done[t.id]).length;
-              if (d.isRest) {
-                const curR = d.date === today ? 'today' : '';
-                return `<a class="plan-day-link rest ${curR}" data-date="${d.date}" href="#day-${d.date}">
-                  <span class="pdl-dot"></span>
-                  <span class="pdl-date">${esc(d.dowShort)} ${esc(d.short)}</span>
-                  <span class="pdl-n">off</span>
-                </a>`;
-              }
-              const state = n === d.tasks.length ? 'full' : (n > 0 ? 'part' : '');
-              const cur = d.date === today ? 'today' : '';
-              const past = d.date < today && n === 0 ? 'missed' : '';
-              return `<a class="plan-day-link ${state} ${cur} ${past}" data-date="${d.date}" href="#day-${d.date}">
-                <span class="pdl-dot"></span>
-                <span class="pdl-date">${esc(d.dowShort)} ${esc(d.short)}</span>
-                <span class="pdl-n">${n}/${d.tasks.length}</span>
-              </a>`;
-            }).join('')}
-          </div>
-        </div>`;
-      }
-      html += `</div>`;
-    }
-
-    els.planNav.innerHTML = html;
-
-    $$('.plan-week-toggle', els.planNav).forEach(btn => {
-      const group = btn.closest('.plan-week-group');
-      if (!group.classList.contains('current')) group.classList.add('collapsed');
-      btn.addEventListener('click', () => group.classList.toggle('collapsed'));
-    });
-
-    $$('.plan-day-link', els.planNav).forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        showPlan(link.dataset.date);
-        closeMobileSidebar();
-      });
-    });
-
-    const cur = $('.plan-week-group.current', els.planNav);
-    if (cur) cur.scrollIntoView({ block: 'center' });
-  }
-
-  function buildSidebar() {
-    const phases = {};
-    manifest.forEach(ch => {
-      if (!phases[ch.phaseKey]) phases[ch.phaseKey] = { title: ch.phaseTitle, number: ch.phaseNumber, chapters: [] };
-      phases[ch.phaseKey].chapters.push(ch);
-    });
-
-    let chaptersHtml = '';
-    let interviewHtml = '';
-
-    Object.entries(phases).forEach(([key, phase]) => {
-      const links = phase.chapters.map(ch => {
-        const badge = ch.hasInterview ? '<span class="iq-badge">Q&A</span>' : '';
-        return `<a class="chapter-link" data-id="${ch.id}" href="#${ch.id}">${esc(ch.title)}${badge}</a>`;
-      }).join('');
-
-      chaptersHtml += `
-        <div class="phase-group" data-phase="${key}">
-          <button class="phase-toggle" type="button">
-            <span class="arrow">▼</span>
-            ${esc(phase.title)}
-          </button>
-          <div class="chapter-list">${links}</div>
-        </div>`;
-
-      phase.chapters.filter(c => c.hasInterview).forEach(ch => {
-        interviewHtml += `<a class="chapter-link" data-id="${ch.id}" data-interview="1" href="#${ch.id}">${esc(ch.title)}</a>`;
-      });
-    });
-
-    if (els.chaptersNav) els.chaptersNav.innerHTML = chaptersHtml;
-    if (els.interviewNav) {
-      els.interviewNav.innerHTML = interviewHtml || '<p class="nav-empty">No interview sections found.</p>';
-    }
-
-    $$('.phase-toggle').forEach(btn => {
-      btn.addEventListener('click', () => btn.closest('.phase-group').classList.toggle('collapsed'));
-    });
-
-    $$('.chapter-link').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        navigateToChapter(link.dataset.id, link.dataset.interview === '1');
-        closeMobileSidebar();
-      });
-    });
-
-    buildPlanNav();
-  }
-
-  // ── Chapter navigation ──────────────────────────────────────
-
-  function getChapterIndex(id) { return manifest.findIndex(c => c.id === id); }
-  function getChapterMeta(id)  { return manifest.find(c => c.id === id); }
-
-  function navigateToChapter(id, jumpToInterview = false) {
-    if (!id || !getChapterMeta(id)) return;
-
-    activePanel = 'chapters';
-    currentChapterId = id;
-    interviewOnly = jumpToInterview;
-
-    if (els.planPane) els.planPane.style.display = 'none';
-    if (els.welcomePane) els.welcomePane.style.display = 'none';
-
-    $$('.chapter-pane').forEach(p => p.classList.remove('active'));
-    const pane = document.getElementById(id);
-    if (pane) {
-      pane.classList.add('active');
-      pane.classList.toggle('interview-only', interviewOnly);
-      if (interviewOnly) {
-        const zone = pane.querySelector('.interview-zone');
-        if (zone) setTimeout(() => zone.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-      }
-    }
-
-    $$('.chapter-link').forEach(l => l.classList.toggle('active', l.dataset.id === id));
-
-    const meta = getChapterMeta(id);
-    if (els.breadcrumb) {
-      els.breadcrumb.innerHTML = `<strong>${esc(meta.phaseTitle)}</strong> › ${esc(meta.title)}`;
-    }
-
-    updateNavButtons();
-    updateInterviewToggle();
-    updateProgressBar();
-    saveState({ chapterId: id, scrollTop: 0, interviewOnly, lastPanel: 'chapters' }, true);
-
-    if (els.contentScroll && !interviewOnly) els.contentScroll.scrollTop = 0;
-    history.replaceState(null, '', `#${id}`);
-    expandPhaseForChapter(id);
-  }
-
-  function expandPhaseForChapter(id) {
-    const meta = getChapterMeta(id);
-    if (!meta) return;
-    $$('.phase-group').forEach(g => {
-      if (g.dataset.phase === meta.phaseKey) g.classList.remove('collapsed');
-    });
-  }
-
-  function updateNavButtons() {
-    const idx = getChapterIndex(currentChapterId);
-    if (els.prevBtn) els.prevBtn.disabled = idx <= 0;
-    if (els.nextBtn) els.nextBtn.disabled = idx >= manifest.length - 1;
-  }
-
-  function updateInterviewToggle() {
-    if (!els.interviewBtn) return;
-    const meta = getChapterMeta(currentChapterId);
-    els.interviewBtn.style.display = meta && meta.hasInterview ? '' : 'none';
-    els.interviewBtn.classList.toggle('active', interviewOnly);
-    els.interviewBtn.textContent = interviewOnly ? 'Full Chapter' : 'Interview Q&A';
-  }
-
-  function updateProgressBar() {
-    const idx = getChapterIndex(currentChapterId);
-    if (els.progressBar && manifest.length > 0) {
-      els.progressBar.style.width = `${((idx + 1) / manifest.length) * 100}%`;
-    }
-  }
-
-  // ── Search (full text) ──────────────────────────────────────
-
-  function initSearch() {
-    if (!els.searchInput) return;
-    let t = null;
-    els.searchInput.addEventListener('input', () => {
-      clearTimeout(t);
-      t = setTimeout(runSearch, 180);
-    });
-    els.searchInput.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { els.searchInput.value = ''; runSearch(); }
-    });
+  function highlight(text, q) {
+    const i = text.toLowerCase().indexOf(q);
+    if (i < 0) return esc(text);
+    return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
   }
 
   function runSearch() {
-    const q = els.searchInput.value.toLowerCase().trim();
-    const panels = { plan: els.planNav, chapters: els.chaptersNav, interview: els.interviewNav };
-
-    if (!q) {
-      els.searchResults.style.display = 'none';
-      Object.entries(panels).forEach(([k, el]) => { if (el) el.style.display = k === activePanel ? '' : 'none'; });
+    const q = els.search.value.trim().toLowerCase();
+    if (q.length < 2) {
+      els.results.hidden = true;
+      els.nav.hidden = false;
       return;
     }
-
-    Object.values(panels).forEach(el => { if (el) el.style.display = 'none'; });
-    els.searchResults.style.display = '';
-
-    const hits = [];
-    for (const ch of manifest) {
-      const inTitle = ch.title.toLowerCase().includes(q);
-      const pos = ch.text ? ch.text.indexOf(q) : -1;
-      if (!inTitle && pos < 0) continue;
-      let snippet = '';
-      if (pos >= 0) {
-        const s = Math.max(0, pos - 60);
-        snippet = (s > 0 ? '…' : '') + ch.text.slice(s, pos + q.length + 90) + '…';
+    const chapterHits = [];
+    const sectionHits = [];
+    for (const c of BOOK.chapters) {
+      if (c.title.toLowerCase().includes(q)) chapterHits.push(c);
+      for (const s of c.sections) {
+        if (s.title.toLowerCase().includes(q)) sectionHits.push({ c, s });
       }
-      hits.push({ ch, inTitle, snippet, score: (inTitle ? 0 : 1) });
     }
-    hits.sort((a, b) => a.score - b.score);
+    const termHits = BOOK.glossary.filter(g => g.term.toLowerCase().includes(q));
+    const textHits = [];
+    for (const c of BOOK.chapters) {
+      const i = c.text.indexOf(q);
+      if (i >= 0 && !chapterHits.includes(c)) {
+        const start = Math.max(0, i - 50);
+        textHits.push({ c, snip: (start ? '…' : '') + c.text.slice(start, i + q.length + 70) + '…' });
+      }
+    }
 
-    els.searchResults.innerHTML = hits.length
-      ? `<div class="sr-count">${hits.length} chapter${hits.length === 1 ? '' : 's'}</div>` +
-        hits.slice(0, 60).map(h => `
-          <a class="sr-item" data-id="${h.ch.id}" href="#${h.ch.id}">
-            <div class="sr-title">${esc(h.ch.title)}</div>
-            <div class="sr-phase">${esc(h.ch.phaseTitle)}</div>
-            ${h.snippet ? `<div class="sr-snippet">${esc(h.snippet)}</div>` : ''}
-          </a>`).join('')
-      : '<p class="nav-empty">No matches.</p>';
+    let html = '';
+    if (chapterHits.length) {
+      html += '<div class="sr-head">Chapters</div>' + chapterHits.slice(0, 15).map(c =>
+        `<a href="#${c.id}"><span class="sr-title">${c.number}. ${highlight(c.title, q)}</span></a>`).join('');
+    }
+    if (termHits.length) {
+      html += '<div class="sr-head">Glossary</div>' + termHits.slice(0, 12).map(g =>
+        `<a href="${g.href}"><span class="sr-title">${highlight(g.term, q)}</span><span class="sr-snip">${esc(g.def.slice(0, 120))}</span></a>`).join('');
+    }
+    if (sectionHits.length) {
+      html += '<div class="sr-head">Sections</div>' + sectionHits.slice(0, 25).map(({ c, s }) =>
+        `<a href="#${s.id}"><span class="sr-title">${highlight(s.title, q)}</span><span class="sr-meta"> · Ch. ${c.number}</span></a>`).join('');
+    }
+    if (textHits.length) {
+      html += '<div class="sr-head">Mentioned in</div>' + textHits.slice(0, 30).map(({ c, snip }) =>
+        `<a href="#${c.id}"><span class="sr-title">${c.number}. ${esc(c.title)}</span><span class="sr-snip">${highlight(snip, q)}</span></a>`).join('');
+    }
+    els.results.innerHTML = html || '<div class="sr-empty">Nothing found. Try a shorter or different word.</div>';
+    els.results.hidden = false;
+    els.nav.hidden = true;
+  }
 
-    $$('.sr-item', els.searchResults).forEach(a => {
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        navigateToChapter(a.dataset.id);
-        closeMobileSidebar();
+  // ── Glossary / index filter boxes ──────────────────────────────────
+  function initFilters() {
+    $$('.filter-box').forEach(box => {
+      const page = box.closest('.page');
+      box.addEventListener('input', () => {
+        const q = box.value.trim().toLowerCase();
+        const items = page.querySelectorAll(box.dataset.filter === 'glossary' ? 'dt' : '.index-list li');
+        items.forEach(item => {
+          const hit = !q || item.textContent.toLowerCase().includes(q) ||
+            (item.tagName === 'DT' && item.nextElementSibling.textContent.toLowerCase().includes(q));
+          item.classList.toggle('hidden-by-filter', !hit);
+          if (item.tagName === 'DT') item.nextElementSibling.classList.toggle('hidden-by-filter', !hit);
+        });
+        page.querySelectorAll('.az-group').forEach(g => {
+          const visible = g.querySelector('dt:not(.hidden-by-filter), li:not(.hidden-by-filter)');
+          g.classList.toggle('hidden-by-filter', !visible);
+        });
       });
     });
   }
 
-  // ── Panels, theme, type scale ───────────────────────────────
-
-  function switchPanel(panel) {
-    activePanel = panel;
-    els.tabs.forEach(t => t.classList.toggle('active', t.dataset.panel === panel));
-    if (els.searchInput.value.trim()) { runSearch(); return; }
-    els.searchResults.style.display = 'none';
-    if (els.planNav)      els.planNav.style.display      = panel === 'plan' ? '' : 'none';
-    if (els.chaptersNav)  els.chaptersNav.style.display  = panel === 'chapters' ? '' : 'none';
-    if (els.interviewNav) els.interviewNav.style.display = panel === 'interview' ? '' : 'none';
-    if (panel === 'plan') showPlan(viewDate);
-  }
-
-  function initTabs() {
-    els.tabs.forEach(tab => {
-      tab.addEventListener('click', () => switchPanel(tab.dataset.panel));
-    });
-  }
-
+  // ── Theme and text size ────────────────────────────────────────────
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    saveState({ theme }, true);
+    store.set('theme', theme);
+  }
+  function applyScale(scale) {
+    scale = Math.min(1.4, Math.max(0.8, Math.round(scale * 10) / 10));
+    document.documentElement.style.setProperty('--scale', scale);
+    store.set('scale', scale);
+    return scale;
   }
 
-  function applyFontScale(scale) {
-    const s = Math.min(1.5, Math.max(0.8, scale));
-    document.documentElement.style.setProperty('--font-scale', s);
-    saveState({ fontScale: s }, true);
-    return s;
-  }
+  // ── Wire everything up ─────────────────────────────────────────────
+  function init() {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(store.get('theme', prefersDark ? 'dark' : 'light'));
+    let scale = applyScale(store.get('scale', 1));
 
-  function initChrome() {
-    const state = loadState();
-    applyTheme(state.theme || 'dark');
-    let scale = applyFontScale(state.fontScale || 1);
+    $('#theme-btn').addEventListener('click', () =>
+      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+    $('#font-up').addEventListener('click', () => { scale = applyScale(scale + 0.1); });
+    $('#font-down').addEventListener('click', () => { scale = applyScale(scale - 0.1); });
+    els.prev.addEventListener('click', () => step(-1));
+    els.next.addEventListener('click', () => step(1));
+    $('#menu-btn').addEventListener('click', () => els.app.classList.toggle('side-open'));
+    $('#scrim').addEventListener('click', () => els.app.classList.remove('side-open'));
 
-    els.themeBtn?.addEventListener('click', () => {
-      const cur = document.documentElement.getAttribute('data-theme');
-      applyTheme(cur === 'dark' ? 'light' : 'dark');
+    $$('.nav-part-btn').forEach(btn => btn.addEventListener('click', () =>
+      btn.closest('.nav-part').classList.toggle('collapsed')));
+
+    els.search.addEventListener('input', runSearch);
+    els.search.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { els.search.value = ''; runSearch(); }
+      if (e.key === 'Enter') { const first = els.results.querySelector('a'); if (first) first.click(); }
     });
-    els.fontUp?.addEventListener('click', () => { scale = applyFontScale(scale + 0.1); });
-    els.fontDown?.addEventListener('click', () => { scale = applyFontScale(scale - 0.1); });
+    els.results.addEventListener('click', e => { if (e.target.closest('a')) els.app.classList.remove('side-open'); });
 
-    els.todayBtn?.addEventListener('click', () => {
-      switchPanel('plan');
-      const t = resolveToday();
-      if (t) showPlan(t.date);
-      buildPlanNav();
-    });
-
-    els.prevBtn?.addEventListener('click', () => {
-      if (activePanel === 'plan') {
-        const i = PLAN.days.findIndex(d => d.date === viewDate);
-        if (i > 0) showPlan(PLAN.days[i - 1].date);
-        return;
-      }
-      const idx = getChapterIndex(currentChapterId);
-      if (idx > 0) navigateToChapter(manifest[idx - 1].id, false);
-    });
-
-    els.nextBtn?.addEventListener('click', () => {
-      if (activePanel === 'plan') {
-        const i = PLAN.days.findIndex(d => d.date === viewDate);
-        if (i >= 0 && i < PLAN.days.length - 1) showPlan(PLAN.days[i + 1].date);
-        return;
-      }
-      const idx = getChapterIndex(currentChapterId);
-      if (idx < manifest.length - 1) navigateToChapter(manifest[idx + 1].id, false);
-    });
-
-    els.interviewBtn?.addEventListener('click', () => {
-      interviewOnly = !interviewOnly;
-      const pane = document.getElementById(currentChapterId);
-      if (pane) {
-        pane.classList.toggle('interview-only', interviewOnly);
-        if (interviewOnly) pane.querySelector('.interview-zone')?.scrollIntoView({ behavior: 'smooth' });
-      }
-      updateInterviewToggle();
-      saveState({ interviewOnly }, true);
-    });
-
-    els.menuBtn?.addEventListener('click', () => els.app.classList.toggle('sidebar-open'));
-    els.overlay?.addEventListener('click', closeMobileSidebar);
-  }
-
-  function closeMobileSidebar() { els.app?.classList.remove('sidebar-open'); }
-
-  function initQABlocks() {
-    $$('.qa-block').forEach(block => {
-      const question = block.querySelector('.qa-question');
-      if (!question || question.dataset.bound) return;
-      question.dataset.bound = '1';
-      question.addEventListener('click', () => block.classList.toggle('open'));
-    });
-  }
-
-  function initScrollSave() {
-    if (!els.contentScroll) return;
-    els.contentScroll.addEventListener('scroll', () => {
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => {
-        if (activePanel === 'chapters' && currentChapterId) {
-          saveState({ chapterId: currentChapterId, scrollTop: els.contentScroll.scrollTop, interviewOnly }, true);
-        }
-      }, SAVE_DEBOUNCE_MS);
-    });
-  }
-
-  function initResumeButton() {
-    const btn = $('#resume-reading');
-    if (!btn) return;
-    const state = loadState();
-    if (state.chapterId && getChapterMeta(state.chapterId)) {
-      btn.style.display = '';
-      btn.textContent = `Resume: ${getChapterMeta(state.chapterId).title}`;
-      btn.addEventListener('click', () => navigateToChapter(state.chapterId, state.interviewOnly));
-    } else {
-      btn.style.display = 'none';
-    }
-  }
-
-  function initKeyboard() {
     document.addEventListener('keydown', e => {
       if (e.target.matches('input, textarea')) return;
-      if (e.key === '/') { e.preventDefault(); els.searchInput?.focus(); return; }
-      if (e.key === 't' || e.key === 'T') { els.todayBtn?.click(); return; }
-      if (e.key === 'ArrowLeft')  els.prevBtn?.click();
-      if (e.key === 'ArrowRight') els.nextBtn?.click();
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === '/') { e.preventDefault(); els.search.focus(); }
     });
+
+    els.scroller.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('hashchange', route);
+    initFilters();
+
+    // Resume button on the home page
+    const last = store.get('last', null);
+    const resume = $('#resume-btn');
+    if (last && last.page && order.includes(last.page) && resume) {
+      const ch = chapterById.get(last.page);
+      resume.textContent = ch ? `Continue: Chapter ${ch.number}, ${ch.title}` : 'Continue where you left off';
+      resume.hidden = false;
+      resume.addEventListener('click', () => {
+        history.replaceState(null, '', '#' + last.page);
+        showPage(last.page, null, last.scroll);
+      });
+    }
+
+    // First load: an explicit link wins; otherwise reopen where the reader stopped.
+    if (location.hash) route();
+    else if (last && order.includes(last.page)) {
+      history.replaceState(null, '', '#' + last.page);
+      showPage(last.page, null, last.scroll);
+    } else showPage('home');
   }
 
-  function restore() {
-    const state = loadState();
-    const hash = location.hash.replace('#', '');
-
-    if (hash && getChapterMeta(hash)) {
-      switchPanel('chapters');
-      navigateToChapter(hash);
-      return;
-    }
-    if (PLAN && (!state.lastPanel || state.lastPanel === 'plan')) {
-      switchPanel('plan');
-      const t = resolveToday();
-      showPlan(t ? t.date : null);
-      return;
-    }
-    if (state.chapterId && getChapterMeta(state.chapterId)) {
-      switchPanel('chapters');
-      navigateToChapter(state.chapterId, state.interviewOnly);
-      if (state.scrollTop) setTimeout(() => { els.contentScroll.scrollTop = state.scrollTop; }, 100);
-      return;
-    }
-    if (PLAN) { switchPanel('plan'); showPlan(resolveToday().date); }
-    else { els.welcomePane.style.display = ''; }
-  }
-
-  function init() {
-    if (!PLAN && els.tabs.length) {
-      els.tabs.find?.(t => t.dataset.panel === 'plan')?.remove();
-    }
-    buildSidebar();
-    initQABlocks();
-    initScrollSave();
-    initSearch();
-    initTabs();
-    initChrome();
-    initResumeButton();
-    initKeyboard();
-    restore();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();

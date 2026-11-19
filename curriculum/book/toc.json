@@ -1,0 +1,287 @@
+{
+  "title": "Becoming a Software Engineer",
+  "subtitle": "A patient, complete course — from your very first line of code to the level of an engineer with five years of experience",
+  "parts": [
+    {
+      "id": "part-01-foundations",
+      "title": "Foundations: Before You Write Code",
+      "intro": "What a computer is, how programs run, how the internet and the web work, and how to set up your tools. Nothing here assumes you have programmed before.",
+      "chapters": [
+        { "id": "how-this-book-teaches", "title": "How This Book Teaches You", "sources": ["phase-0-mission/03-beginner-to-mastery-path.md"] },
+        { "id": "what-a-computer-is", "title": "What a Computer Really Is", "sources": [] },
+        { "id": "from-code-to-running-program", "title": "From Code to a Running Program", "sources": [] },
+        { "id": "the-terminal", "title": "The Terminal: Talking to Your Computer in Text", "sources": [] },
+        { "id": "how-the-internet-works", "title": "How the Internet Works", "sources": ["phase-5-devops/09-networking.md"] },
+        { "id": "how-the-web-works", "title": "How the Web Works: Browsers, Servers and HTTP", "sources": [] },
+        { "id": "setting-up-your-workshop", "title": "Setting Up Your Workshop", "sources": [] },
+        { "id": "learning-and-ai", "title": "How to Learn Programming — and How to Use AI Without Losing Your Skills", "sources": ["phase-0-mission/03-beginner-to-mastery-path.md", "phase-0-mission/04-the-ai-dependency-problem.md"] }
+      ]
+    },
+    {
+      "id": "part-02-javascript",
+      "title": "Programming with JavaScript",
+      "intro": "Your first programming language, taught one idea at a time: values, decisions, loops, functions, lists, objects, errors, modules, asynchronous code, and finally TypeScript.",
+      "chapters": [
+        { "id": "first-program", "title": "Your First Program: Values, Variables and Output", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "types-of-data", "title": "Types of Data: Numbers, Text, True/False and Nothing", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "operators-and-decisions", "title": "Operators and Making Decisions", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "loops", "title": "Repeating Work: Loops", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "functions", "title": "Functions: Naming and Reusing Work", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "arrays", "title": "Arrays: Working with Lists", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "objects", "title": "Objects: Describing Real Things in Code", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "scope-and-closures", "title": "Scope, Hoisting and Closures: How JavaScript Finds Your Variables", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "this-prototypes-classes", "title": "this, Prototypes and Classes", "sources": ["phase-1-programming-foundations/01-javascript.md", "phase-1-programming-foundations/05-oop.md"] },
+        { "id": "errors-and-debugging", "title": "Errors, Exceptions and Debugging", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "modules-and-npm", "title": "Modules and npm: Code Across Many Files", "sources": ["phase-1-programming-foundations/01-javascript.md", "phase-2-backend-engineering/01-nodejs.md"] },
+        { "id": "asynchronous-javascript", "title": "Asynchronous JavaScript: Callbacks, Promises and async/await", "sources": ["phase-1-programming-foundations/07-asynchronous-programming.md"] },
+        { "id": "the-event-loop", "title": "The Event Loop: How JavaScript Does Many Things at Once", "sources": ["phase-1-programming-foundations/07-asynchronous-programming.md", "phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "advanced-javascript", "title": "Advanced JavaScript: Iterators, Generators, Proxies and Memory", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "typescript-basics", "title": "TypeScript I: Why Types Matter, and the Basics", "sources": ["phase-1-programming-foundations/02-typescript.md"] },
+        { "id": "typescript-advanced", "title": "TypeScript II: Generics and Advanced Types", "sources": ["phase-1-programming-foundations/02-typescript.md"] }
+      ]
+    },
+    {
+      "id": "part-03-dsa",
+      "title": "Thinking Like a Programmer: Data Structures and Algorithms",
+      "intro": "How engineers break problems down, how to measure whether code is fast, the standard ways of organising data, and the patterns that coding interviews test.",
+      "chapters": [
+        { "id": "problem-solving", "title": "How Engineers Solve Problems", "sources": ["phase-1-programming-foundations/13-dsa-interview-patterns.md"] },
+        { "id": "big-o", "title": "Measuring Speed and Memory: Big O Notation", "sources": ["phase-1-programming-foundations/04-algorithms.md", "phase-1-programming-foundations/03-data-structures.md"] },
+        { "id": "arrays-strings-hash-maps", "title": "Arrays, Strings and Hash Maps", "sources": ["phase-1-programming-foundations/03-data-structures.md"] },
+        { "id": "linked-lists-stacks-queues", "title": "Linked Lists, Stacks and Queues", "sources": ["phase-1-programming-foundations/03-data-structures.md"] },
+        { "id": "trees-heaps-graphs", "title": "Trees, Heaps and Graphs", "sources": ["phase-1-programming-foundations/03-data-structures.md"] },
+        { "id": "recursion-sorting-searching", "title": "Recursion, Sorting and Searching", "sources": ["phase-1-programming-foundations/04-algorithms.md"] },
+        { "id": "dynamic-programming-greedy", "title": "Dynamic Programming and Greedy Algorithms", "sources": ["phase-1-programming-foundations/04-algorithms.md"] },
+        { "id": "coding-interview-patterns", "title": "Coding Interview Patterns", "sources": ["phase-1-programming-foundations/13-dsa-interview-patterns.md"] }
+      ]
+    },
+    {
+      "id": "part-04-good-software",
+      "title": "Writing Good Software",
+      "intro": "The difference between code that works and code that a team can live with for years: object-oriented and functional design, clean code, SOLID, design patterns and testing.",
+      "chapters": [
+        { "id": "object-oriented-programming", "title": "Object-Oriented Programming", "sources": ["phase-1-programming-foundations/05-oop.md"] },
+        { "id": "functional-programming", "title": "Functional Programming", "sources": ["phase-1-programming-foundations/06-functional-programming.md"] },
+        { "id": "clean-code", "title": "Clean Code: Writing for Humans", "sources": ["phase-1-programming-foundations/10-clean-code.md"] },
+        { "id": "solid-principles", "title": "The SOLID Principles", "sources": ["phase-1-programming-foundations/09-solid-principles.md"] },
+        { "id": "design-patterns", "title": "Design Patterns", "sources": ["phase-1-programming-foundations/08-design-patterns.md"] },
+        { "id": "testing", "title": "Testing Your Code", "sources": ["phase-9-software-engineering/05-testing.md"] }
+      ]
+    },
+    {
+      "id": "part-05-professional",
+      "title": "Working Like a Professional Engineer",
+      "intro": "The tools and habits of a real engineering team: Git, GitHub, code review, documentation and how teams plan work.",
+      "chapters": [
+        { "id": "git", "title": "Git: Saving the History of Your Code", "sources": ["phase-1-programming-foundations/11-git.md"] },
+        { "id": "github", "title": "GitHub and Working Together", "sources": ["phase-1-programming-foundations/12-github.md"] },
+        { "id": "code-review-and-documentation", "title": "Code Reviews and Documentation", "sources": ["phase-9-software-engineering/02-code-reviews-documentation.md"] },
+        { "id": "agile-and-scrum", "title": "How Teams Work: Agile and Scrum", "sources": ["phase-9-software-engineering/01-agile-scrum.md"] }
+      ]
+    },
+    {
+      "id": "part-06-frontend",
+      "title": "The Frontend: Building What Users See",
+      "intro": "How web pages are built and how modern interfaces are made with React and Next.js — taught to the same depth as the backend.",
+      "chapters": [
+        { "id": "html", "title": "HTML: The Structure of a Web Page", "sources": ["phase-4-frontend/01-html.md"] },
+        { "id": "css", "title": "CSS: Making Pages Look Right", "sources": ["phase-4-frontend/02-css.md"] },
+        { "id": "browser-and-dom", "title": "The Browser and the DOM", "sources": ["phase-1-programming-foundations/01-javascript.md"] },
+        { "id": "tailwind", "title": "Tailwind CSS", "sources": ["phase-4-frontend/03-tailwind.md"] },
+        { "id": "react-basics", "title": "React I: Components, Props and State", "sources": ["phase-4-frontend/04-react.md"] },
+        { "id": "react-advanced", "title": "React II: Effects, Hooks and Patterns", "sources": ["phase-4-frontend/04-react.md"] },
+        { "id": "state-management", "title": "State Management", "sources": ["phase-4-frontend/06-state-management.md"] },
+        { "id": "forms", "title": "Forms", "sources": ["phase-4-frontend/07-forms.md"] },
+        { "id": "nextjs", "title": "Next.js", "sources": ["phase-4-frontend/05-nextjs.md"] },
+        { "id": "frontend-authentication", "title": "Authentication in the Frontend", "sources": ["phase-4-frontend/08-authentication.md"] },
+        { "id": "frontend-performance", "title": "Frontend Performance", "sources": ["phase-4-frontend/09-performance.md"] },
+        { "id": "seo", "title": "SEO: Being Found by Search Engines", "sources": ["phase-4-frontend/10-seo.md"] },
+        { "id": "accessibility", "title": "Accessibility: Building for Everyone", "sources": [] }
+      ]
+    },
+    {
+      "id": "part-07-backend",
+      "title": "The Backend: Building Servers and APIs",
+      "intro": "Node.js, Express and NestJS; designing APIs; and every piece a real backend needs — validation, errors, logging, login, files, email, background jobs, real-time and protection from abuse.",
+      "chapters": [
+        { "id": "nodejs", "title": "Node.js: JavaScript Outside the Browser", "sources": ["phase-2-backend-engineering/01-nodejs.md"] },
+        { "id": "express", "title": "Express: Your First Web Server", "sources": ["phase-2-backend-engineering/02-expressjs.md"] },
+        { "id": "rest-apis", "title": "Designing REST APIs", "sources": ["phase-2-backend-engineering/04-rest-apis.md"] },
+        { "id": "validation", "title": "Validation: Never Trust Input", "sources": ["phase-2-backend-engineering/10-validation.md"] },
+        { "id": "error-handling", "title": "Error Handling in Servers", "sources": ["phase-2-backend-engineering/11-error-handling.md"] },
+        { "id": "logging", "title": "Logging", "sources": ["phase-2-backend-engineering/12-logging.md"] },
+        { "id": "authentication", "title": "Authentication: Proving Who You Are", "sources": ["phase-2-backend-engineering/06-authentication.md"] },
+        { "id": "sessions", "title": "Sessions and Cookies", "sources": ["phase-2-backend-engineering/09-session-management.md"] },
+        { "id": "jwt", "title": "JSON Web Tokens (JWT)", "sources": ["phase-2-backend-engineering/07-jwt.md"] },
+        { "id": "oauth", "title": "OAuth and \"Log in with Google\"", "sources": ["phase-2-backend-engineering/08-oauth.md"] },
+        { "id": "file-uploads", "title": "File Uploads", "sources": ["phase-2-backend-engineering/13-file-upload.md"] },
+        { "id": "email", "title": "Sending Email", "sources": ["phase-2-backend-engineering/14-email-services.md"] },
+        { "id": "cron-jobs", "title": "Scheduled Jobs (Cron)", "sources": ["phase-2-backend-engineering/15-cron-jobs.md"] },
+        { "id": "queues", "title": "Queues and Background Jobs", "sources": ["phase-2-backend-engineering/16-queues.md"] },
+        { "id": "websockets", "title": "WebSockets and Real-Time Features", "sources": ["phase-2-backend-engineering/17-websockets.md"] },
+        { "id": "graphql", "title": "GraphQL", "sources": ["phase-2-backend-engineering/05-graphql.md"] },
+        { "id": "nestjs-basics", "title": "NestJS I: Structure, Modules and Dependency Injection", "sources": ["phase-2-backend-engineering/03-nestjs.md"] },
+        { "id": "nestjs-advanced", "title": "NestJS II: Guards, Pipes, Interceptors and Production Apps", "sources": ["phase-2-backend-engineering/03-nestjs.md"] },
+        { "id": "api-versioning", "title": "API Versioning", "sources": ["phase-2-backend-engineering/21-api-versioning.md"] },
+        { "id": "api-documentation", "title": "API Documentation", "sources": ["phase-2-backend-engineering/22-api-documentation.md"] },
+        { "id": "rate-limiting", "title": "Rate Limiting", "sources": ["phase-2-backend-engineering/20-rate-limiting.md"] }
+      ]
+    },
+    {
+      "id": "part-08-databases",
+      "title": "Data and Databases",
+      "intro": "Storing data so it is correct, fast and safe: SQL and PostgreSQL, database design, indexes and transactions, ORMs, MongoDB, Redis and caching, and how databases scale.",
+      "chapters": [
+        { "id": "sql", "title": "SQL: Asking a Database Questions", "sources": ["phase-3-databases/01-sql.md"] },
+        { "id": "postgresql", "title": "PostgreSQL", "sources": ["phase-3-databases/02-postgresql.md"] },
+        { "id": "database-design", "title": "Designing a Database", "sources": ["phase-3-databases/04-database-design.md"] },
+        { "id": "normalization", "title": "Normalization", "sources": ["phase-3-databases/05-normalization.md"] },
+        { "id": "indexes", "title": "Indexes: Making Queries Fast", "sources": ["phase-3-databases/07-indexes.md"] },
+        { "id": "transactions", "title": "Transactions: All or Nothing", "sources": ["phase-3-databases/06-transactions.md"] },
+        { "id": "query-optimization", "title": "Query Optimization", "sources": ["phase-3-databases/08-query-optimization.md"] },
+        { "id": "orms", "title": "ORMs: Databases Through Code", "sources": ["phase-3-databases/12-orms.md"] },
+        { "id": "prisma", "title": "Prisma", "sources": ["phase-3-databases/13-prisma.md"] },
+        { "id": "typeorm", "title": "TypeORM", "sources": ["phase-3-databases/14-typeorm.md"] },
+        { "id": "mongodb", "title": "MongoDB and Document Databases", "sources": ["phase-3-databases/03-mongodb.md"] },
+        { "id": "redis", "title": "Redis", "sources": ["phase-2-backend-engineering/18-redis.md"] },
+        { "id": "caching", "title": "Caching", "sources": ["phase-2-backend-engineering/19-caching.md"] },
+        { "id": "replication", "title": "Replication", "sources": ["phase-3-databases/09-replication.md"] },
+        { "id": "partitioning", "title": "Partitioning", "sources": ["phase-3-databases/10-partitioning.md"] },
+        { "id": "sharding", "title": "Sharding", "sources": ["phase-3-databases/11-sharding.md"] }
+      ]
+    },
+    {
+      "id": "part-09-devops",
+      "title": "DevOps: Shipping and Running Software",
+      "intro": "Linux, networking, containers, web servers, automated pipelines, infrastructure as code and monitoring — everything between your laptop and real users.",
+      "chapters": [
+        { "id": "linux", "title": "Linux", "sources": ["phase-5-devops/01-linux.md"] },
+        { "id": "shell-scripting", "title": "Shell Scripting", "sources": ["phase-5-devops/02-shell-scripting.md"] },
+        { "id": "networking", "title": "Networking for Engineers", "sources": ["phase-5-devops/09-networking.md"] },
+        { "id": "dns", "title": "DNS", "sources": ["phase-5-devops/10-dns.md"] },
+        { "id": "tls-ssl", "title": "HTTPS, TLS and Certificates", "sources": ["phase-5-devops/11-ssl.md"] },
+        { "id": "docker", "title": "Docker and Containers", "sources": ["phase-5-devops/03-docker.md"] },
+        { "id": "docker-compose", "title": "Docker Compose", "sources": ["phase-5-devops/04-docker-compose.md"] },
+        { "id": "nginx-reverse-proxy", "title": "Nginx and Reverse Proxies", "sources": ["phase-5-devops/05-nginx.md", "phase-5-devops/12-reverse-proxy.md"] },
+        { "id": "cicd", "title": "CI/CD: Automatic Testing and Deployment", "sources": ["phase-5-devops/07-cicd.md"] },
+        { "id": "github-actions", "title": "GitHub Actions", "sources": ["phase-5-devops/06-github-actions.md"] },
+        { "id": "jenkins", "title": "Jenkins", "sources": ["phase-5-devops/16-jenkins.md"] },
+        { "id": "terraform", "title": "Terraform and Infrastructure as Code", "sources": ["phase-5-devops/08-terraform.md"] },
+        { "id": "monitoring", "title": "Monitoring", "sources": ["phase-5-devops/13-monitoring.md"] },
+        { "id": "prometheus", "title": "Prometheus", "sources": ["phase-5-devops/14-prometheus.md"] },
+        { "id": "grafana", "title": "Grafana", "sources": ["phase-5-devops/15-grafana.md"] }
+      ]
+    },
+    {
+      "id": "part-10-aws",
+      "title": "The Cloud with AWS",
+      "intro": "Renting computers, storage and databases from Amazon Web Services, and putting them together into secure, scalable, affordable systems.",
+      "chapters": [
+        { "id": "aws-overview", "title": "What the Cloud Is, and a Map of AWS", "sources": ["phase-6-cloud/01-aws-overview.md"] },
+        { "id": "iam", "title": "IAM: Who Can Do What", "sources": ["phase-6-cloud/02-iam.md"] },
+        { "id": "ec2", "title": "EC2: Virtual Servers", "sources": ["phase-6-cloud/03-ec2.md"] },
+        { "id": "s3", "title": "S3: Storing Files", "sources": ["phase-6-cloud/04-s3.md"] },
+        { "id": "rds", "title": "RDS: Managed Databases", "sources": ["phase-6-cloud/05-rds.md"] },
+        { "id": "vpc", "title": "VPC: Your Private Network in the Cloud", "sources": ["phase-6-cloud/07-vpc.md"] },
+        { "id": "route53", "title": "Route 53: DNS on AWS", "sources": ["phase-6-cloud/08-route53.md"] },
+        { "id": "cloudfront", "title": "CloudFront: Content Delivery", "sources": ["phase-6-cloud/09-cloudfront.md"] },
+        { "id": "elb", "title": "Load Balancers (ELB)", "sources": ["phase-6-cloud/11-elb.md"] },
+        { "id": "auto-scaling", "title": "Auto Scaling", "sources": ["phase-6-cloud/10-auto-scaling.md"] },
+        { "id": "ecs", "title": "ECS: Running Containers", "sources": ["phase-6-cloud/12-ecs.md"] },
+        { "id": "eks", "title": "EKS and Kubernetes", "sources": ["phase-6-cloud/13-eks.md"] },
+        { "id": "lambda", "title": "Lambda and Serverless", "sources": ["phase-6-cloud/14-lambda.md"] },
+        { "id": "sns-sqs", "title": "SNS and SQS: Messaging", "sources": ["phase-6-cloud/15-sns-sqs.md"] },
+        { "id": "secrets-manager", "title": "Secrets Manager", "sources": ["phase-6-cloud/16-secrets-manager.md"] },
+        { "id": "systems-manager", "title": "Systems Manager", "sources": ["phase-6-cloud/17-systems-manager.md"] },
+        { "id": "cloudwatch", "title": "CloudWatch", "sources": ["phase-6-cloud/06-cloudwatch.md"] },
+        { "id": "cloudformation", "title": "CloudFormation", "sources": ["phase-6-cloud/18-cloudformation.md"] },
+        { "id": "cost-optimization", "title": "Controlling Cloud Costs", "sources": ["phase-6-cloud/19-cost-optimization.md"] },
+        { "id": "aws-certification", "title": "Preparing for the AWS Solutions Architect Exam", "sources": ["phase-6-cloud/20-aws-saa-prep.md"] }
+      ]
+    },
+    {
+      "id": "part-11-system-design",
+      "title": "System Design",
+      "intro": "How to design systems that serve millions of people: scaling, caching, messaging, distributed systems and microservices, ending with complete designs of famous products.",
+      "chapters": [
+        { "id": "system-design-fundamentals", "title": "System Design Fundamentals", "sources": ["phase-7-system-design/01-fundamentals.md"] },
+        { "id": "scalability", "title": "Scalability", "sources": ["phase-7-system-design/02-scalability.md"] },
+        { "id": "caching-at-scale", "title": "Caching at Scale", "sources": ["phase-7-system-design/03-caching.md"] },
+        { "id": "database-scaling", "title": "Scaling Databases", "sources": ["phase-7-system-design/07-database-scaling.md"] },
+        { "id": "message-brokers", "title": "Message Brokers", "sources": ["phase-7-system-design/04-message-brokers.md"] },
+        { "id": "event-driven-systems", "title": "Event-Driven Systems", "sources": ["phase-7-system-design/05-event-driven-systems.md"] },
+        { "id": "distributed-systems", "title": "Distributed Systems", "sources": ["phase-7-system-design/06-distributed-systems.md"] },
+        { "id": "api-gateway", "title": "API Gateways", "sources": ["phase-7-system-design/08-api-gateway.md"] },
+        { "id": "microservices", "title": "Microservices", "sources": ["phase-7-system-design/09-microservices.md"] },
+        { "id": "designing-twitter", "title": "Case Study: Designing Twitter", "sources": ["phase-7-system-design/10-designing-twitter.md"] },
+        { "id": "designing-whatsapp", "title": "Case Study: Designing WhatsApp", "sources": ["phase-7-system-design/11-designing-whatsapp.md"] },
+        { "id": "designing-youtube", "title": "Case Study: Designing YouTube", "sources": ["phase-7-system-design/12-designing-youtube.md"] }
+      ]
+    },
+    {
+      "id": "part-12-senior",
+      "title": "Senior Engineering",
+      "intro": "What separates an engineer with five years of experience: security, performance, handling production incidents, software architecture, decision-making and technical leadership.",
+      "chapters": [
+        { "id": "application-security", "title": "Application Security", "sources": [] },
+        { "id": "performance-engineering", "title": "Performance Engineering", "sources": [] },
+        { "id": "observability-and-incidents", "title": "Observability and Production Incidents", "sources": [] },
+        { "id": "software-architecture", "title": "Software Architecture", "sources": [] },
+        { "id": "engineering-decisions", "title": "Making Engineering Decisions: Trade-offs, Estimates and \"Good Enough\"", "sources": [] },
+        { "id": "technical-leadership", "title": "Technical Leadership and Career Growth", "sources": ["phase-9-software-engineering/03-career-growth.md"] }
+      ]
+    },
+    {
+      "id": "part-13-ai",
+      "title": "AI Engineering",
+      "intro": "Building products on top of large language models: how they work, prompting, embeddings, retrieval, agents and the Model Context Protocol.",
+      "chapters": [
+        { "id": "llm-fundamentals", "title": "How Large Language Models Work", "sources": ["phase-8-ai-engineering/01-llm-fundamentals.md"] },
+        { "id": "prompt-engineering", "title": "Prompt Engineering", "sources": ["phase-8-ai-engineering/02-prompt-engineering.md"] },
+        { "id": "embeddings-and-vector-databases", "title": "Embeddings and Vector Databases", "sources": ["phase-8-ai-engineering/03-embeddings-vector-databases.md"] },
+        { "id": "rag", "title": "Retrieval-Augmented Generation (RAG)", "sources": ["phase-8-ai-engineering/04-rag.md"] },
+        { "id": "ai-agents", "title": "AI Agents", "sources": ["phase-8-ai-engineering/05-ai-agents.md"] },
+        { "id": "mcp", "title": "The Model Context Protocol (MCP)", "sources": ["phase-8-ai-engineering/06-mcp.md"] },
+        { "id": "building-ai-products", "title": "Building AI Products", "sources": ["phase-8-ai-engineering/07-ai-saas.md"] }
+      ]
+    },
+    {
+      "id": "part-14-getting-hired",
+      "title": "Getting Hired",
+      "intro": "How technical hiring works, how to prove your skill with projects, how to pass each interview round, and how to negotiate and start well — including the Pakistani market and remote work.",
+      "chapters": [
+        { "id": "how-hiring-works", "title": "How Technical Hiring Works", "sources": ["phase-11-job-hunt-pakistan/05-the-interview-loop.md"] },
+        { "id": "the-job-market", "title": "Understanding the Job Market", "sources": ["phase-11-job-hunt-pakistan/01-the-pakistani-market.md"] },
+        { "id": "projects-that-prove-skill", "title": "Projects That Prove Your Skill", "sources": ["phase-11-job-hunt-pakistan/10-projects-that-prove-three-years.md"] },
+        { "id": "portfolio-and-brand", "title": "Your Portfolio and Professional Profile", "sources": ["phase-11-job-hunt-pakistan/08-portfolio-and-personal-brand.md"] },
+        { "id": "the-cv", "title": "Writing a CV That Gets Read", "sources": ["phase-11-job-hunt-pakistan/02-the-cv-that-gets-read.md"] },
+        { "id": "applying", "title": "Applying for Jobs", "sources": ["phase-11-job-hunt-pakistan/03-applying-without-wasting-shots.md"] },
+        { "id": "referrals-and-recruiters", "title": "Referrals and Recruiters", "sources": ["phase-11-job-hunt-pakistan/04-referrals-and-recruiters.md"] },
+        { "id": "technical-interview-guide", "title": "The Technical Interview: Questions and How to Answer Them", "sources": ["phase-9-software-engineering/04-three-year-developer-interview-guide.md"] },
+        { "id": "negotiating-offers", "title": "Negotiating Your Offer", "sources": ["phase-11-job-hunt-pakistan/06-negotiating-your-offer.md"] },
+        { "id": "first-ninety-days", "title": "Your First Ninety Days", "sources": ["phase-11-job-hunt-pakistan/07-the-first-ninety-days.md"] },
+        { "id": "remote-work", "title": "Remote Work", "sources": ["phase-11-job-hunt-pakistan/09-remote-work-the-next-step.md"] }
+      ]
+    },
+    {
+      "id": "part-15-english",
+      "title": "English for Engineers",
+      "intro": "Speaking and writing clearly at work and in interviews: explaining your work, talking through code, handling hard questions, presenting designs and discussing salary.",
+      "chapters": [
+        { "id": "speaking-about-your-work", "title": "Speaking About Your Work", "sources": ["phase-10-english-communication/01-speaking-about-your-work.md"] },
+        { "id": "explaining-technical-work", "title": "Explaining Technical Work", "sources": ["phase-10-english-communication/02-explaining-technical-work.md"] },
+        { "id": "technical-english", "title": "Technical English for Engineers", "sources": ["phase-10-english-communication/11-technical-english-for-engineers.md"] },
+        { "id": "written-english", "title": "Written English at Work", "sources": ["phase-10-english-communication/04-written-english-at-work.md"] },
+        { "id": "small-talk", "title": "Small Talk and the First Five Minutes", "sources": ["phase-10-english-communication/05-small-talk-and-first-five-minutes.md"] },
+        { "id": "the-interview-conversation", "title": "The Interview Conversation", "sources": ["phase-10-english-communication/03-the-interview-conversation.md"] },
+        { "id": "talking-about-code", "title": "Talking About Code Out Loud", "sources": ["phase-10-english-communication/07-talking-about-code-out-loud.md"] },
+        { "id": "questions-you-cannot-answer", "title": "Answering Questions You Cannot Answer", "sources": ["phase-10-english-communication/06-answering-questions-you-cannot-answer.md"] },
+        { "id": "interview-under-pressure", "title": "Speaking Under Pressure", "sources": ["phase-10-english-communication/09-interview-under-pressure.md"] },
+        { "id": "presenting-a-design", "title": "Presenting a Design", "sources": ["phase-10-english-communication/10-presenting-a-design.md"] },
+        { "id": "the-salary-conversation", "title": "The Salary Conversation", "sources": ["phase-10-english-communication/08-the-salary-conversation.md"] },
+        { "id": "professional-communication-reference", "title": "Reference: Professional Communication Phrases", "sources": ["phase-10-english-communication/12-professional-communication-reference.md"] },
+        { "id": "interview-english-reference", "title": "Reference: Job Interview English", "sources": ["phase-10-english-communication/13-job-interview-english-reference.md"] }
+      ]
+    }
+  ]
+}

@@ -70,7 +70,7 @@ function New-AppShortcut([string]$LinkPath) {
   $sc.Arguments        = $AppArgs
   $sc.WorkingDirectory = $Root
   $sc.IconLocation     = "$Icon,0"
-  $sc.Description      = 'Career Book - Backend Mastery plan, 25 Sep 2026 to 12 Sep 2027'
+  $sc.Description      = 'Becoming a Software Engineer - the book'
   $sc.WindowStyle      = 1
   $sc.Save()
   Write-Host "  Created : $LinkPath" -ForegroundColor Green
