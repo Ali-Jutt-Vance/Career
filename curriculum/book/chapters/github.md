@@ -514,7 +514,7 @@ For job-seekers, GitHub is part of your CV. Reviewers commonly look at:
 - **Tests and CI** — a green checkmark from a test workflow shows professional habits.
 - **A profile README** — a repository named exactly like your username, whose README appears at the top of your profile: a short introduction, what you are working on, how to contact you.
 
-The contribution graph (the green squares) is not a measure of skill, and experienced reviewers know it. Real, well-documented projects matter far more than a long streak of trivial commits.
+The contribution graph (the green squares) is not a measure of skill, and experienced reviewers know it. Real, well-documented projects matter far more than a long, unbroken run of trivial commits.
 
 ## From beginner to enterprise
 
