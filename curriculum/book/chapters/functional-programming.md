@@ -51,7 +51,7 @@ You already use these ideas daily: `map`, `filter` and `reduce` ({{ch:arrays}}),
 
 ## The simple idea
 
-Think of a calculator. You type `7 × 6` and it shows `42`. Every time. It does not matter what you calculated yesterday, who else used it, or what time it is. The calculator does not change the 7 or the 6; it gives you a **new** number. And pressing `×` does not send an email or delete a file.
+Think of a calculator. You type `7 × 6` and it shows `42`. Every time. It does not matter what you calculated before, who else used it, or what time it is. The calculator does not change the 7 or the 6; it gives you a **new** number. And pressing `×` does not send an email or delete a file.
 
 A **pure function** is like that calculator: **the same inputs always give the same output, and nothing else in the world changes.**
 
@@ -1042,7 +1042,7 @@ A `reduce` that builds a complex object with nested conditions and spreads insid
 
 ### Production: memoizing impure functions
 
-Memoizing `getExchangeRate(currency)` returns yesterday's rate forever. Memoize only pure functions, or use a cache with expiry ({{ch:caching}}).
+Memoizing `getExchangeRate(currency)` keeps returning the first rate it saw, forever. Memoize only pure functions, or use a cache with expiry ({{ch:caching}}).
 
 ### Enterprise: pure-in-name-only cores
 
