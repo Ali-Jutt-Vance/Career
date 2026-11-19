@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **42** (364,116 words)
-- Still showing old notes: **128**
+- Fully rewritten: **50** (432,342 words)
+- Still showing old notes: **120**
 - New topics not yet written: **6**
-- Glossary terms collected: **1169**
+- Glossary terms collected: **1377**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -81,14 +81,14 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 43 | HTML: The Structure of a Web Page | ⬜ old notes | — |
-| 44 | CSS: Making Pages Look Right | ⬜ old notes | — |
-| 45 | The Browser and the DOM | ⬜ old notes | — |
-| 46 | Tailwind CSS | ⬜ old notes | — |
-| 47 | React I: Components, Props and State | ⬜ old notes | — |
-| 48 | React II: Effects, Hooks and Patterns | ⬜ old notes | — |
-| 49 | State Management | ⬜ old notes | — |
-| 50 | Forms | ⬜ old notes | — |
+| 43 | HTML: The Structure of a Web Page | ✅ rewritten | 9,166 |
+| 44 | CSS: Making Pages Look Right | ✅ rewritten | 10,401 |
+| 45 | The Browser and the DOM | ✅ rewritten | 9,049 |
+| 46 | Tailwind CSS | ✅ rewritten | 7,046 |
+| 47 | React I: Components, Props and State | ✅ rewritten | 8,547 |
+| 48 | React II: Effects, Hooks and Patterns | ✅ rewritten | 9,424 |
+| 49 | State Management | ✅ rewritten | 7,500 |
+| 50 | Forms | ✅ rewritten | 7,093 |
 | 51 | Next.js | ⬜ old notes | — |
 | 52 | Authentication in the Frontend | ⬜ old notes | — |
 | 53 | Frontend Performance | ⬜ old notes | — |
