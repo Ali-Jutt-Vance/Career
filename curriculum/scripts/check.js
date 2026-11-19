@@ -36,7 +36,7 @@ for (const f of walk(notesDir).filter(f => f.endsWith('.md'))) {
 }
 
 const chaptersDir = path.join(ROOT, 'book', 'chapters');
-const schedule = /\b(today'?s task|yesterday|streak|habit tracker|week \d+|W\d{1,2}\b|deadline|by \d{1,2} (jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/i;
+const schedule = /\b(today'?s task|yesterday|streak|habit tracker|week \d+|W\d{1,2}\b|by \d{1,2} (jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/i;
 let rewritten = 0;
 if (fs.existsSync(chaptersDir)) {
   for (const f of fs.readdirSync(chaptersDir).filter(f => f.endsWith('.md'))) {
