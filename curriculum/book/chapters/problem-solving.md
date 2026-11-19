@@ -584,7 +584,7 @@ You will practise this skill — speaking clearly while thinking, in English, un
 
 ### Production mistake — Solving the stated problem, not the real one
 
-**What it looks like:** building exactly what the ticket says, when the ticket described a symptom ("make the report faster") rather than the need ("managers need yesterday's numbers by 9 am").
+**What it looks like:** building exactly what the ticket says, when the ticket described a symptom ("make the report faster") rather than the need ("managers need the previous day's numbers by 9 am").
 
 **What happens:** effort spent on the wrong solution.
 
