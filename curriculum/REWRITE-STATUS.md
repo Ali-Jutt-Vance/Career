@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **38** (329,497 words)
-- Still showing old notes: **132**
+- Fully rewritten: **42** (364,116 words)
+- Still showing old notes: **128**
 - New topics not yet written: **6**
-- Glossary terms collected: **1046**
+- Glossary terms collected: **1169**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -72,10 +72,10 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 39 | Git: Saving the History of Your Code | ⬜ old notes | — |
-| 40 | GitHub and Working Together | ⬜ old notes | — |
-| 41 | Code Reviews and Documentation | ⬜ old notes | — |
-| 42 | How Teams Work: Agile and Scrum | ⬜ old notes | — |
+| 39 | Git: Saving the History of Your Code | ✅ rewritten | 9,848 |
+| 40 | GitHub and Working Together | ✅ rewritten | 7,744 |
+| 41 | Code Reviews and Documentation | ✅ rewritten | 8,251 |
+| 42 | How Teams Work: Agile and Scrum | ✅ rewritten | 8,776 |
 
 ## Part VI — The Frontend: Building What Users See
 
