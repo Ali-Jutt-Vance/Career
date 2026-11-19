@@ -51,6 +51,9 @@ if (fs.existsSync(chaptersDir)) {
     if (!/^## Key terms\s*$/m.test(md)) errors.push(`${f}: no "## Key terms" section (feeds the glossary)`);
     if (!/^## Exercises/m.test(md)) warnings.push(`${f}: no "## Exercises" section`);
     if (!/^## What comes next/m.test(md)) warnings.push(`${f}: no "## What comes next" section`);
+    const hard = noCode.match(/bChapters? d+/);
+    if (hard) warnings.push(`${f}: hand-typed chapter number "${hard[0]}" — use {{ch:id}}`);
+    for (const [, ref] of noCode.matchAll(/{{ch:([a-z0-9-]+)}}/g)) if (!ids.has(ref)) errors.push(`${f}: unknown chapter reference {{ch:${ref}}}`);
     const m = noCode.match(schedule);
     if (m) warnings.push(`${f}: schedule-like wording "${m[0]}"`);
     const opens = (md.match(/<details>/g) || []).length;

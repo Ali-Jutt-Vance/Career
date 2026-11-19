@@ -328,7 +328,7 @@ Progress in programming does not feel the way most people expect, so it is worth
 
 **What happens:** you stay at "stage one and a half" — you can recognise a correct answer but cannot produce one. This gap stays invisible until an interview or a real job reveals it.
 
-**How to fix and prevent it:** Chapter 8 covers this in detail, including how to use AI tools in a way that makes you stronger rather than weaker. The short version: while you are learning a topic, you write the code; AI can explain a concept after you have genuinely tried, but it does not write your code for you.
+**How to fix and prevent it:** {{ch:learning-and-ai}} covers this in detail, including how to use AI tools in a way that makes you stronger rather than weaker. The short version: while you are learning a topic, you write the code; AI can explain a concept after you have genuinely tried, but it does not write your code for you.
 
 ## How a senior engineer thinks about learning
 
@@ -421,8 +421,8 @@ Most people can name three or four of these on their first attempt and get stuck
 <details>
 <summary>Show the solution</summary>
 
-- If you answered **"no" to any of them**, start with Chapter 2 and read Part I in order. Each of those questions is answered by a chapter in Part I.
-- If you answered **"yes" to all four** and could genuinely explain them aloud, you may skim Part I quickly — but still read Chapter 8 on learning and AI, and do the exercises in Chapter 7 so that your tools are set up the way later chapters expect.
+- If you answered **"no" to any of them**, start with {{ch:what-a-computer-is}} and read Part I in order. Each of those questions is answered by a chapter in Part I.
+- If you answered **"yes" to all four** and could genuinely explain them aloud, you may skim Part I quickly — but still read {{ch:learning-and-ai}} on learning and AI, and do the exercises in {{ch:setting-up-your-workshop}} so that your tools are set up the way later chapters expect.
 
 **Common wrong approach:** answering "yes" because the words sound familiar. The test is whether you could *explain* each one, in full sentences, to someone who knows nothing. If you hesitate, the answer is "no" — and that is completely fine. That is what Part I is for.
 

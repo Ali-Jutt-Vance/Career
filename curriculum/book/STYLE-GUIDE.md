@@ -186,3 +186,10 @@ Most chapters list "source notes" in `book/toc.json` — the old, terse chapters
 Read them first. Keep their valuable technical content (facts, examples, interview questions,
 production cases) but re-teach all of it properly. Remove any dates, schedules, plan references,
 "week N", deadlines or tracking from them. Fix anything outdated or wrong.
+
+## Referring to other chapters
+
+Never type a chapter number by hand — numbers change when chapters are added. Write
+`{{ch:<chapter-id>}}` (the id from `toc.json`), for example `{{ch:redis}}`. The compiler turns it into
+a link reading "Chapter 88" with the correct current number. `scripts/check.js` warns about
+hand-typed "Chapter N" references.

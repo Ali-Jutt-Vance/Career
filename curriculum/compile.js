@@ -140,6 +140,7 @@ function prepareLegacyMarkdown(md) {
 async function loadChapters(toc) {
   const chapters = [];
   let number = 0;
+  const numbers = new Map(toc.parts.flatMap(p => p.chapters).map((c, i) => [c.id, i + 1]));
 
   for (const [pi, part] of toc.parts.entries()) {
     for (const ch of part.chapters) {
@@ -167,7 +168,12 @@ async function loadChapters(toc) {
         status = 'planned';
       }
 
-      if (process.env.DEBUG) console.log('  ..', ch.id);
+      // {{ch:some-id}} → a link that always shows the correct chapter number
+      md = md.replace(/\{\{ch:([a-z0-9-]+)\}\}/g, (m, id) => {
+        if (!numbers.has(id)) { console.warn(`  [WARN] ${ch.id}: unknown chapter reference ${m}`); return m; }
+        return `[Chapter ${numbers.get(id)}](#${id})`;
+      });
+
       let html = transformCallouts(marked.parse(md));
       if (status === 'notes') html = transformInterviewQA(html);
       const { html: withIds, sections } = addHeadingIds(html, ch.id);
