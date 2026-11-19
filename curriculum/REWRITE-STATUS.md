@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **8** (70,972 words)
-- Still showing old notes: **162**
+- Fully rewritten: **18** (154,041 words)
+- Still showing old notes: **152**
 - New topics not yet written: **6**
-- Glossary terms collected: **242**
+- Glossary terms collected: **526**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -27,16 +27,16 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 9 | Your First Program: Values, Variables and Output | ⬜ old notes | — |
-| 10 | Types of Data: Numbers, Text, True/False and Nothing | ⬜ old notes | — |
-| 11 | Operators and Making Decisions | ⬜ old notes | — |
-| 12 | Repeating Work: Loops | ⬜ old notes | — |
-| 13 | Functions: Naming and Reusing Work | ⬜ old notes | — |
-| 14 | Arrays: Working with Lists | ⬜ old notes | — |
-| 15 | Objects: Describing Real Things in Code | ⬜ old notes | — |
-| 16 | Scope, Hoisting and Closures: How JavaScript Finds Your Variables | ⬜ old notes | — |
-| 17 | this, Prototypes and Classes | ⬜ old notes | — |
-| 18 | Errors, Exceptions and Debugging | ⬜ old notes | — |
+| 9 | Your First Program: Values, Variables and Output | ✅ rewritten | 7,756 |
+| 10 | Types of Data: Numbers, Text, True/False and Nothing | ✅ rewritten | 8,878 |
+| 11 | Operators and Making Decisions | ✅ rewritten | 8,335 |
+| 12 | Repeating Work: Loops | ✅ rewritten | 7,603 |
+| 13 | Functions: Naming and Reusing Work | ✅ rewritten | 8,059 |
+| 14 | Arrays: Working with Lists | ✅ rewritten | 8,541 |
+| 15 | Objects: Describing Real Things in Code | ✅ rewritten | 8,037 |
+| 16 | Scope, Hoisting and Closures: How JavaScript Finds Your Variables | ✅ rewritten | 8,366 |
+| 17 | this, Prototypes and Classes | ✅ rewritten | 8,410 |
+| 18 | Errors, Exceptions and Debugging | ✅ rewritten | 9,084 |
 | 19 | Modules and npm: Code Across Many Files | ⬜ old notes | — |
 | 20 | Asynchronous JavaScript: Callbacks, Promises and async/await | ⬜ old notes | — |
 | 21 | The Event Loop: How JavaScript Does Many Things at Once | ⬜ old notes | — |
