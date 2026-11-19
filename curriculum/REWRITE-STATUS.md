@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **32** (264,537 words)
-- Still showing old notes: **138**
+- Fully rewritten: **38** (329,497 words)
+- Still showing old notes: **132**
 - New topics not yet written: **6**
-- Glossary terms collected: **922**
+- Glossary terms collected: **154**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -61,12 +61,12 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 33 | Object-Oriented Programming | ⬜ old notes | — |
-| 34 | Functional Programming | ⬜ old notes | — |
-| 35 | Clean Code: Writing for Humans | ⬜ old notes | — |
-| 36 | The SOLID Principles | ⬜ old notes | — |
-| 37 | Design Patterns | ⬜ old notes | — |
-| 38 | Testing Your Code | ⬜ old notes | — |
+| 33 | Object-Oriented Programming | ✅ rewritten | 12,650 |
+| 34 | Functional Programming | ✅ rewritten | 10,908 |
+| 35 | Clean Code: Writing for Humans | ✅ rewritten | 9,699 |
+| 36 | The SOLID Principles | ✅ rewritten | 9,485 |
+| 37 | Design Patterns | ✅ rewritten | 10,691 |
+| 38 | Testing Your Code | ✅ rewritten | 11,527 |
 
 ## Part V — Working Like a Professional Engineer
 
