@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **18** (154,041 words)
-- Still showing old notes: **152**
+- Fully rewritten: **32** (264,537 words)
+- Still showing old notes: **138**
 - New topics not yet written: **6**
-- Glossary terms collected: **526**
+- Glossary terms collected: **922**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -37,25 +37,25 @@ project, not something shown to the reader.
 | 16 | Scope, Hoisting and Closures: How JavaScript Finds Your Variables | ✅ rewritten | 8,366 |
 | 17 | this, Prototypes and Classes | ✅ rewritten | 8,410 |
 | 18 | Errors, Exceptions and Debugging | ✅ rewritten | 9,084 |
-| 19 | Modules and npm: Code Across Many Files | ⬜ old notes | — |
-| 20 | Asynchronous JavaScript: Callbacks, Promises and async/await | ⬜ old notes | — |
-| 21 | The Event Loop: How JavaScript Does Many Things at Once | ⬜ old notes | — |
-| 22 | Advanced JavaScript: Iterators, Generators, Proxies and Memory | ⬜ old notes | — |
-| 23 | TypeScript I: Why Types Matter, and the Basics | ⬜ old notes | — |
-| 24 | TypeScript II: Generics and Advanced Types | ⬜ old notes | — |
+| 19 | Modules and npm: Code Across Many Files | ✅ rewritten | 8,303 |
+| 20 | Asynchronous JavaScript: Callbacks, Promises and async/await | ✅ rewritten | 9,710 |
+| 21 | The Event Loop: How JavaScript Does Many Things at Once | ✅ rewritten | 8,185 |
+| 22 | Advanced JavaScript: Iterators, Generators, Proxies and Memory | ✅ rewritten | 8,996 |
+| 23 | TypeScript I: Why Types Matter, and the Basics | ✅ rewritten | 9,564 |
+| 24 | TypeScript II: Generics and Advanced Types | ✅ rewritten | 8,190 |
 
 ## Part III — Thinking Like a Programmer: Data Structures and Algorithms
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 25 | How Engineers Solve Problems | ⬜ old notes | — |
-| 26 | Measuring Speed and Memory: Big O Notation | ⬜ old notes | — |
-| 27 | Arrays, Strings and Hash Maps | ⬜ old notes | — |
-| 28 | Linked Lists, Stacks and Queues | ⬜ old notes | — |
-| 29 | Trees, Heaps and Graphs | ⬜ old notes | — |
-| 30 | Recursion, Sorting and Searching | ⬜ old notes | — |
-| 31 | Dynamic Programming and Greedy Algorithms | ⬜ old notes | — |
-| 32 | Coding Interview Patterns | ⬜ old notes | — |
+| 25 | How Engineers Solve Problems | ✅ rewritten | 7,966 |
+| 26 | Measuring Speed and Memory: Big O Notation | ✅ rewritten | 7,409 |
+| 27 | Arrays, Strings and Hash Maps | ✅ rewritten | 7,150 |
+| 28 | Linked Lists, Stacks and Queues | ✅ rewritten | 6,440 |
+| 29 | Trees, Heaps and Graphs | ✅ rewritten | 7,528 |
+| 30 | Recursion, Sorting and Searching | ✅ rewritten | 7,251 |
+| 31 | Dynamic Programming and Greedy Algorithms | ✅ rewritten | 6,887 |
+| 32 | Coding Interview Patterns | ✅ rewritten | 6,917 |
 
 ## Part IV — Writing Good Software
 
