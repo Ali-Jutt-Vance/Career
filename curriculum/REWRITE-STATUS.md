@@ -5,23 +5,23 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **0** (0 words)
-- Still showing old notes: **165**
-- New topics not yet written: **11**
-- Glossary terms collected: **0**
+- Fully rewritten: **8** (70,972 words)
+- Still showing old notes: **162**
+- New topics not yet written: **6**
+- Glossary terms collected: **242**
 
 ## Part I — Foundations: Before You Write Code
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 1 | How This Book Teaches You | ⬜ old notes | — |
-| 2 | What a Computer Really Is | ⬜ planned (new topic) | — |
-| 3 | From Code to a Running Program | ⬜ planned (new topic) | — |
-| 4 | The Terminal: Talking to Your Computer in Text | ⬜ planned (new topic) | — |
-| 5 | How the Internet Works | ⬜ old notes | — |
-| 6 | How the Web Works: Browsers, Servers and HTTP | ⬜ planned (new topic) | — |
-| 7 | Setting Up Your Workshop | ⬜ planned (new topic) | — |
-| 8 | How to Learn Programming — and How to Use AI Without Losing Your Skills | ⬜ old notes | — |
+| 1 | How This Book Teaches You | ✅ rewritten | 5,709 |
+| 2 | What a Computer Really Is | ✅ rewritten | 11,709 |
+| 3 | From Code to a Running Program | ✅ rewritten | 9,249 |
+| 4 | The Terminal: Talking to Your Computer in Text | ✅ rewritten | 8,595 |
+| 5 | How the Internet Works | ✅ rewritten | 10,662 |
+| 6 | How the Web Works: Browsers, Servers and HTTP | ✅ rewritten | 10,456 |
+| 7 | Setting Up Your Workshop | ✅ rewritten | 7,623 |
+| 8 | How to Learn Programming — and How to Use AI Without Losing Your Skills | ✅ rewritten | 6,969 |
 
 ## Part II — Programming with JavaScript
 

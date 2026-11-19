@@ -14,7 +14,8 @@ const path = require('path');
     crumb: document.querySelector('#crumb')?.textContent.trim(),
   })));
   await check('start  ');
-  await page.click('.nav-ch[data-id="nodejs"] .nav-ch-link'); await check('click  ');
+  await page.click('.nav-ch[data-id="what-a-computer-is"] .nav-ch-link'); await check('click  ');
+  console.log('callouts', await page.$$eval('#page-what-a-computer-is .callout', a => a.length), 'details', await page.$$eval('#page-what-a-computer-is details', a => a.length), 'chapter links', await page.$$eval('#page-what-a-computer-is a[href^="#"]', a => a.length));
   await page.keyboard.press('ArrowRight'); await check('next   ');
   await page.type('#search', 'event loop');
   console.log('search ', await page.$$eval('#search-results a', a => a.length), 'results');

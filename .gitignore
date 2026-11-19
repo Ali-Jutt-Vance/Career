@@ -25,3 +25,5 @@ $RECYCLE.BIN/
 
 # Business data with contact details — keep off this public repo
 *.xlsx
+curriculum/output/preview.png
+curriculum/output/book.pdf
