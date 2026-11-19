@@ -119,16 +119,18 @@ Tailwind is a **build-time** tool. It does not run in the browser. Here is what 
 For `class="p-4 md:p-6 hover:bg-emerald-700"`, the generated CSS is roughly:
 
 ```css
-.p-4 { padding: calc(var(--spacing) * 4); }
+.p-4 {
+  padding: calc(var(--spacing) * 4);
+}
 
-.hover\:bg-emerald-700:hover {
-  @media (hover: hover) {
+@media (hover: hover) {
+  .hover\:bg-emerald-700:hover {
     background-color: var(--color-emerald-700);
   }
 }
 
-.md\:p-6 {
-  @media (width >= 48rem) {
+@media (width >= 48rem) {
+  .md\:p-6 {
     padding: calc(var(--spacing) * 6);
   }
 }
