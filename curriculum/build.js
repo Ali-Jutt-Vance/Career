@@ -1,40 +1,24 @@
 /**
- * One-command build for the whole Career Book.
+ * One-command build for the book.
  *
- *   node build.js            — plan + reader (fast, ~20s)
- *   node build.js --pdf      — also render the PDF (slow, several minutes)
- *   node build.js --icon     — also regenerate the app icon
- *   node build.js --install  — also (re)create the desktop shortcut
- *   node build.js --all      — everything
+ *   node build.js            check the chapters, then build the reader
+ *   node build.js --pdf      also render output/book.pdf (slow)
+ *   node build.js --install  also (re)create the desktop shortcut
  */
 const { execFileSync } = require('child_process');
 const path = require('path');
 
-const args    = process.argv.slice(2);
-const all     = args.includes('--all');
-const doPdf   = all || args.includes('--pdf');
-const doIcon  = all || args.includes('--icon');
-const doInst  = all || args.includes('--install');
-
-function run(label, file, fileArgs = []) {
+const args = process.argv.slice(2);
+const run = (label, file, fileArgs = []) => {
   process.stdout.write(`\n▶ ${label}\n`);
   execFileSync(process.execPath, [file, ...fileArgs], { cwd: __dirname, stdio: 'inherit' });
-}
+};
 
-const t0 = Date.now();
+run('Checking chapters', path.join('scripts', 'check.js'));
+run('Compiling the book', 'compile.js', args.includes('--pdf') ? ['--pdf'] : []);
 
-run('Building the plan', path.join('plan', 'build-plan.js'));
-run('Compiling the book', 'compile.js', doPdf ? [] : ['--html-only']);
-if (doIcon) run('Generating the app icon', path.join('app', 'make-icon.js'));
-
-if (doInst) {
+if (args.includes('--install')) {
   process.stdout.write('\n▶ Installing the desktop shortcut\n');
-  execFileSync('powershell', [
-    '-ExecutionPolicy', 'Bypass',
-    '-File', path.join(__dirname, 'app', 'install-app.ps1')
-  ], { cwd: __dirname, stdio: 'inherit' });
+  execFileSync('powershell', ['-ExecutionPolicy', 'Bypass', '-File', path.join(__dirname, 'app', 'install-app.ps1')],
+    { cwd: __dirname, stdio: 'inherit' });
 }
-
-run('Verifying the reader', path.join('plan', 'smoke-test.js'));
-
-console.log(`\n✓ Build complete in ${((Date.now() - t0) / 1000).toFixed(1)}s\n`);

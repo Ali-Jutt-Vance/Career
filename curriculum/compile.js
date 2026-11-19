@@ -1,723 +1,513 @@
 /**
- * Software Engineering Curriculum — PDF Compiler
+ * Becoming a Software Engineer — book compiler
  *
- * Reads all markdown chapter files from phases/, converts to HTML,
- * and renders a single book-quality PDF using Puppeteer.
+ * Reads book/toc.json, turns every chapter into HTML and writes ONE book:
+ *
+ *   output/index.html   the reader app (contents sidebar, glossary, index, search)
+ *   output/book.pdf     only with --pdf
+ *   REWRITE-STATUS.md   editing record: which chapters are rewritten, which are not
+ *
+ * A chapter is "rewritten" when book/chapters/<id>.md exists. Until then the reader
+ * shows the old condensed notes from source-notes/ under a clear notice.
  *
  * Usage:
- *   node compile.js                    — full curriculum
- *   node compile.js --phase 1          — phase 1 only
- *   node compile.js --chapter javascript — single chapter
- *   node compile.js --html-only           — skip PDF (faster, reader only)
+ *   node compile.js          build the reader + status record
+ *   node compile.js --pdf    also render the whole book to output/book.pdf
  */
 
-const puppeteer  = require('puppeteer');
 const { marked } = require('marked');
 const { markedHighlight } = require('marked-highlight');
-const hljs       = require('highlight.js');
-const fs         = require('fs-extra');
-const path       = require('path');
-const { glob }   = require('glob');
+const hljs = require('highlight.js');
+const fs = require('fs-extra');
+const path = require('path');
 
-// ── Configure marked with syntax highlighting ───────────────
 marked.use(
   markedHighlight({
     langPrefix: 'hljs language-',
     highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, { language }).value;
-    }
-  })
+    },
+  }),
 );
+marked.use({ gfm: true, breaks: false });
 
-marked.use({
-  breaks: false,
-  gfm: true,
-  tables: true
-});
-
-// ── Config ───────────────────────────────────────────────────
-const ROOT       = __dirname;
-const PHASES_DIR = path.join(ROOT, 'phases');
-const STYLES_DIR = path.join(ROOT, 'styles');
+const ROOT = __dirname;
+const BOOK_DIR = path.join(ROOT, 'book');
+const CHAPTERS_DIR = path.join(BOOK_DIR, 'chapters');
+const NOTES_DIR = path.join(ROOT, 'source-notes');
 const OUTPUT_DIR = path.join(ROOT, 'output');
-const DATA_DIR   = path.join(ROOT, 'data');
-const OUTPUT_PDF = path.join(OUTPUT_DIR, 'curriculum.pdf');
-const CSS_PATH   = path.join(STYLES_DIR, 'book.css');
-const PLAN_PATH  = path.join(DATA_DIR, 'plan.json');
+const STATUS_PATH = path.join(ROOT, 'REWRITE-STATUS.md');
 
-// Explicit phase order — do not rely on filename sorting.
-const PHASE_ORDER = [
-  'phase-0-mission',
-  'phase-1-programming-foundations',
-  'phase-2-backend-engineering',
-  'phase-3-databases',
-  'phase-4-frontend',
-  'phase-5-devops',
-  'phase-6-cloud',
-  'phase-7-system-design',
-  'phase-8-ai-engineering',
-  'phase-9-software-engineering',
-  'phase-10-english-communication',
-  'phase-11-job-hunt-pakistan',
-  'phase-12-daily-execution-plan',
-  'phase-13-appendix',
-];
+const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
+  'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX'];
 
-// Phase metadata for divider pages
-const PHASE_META = {
-  'phase-0-mission': {
-    number: 'PHASE 0',
-    title: 'Mission & Method',
-    desc: 'The goal, the deadline, how learning actually works, the AI habit that has to be undone, and the system that runs the whole plan.',
-    topics: ['How to Use This Book','The Mission','How Learning Actually Works','The AI Dependency Problem','The Operating System','The Scoreboard']
-  },
-  'phase-1-programming-foundations': {
-    number: 'PHASE 1',
-    title: 'Programming Foundations',
-    desc: 'Master the language, patterns, and principles that underpin all software engineering.',
-    topics: ['JavaScript','TypeScript','Data Structures','Algorithms','OOP','Functional Programming','Async Programming','Design Patterns','SOLID','Clean Code','Git','GitHub']
-  },
-  'phase-2-backend-engineering': {
-    number: 'PHASE 2',
-    title: 'Backend Engineering',
-    desc: 'Build production-grade APIs, services, and server-side systems.',
-    topics: ['Node.js','Express','NestJS','REST APIs','GraphQL','Auth/JWT/OAuth','Queues','WebSockets','Redis','Rate Limiting','API Docs']
-  },
-  'phase-3-databases': {
-    number: 'PHASE 3',
-    title: 'Databases',
-    desc: 'Design, optimize, and scale relational and document databases.',
-    topics: ['SQL','PostgreSQL','MongoDB','Database Design','Normalization','Transactions','Indexes','Query Optimization','Replication','Sharding','Prisma','TypeORM']
-  },
-  'phase-4-frontend': {
-    number: 'PHASE 4',
-    title: 'Frontend Engineering',
-    desc: 'Build modern, performant, accessible web interfaces.',
-    topics: ['HTML','CSS','Tailwind CSS','React','Next.js','State Management','Forms','Auth','Performance','SEO']
-  },
-  'phase-5-devops': {
-    number: 'PHASE 5',
-    title: 'DevOps',
-    desc: 'Automate, containerize, and operate production infrastructure.',
-    topics: ['Linux','Shell Scripting','Docker','Docker Compose','Nginx','GitHub Actions','CI/CD','Terraform','Networking','DNS','SSL','Monitoring','Prometheus','Grafana']
-  },
-  'phase-6-cloud': {
-    number: 'PHASE 6',
-    title: 'Cloud Engineering (AWS)',
-    desc: 'Design and operate scalable, secure, cost-efficient cloud architectures.',
-    topics: ['AWS','IAM','EC2','S3','RDS','CloudWatch','VPC','Route 53','CloudFront','ECS','Lambda','SQS/SNS','CloudFormation','SAA Prep']
-  },
-  'phase-7-system-design': {
-    number: 'PHASE 7',
-    title: 'System Design',
-    desc: 'Architect distributed systems that scale to millions of users.',
-    topics: ['Fundamentals','Scalability','CAP Theorem','Caching','Message Brokers','Distributed Systems','Load Balancers','CDNs','Microservices','API Gateway','Designing Uber/WhatsApp/Netflix']
-  },
-  'phase-8-ai-engineering': {
-    number: 'PHASE 8',
-    title: 'AI Engineering',
-    desc: 'Build intelligent applications using LLMs, RAG, agents, and AI pipelines.',
-    topics: ['Python','LLM Fundamentals','Prompt Engineering','Embeddings','Vector DBs','RAG','AI Agents','MCP','LangChain','LangGraph','OpenAI','Anthropic','Gemini','Ollama','AI SaaS']
-  },
-  'phase-9-software-engineering': {
-    number: 'PHASE 9',
-    title: 'Software Engineering Practice',
-    desc: 'Work effectively on teams, lead projects, and grow your career.',
-    topics: ['Agile','Scrum','SDLC','Code Reviews','Documentation','Technical Writing','ADRs','Estimations','Leadership','Mentoring','Career Growth']
-  },
-  'phase-10-english-communication': {
-    number: 'PHASE 10',
-    title: 'English & Communication',
-    desc: 'The half of the interview that is not code — speaking about your work, thinking out loud, and negotiating.',
-    topics: ['Speaking About Your Work','Explaining Technical Work','The Interview Conversation','Written English at Work','The First Five Minutes','Answering What You Cannot Answer','Talking About Code Out Loud','The Salary Conversation','Interview Under Pressure','Presenting a Design']
-  },
-  'phase-11-job-hunt-pakistan': {
-    number: 'PHASE 11',
-    title: 'The Pakistan Job Hunt',
-    desc: 'The market map, the CV, the applications, the referrals, the interview loop, the offer, and the first ninety days.',
-    topics: ['The Pakistani Market','The CV That Gets Read','Applying Without Wasting Shots','Referrals & Recruiters','The Interview Loop','Negotiating Your Offer','The First Ninety Days','Portfolio & Personal Brand','Remote Work — The Next Step']
-  },
-  'phase-12-daily-execution-plan': {
-    number: 'PHASE 12',
-    title: 'The Daily Execution Plan',
-    desc: 'All 188 days, dated and scheduled — 21 September 2026 to 27 March 2027, at 30 hours a week from 7 October. Open this every morning.',
-    topics: ['The Plan','September 2026','October 2026','November 2026','December 2026','January 2027','February 2027','March 2027']
-  },
-  'phase-13-appendix': {
-    number: 'PHASE 13',
-    title: 'Appendix',
-    desc: 'Supporting personal plans kept alongside the main mission.',
-    topics: ['Italy Study Route']
-  }
+const CALLOUTS = {
+  GOALS:   { icon: '🎯', label: 'By the end of this chapter you will understand' },
+  ANALOGY: { icon: '💡', label: 'Analogy' },
+  INSIDE:  { icon: '⚙️', label: 'What happens inside' },
+  WARNING: { icon: '⚠️', label: 'Watch out' },
+  TIP:     { icon: '✅', label: 'Tip' },
+  SENIOR:  { icon: '🧭', label: 'How a senior engineer thinks' },
+  TRY:     { icon: '✍️', label: 'Try it yourself' },
+  RECAP:   { icon: '↩️', label: 'Quick reminder' },
+  NOTE:    { icon: '📝', label: 'Note' },
 };
 
-// ── Helpers ──────────────────────────────────────────────────
-function buildCoverPage(stats, plan) {
-  return `
-<div class="cover-page">
-  <div class="cover-eyebrow">The Accelerated Plan</div>
-  <h1>From Stuck<br>to Hired</h1>
-  <div class="cover-subtitle">
-    JavaScript · Node · React · PostgreSQL · AWS<br>
-    System Design · AI Engineering · Interviewing · Negotiation
-  </div>
-  <div class="cover-divider"></div>
-  <div class="cover-meta">
-    ${stats.phases} Phases · ${stats.chapters} Chapters · ${stats.words.toLocaleString('en-GB')} Words · 2 Shipped Projects<br>
-    ${plan ? `${plan.meta.totalDays} dated days · ${plan.meta.totalTasks} scheduled tasks · ${plan.meta.totalHours} hours<br>` : ''}
-    Three years of maintenance work → a real engineering job at 3× the salary<br><br>
-    <strong style="color:#bfdbfe;">21 September 2026 → 27 March 2027</strong>
-  </div>
-  <div class="cover-phases">
-    ${PHASE_ORDER.filter(k => PHASE_META[k]).map(k => `<div class="cover-phase-item">${PHASE_META[k].number}: ${PHASE_META[k].title}</div>`).join('')}
-  </div>
-</div>`;
+// ── Helpers ──────────────────────────────────────────────────────────
+
+const esc = s => String(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const stripTags = s => String(s).replace(/<[^>]+>/g, '')
+  .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+
+const slugify = s => stripTags(s).toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'section';
+
+const countWords = md => md.replace(/```[\s\S]*?```/g, m => m.replace(/[^\s]+/g, 'w'))
+  .split(/\s+/).filter(Boolean).length;
+
+/** Turn `> [!TAG]` blockquotes into styled callout boxes. */
+function transformCallouts(html) {
+  return html.replace(/<blockquote>\s*<p>\[!([A-Z]+)\]\s*(?:<br>)?\s*([\s\S]*?)<\/blockquote>/g,
+    (whole, tag, rest) => {
+      const c = CALLOUTS[tag];
+      if (!c) return whole;
+      return `<aside class="callout callout-${tag.toLowerCase()}">` +
+        `<div class="callout-head"><span class="callout-icon">${c.icon}</span>${c.label}</div>` +
+        `<div class="callout-body"><p>${rest}</div></aside>`;
+    })
+    // an empty leading <p></p> appears when the tag sits alone on its line
+    .replace(/<div class="callout-body"><p>\s*<\/p>/g, '<div class="callout-body">');
 }
 
-/** Roadmap page, generated from the real dated plan. */
-function buildRoadmapPage(plan) {
-  if (!plan) return '';
-
-  const D = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const fmt = s => { const [y,m,d] = s.split('-').map(Number); return `${d} ${M[m-1]} ${y}`; };
-
-  const roles = [
-    ['◆','Tier 4 — where you are','Small shop · PHP · AngularJS · no review','PKR 50k – 120k / month','Today','rm-role-free'],
-    ['⚙','Tier 3 — the floor','Devsinc · Tkxel · Contour · NETSOL','PKR 120k – 250k / month','Reachable from Week 8','rm-role-backend'],
-    ['◻','Tier 2 — THE TARGET','Arbisoft · 10Pearls · VentureDive · Confiz','PKR 250k – 450k / month','Ready Week 13','rm-role-arch'],
-    ['◈','Tier 1 — the year after','Motive · Careem · Bazaar · Retailo','PKR 400k – 800k+ / month','A 2-year path','rm-role-ai'],
-    ['☁','International remote','The step after the Tier 2 job','$1.5K – $5K / month','Phase 11 Ch.9','rm-role-cloud'],
-  ];
-
-  const blockHtml = plan.blocks.map(block => {
-    const weeks = block.weeks.map(n => plan.weeks.find(w => w.n === n));
-    const weeksHtml = weeks.map(w => {
-      const days = plan.days.filter(d => d.week === w.n);
-      const first = days[0], last = days[days.length - 1];
-      return `
-      <div class="rm-week">
-        <div class="rm-week-num">Week ${w.n}<br><span style="font-weight:400;opacity:.75">${first.short}–${last.short}</span></div>
-        <div class="rm-week-body">
-          <div class="rm-week-title">${w.title}</div>
-          <div class="rm-week-tasks">${w.theme}</div>
-          <div class="rm-week-daily"><strong>Deliverable:</strong> ${w.deliverable}</div>
-          <div class="rm-week-milestone">✓ ${w.milestone}</div>
-        </div>
-      </div>`;
-    }).join('');
-
-    return `
-  <div class="rm-phase-block rm-phase-learn">
-    <div class="rm-phase-label">BLOCK ${block.name}</div>
-    <div class="rm-phase-desc">Weeks ${block.weeks[0]}–${block.weeks[block.weeks.length - 1]}</div>
-    <div class="rm-weeks">${weeksHtml}</div>
-  </div>`;
-  }).join('');
-
-  const anchorRows = [
-    [plan.anchors.start,       'Day 1 — the honest audit. BASELINE.md written.'],
-    [plan.anchors.cvReady,     'CV, LinkedIn and GitHub finished — this is a gate'],
-    [plan.anchors.applyStart,  'APPLICATIONS OPEN — on the weekly quota (5 → 10 → 15)'],
-    [plan.anchors.apiLive,     'Project 1 API deployed at a public URL'],
-    [plan.anchors.aiUnlock,    'AI unlocked — reviewer, never author'],
-    [plan.anchors.project1,    'Project 1 data layer complete — SQL and NoSQL'],
-    [plan.anchors.project2,    'Project 2 live — NestJS, queues, Redis, tested'],
-    [plan.anchors.project3,    'Project 3 live — retrieval service, measured'],
-    [plan.anchors.mockStart,   'First mock interview with a real person'],
-    [plan.anchors.deadline,    'DEADLINE — the plan closes, final accounting'],
-  ].map(([d, t]) => `<div class="rm-rule"><span class="rm-rule-num">${fmt(d).split(' ')[0]}</span><div><strong>${fmt(d)}</strong><br>${t}</div></div>`).join('');
-
-  const slotBlurb = {
-    'Deep Study':       'Chapter theory, before work. The block nothing can take from you.',
-    'Job Hunt':         'Applications from 19 October on a weekly quota — 5, then 10, then 15. Referrals and follow-ups.',
-    'Build':            'Implement what the morning explained. Build, do not read.',
-    'Deep Build':       'The largest uninterrupted block of the week. Project work only.',
-    'Study':            'Chapter reading and theory.',
-    'Interview Drill':  'Problems, mocks, and speaking aloud. Always out loud.',
-    'Review + Apply':   'The weekly review, and the week\'s last applications.',
-  };
-  const mkSlots = list => (list ?? []).map(s => [s.time.replace('–',' – '), s.name, slotBlurb[s.name] ?? '']).map(([t,n,d]) => `
-      <div class="rm-schedule-slot">
-        <div class="rm-slot-time">${t}</div>
-        <div class="rm-slot-activity">${n}<br><span>${d}</span></div>
-      </div>`).join('');
-
-  const weekdaySlots  = mkSlots(plan.slots?.weekday);
-  const saturdaySlots = mkSlots(plan.slots?.saturday);
-
-  return `
-<div class="roadmap-page">
-
-  <div class="rm-header">
-    <div class="rm-eyebrow">THE ACCELERATED PLAN</div>
-    <h1 class="rm-title">${fmt(plan.meta.start)} → ${fmt(plan.meta.end)}</h1>
-    <p class="rm-subtitle">
-      ${plan.meta.totalDays} dated days · ${plan.meta.totalWeeks} weeks · ${plan.meta.totalTasks} scheduled tasks · ${plan.meta.totalHours} hours.<br>
-      ${plan.meta.workingDays} working days · ${plan.meta.restDays} rest days.<br>
-      Three tracks in parallel: Engineering · Job Hunt · Communication.<br>
-      <strong>2h Mon–Fri, 4h Saturday, Sunday off — 14 hours a week, every week.</strong>
-    </p>
-  </div>
-
-  <div class="rm-roles-section">
-    <div class="rm-section-label">THE MARKET MAP — WHERE YOU ARE AND WHERE THIS GOES</div>
-    <div class="rm-roles-grid">
-      ${roles.map(([icon,name,stack,salary,phase,cls]) => `
-      <div class="rm-role-card ${cls}">
-        <div class="rm-role-icon">${icon}</div>
-        <div class="rm-role-name">${name}</div>
-        <div class="rm-role-stack">${stack}</div>
-        <div class="rm-role-salary">${salary}</div>
-        <div class="rm-role-phase">${phase}</div>
-      </div>`).join('')}
-    </div>
-  </div>
-
-  ${blockHtml}
-
-  <div class="rm-schedule-section">
-    <div class="rm-section-label">THE WEEKDAY (2h, while employed full-time)</div>
-    <div class="rm-schedule-grid">${weekdaySlots}</div>
-  </div>
-
-  <div class="rm-schedule-section">
-    <div class="rm-section-label">SATURDAY (4h) &middot; SUNDAY OFF</div>
-    <div class="rm-schedule-grid">${saturdaySlots}</div>
-    <div class="rm-phase-desc" style="margin-top:14px">
-      Sunday carries no tasks at all. It is a scheduled rest day and it is what makes
-      fifty consecutive weeks possible. The streak counter treats it as neutral.
-    </div>
-  </div>
-
-  <div class="rm-rules-section">
-    <div class="rm-section-label">FIXED ANCHORS — THESE DO NOT MOVE</div>
-    <div class="rm-rules-grid">${anchorRows}</div>
-  </div>
-
-  <div class="rm-rules-section">
-    <div class="rm-section-label">THE EIGHT RULES</div>
-    <div class="rm-rules-grid">
-      <div class="rm-rule"><span class="rm-rule-num">1</span><div><strong>The dawn block is untouchable.</strong> 05:00–06:30, every working day. Evening study is the first thing life cancels; 05:00 is not.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">2</span><div><strong>No AI writes code until 1 December 2026.</strong> Documentation is allowed. Concept explanations are allowed <em>after</em> twenty minutes of genuine attempt. Generated code is not.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">3</span><div><strong>Commit publicly every day.</strong> A day with no commit did not happen. The contribution graph compounds every day of the plan.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">4</span><div><strong>Twenty minutes before you look anything up.</strong> Stuck means stuck for twenty minutes. Most of the time you solve it in eight.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">5</span><div><strong>Start applying before you feel ready.</strong> Applications open 19 October regardless, on a ramping weekly quota. The funnel takes 4–8 weeks and you cannot buy that time back.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">6</span><div><strong>Miss one day, fine. Miss two, diagnose.</strong> Never try to catch up — resume on today. Cut breadth, keep depth.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">7</span><div><strong>Milestones are pass or fail.</strong> "Mostly" is a no. Be as strict as the interviewer will be.</div></div>
-      <div class="rm-rule"><span class="rm-rule-num">8</span><div><strong>Ignore everything marked LATER.</strong> Only the core chapters are scheduled. If it is not in the week you are on, it is not your problem yet.</div></div>
-    </div>
-  </div>
-
-</div>`;
+/** Give every h2/h3 a stable id scoped to its chapter; return the section list. */
+function addHeadingIds(html, chapterId) {
+  const sections = [];
+  const used = new Set();
+  const out = html.replace(/<h([23])>([\s\S]*?)<\/h\1>/g, (m, level, inner) => {
+    let id = `${chapterId}--${slugify(inner)}`;
+    let n = 2;
+    while (used.has(id)) id = `${chapterId}--${slugify(inner)}-${n++}`;
+    used.add(id);
+    sections.push({ id, level: Number(level), title: stripTags(inner).trim() });
+    return `<h${level} id="${id}">${inner}</h${level}>`;
+  });
+  return { html: out, sections };
 }
 
-
-function buildPhaseDivider(phaseKey) {
-  const meta = PHASE_META[phaseKey];
-  if (!meta) return '';
-  const tags = meta.topics.map(t => `<span class="phase-topic-tag">${t}</span>`).join('');
-  return `
-<div class="phase-divider">
-  <div class="phase-number">${meta.number}</div>
-  <h2>${meta.title}</h2>
-  <div class="phase-desc">${meta.desc}</div>
-  <div class="phase-topics">${tags}</div>
-</div>`;
-}
-
-function mdToHtml(mdContent) {
-  return marked.parse(mdContent);
-}
-
-function getChapterId(file) {
-  const phaseDir = path.dirname(file).split(path.sep).pop();
-  const slug = path.basename(file, '.md').replace(/^\d+-/, '');
-  return `${phaseDir}--${slug}`;
-}
-
-function getChapterTitle(mdContent, file) {
-  const h1 = mdContent.match(/^#\s+(.+)$/m);
-  if (h1) return h1[1].replace(/^Phase\s+\d+\s*[—–-]\s*Chapter\s+\d+:\s*/i, '').trim();
-  return path.basename(file, '.md').replace(/^\d+-/, '').replace(/-/g, ' ');
-}
-
+/** Old notes: collapse "**Q1: …**" interview questions into click-to-open blocks. */
 function transformInterviewQA(html) {
-  // Wrap "Interview Preparation" section
-  if (/<h2[^>]*>Interview Preparation<\/h2>/i.test(html)) {
-    html = html.replace(
-      /<h2[^>]*>Interview Preparation<\/h2>/gi,
-      '<div class="interview-zone"><div class="interview-section-header"><span class="icon">💼</span><h2>Interview Questions &amp; Answers</h2></div>'
-    );
-    const closeMarkers = /<h2[^>]*>(?:Cheat Sheet|Self[- ]Assessment|Practice Projects|Quick Reference|Chapter Summary|Summary|Further Reading)/i;
-    const match = html.match(closeMarkers);
-    if (match) {
-      const idx = html.indexOf(match[0]);
-      html = html.slice(0, idx) + '</div>\n' + html.slice(idx);
-    } else {
-      html += '</div>';
-    }
-  }
-
-  // Convert **Q1: question** paragraphs into collapsible QA blocks
   const parts = html.split(/(?=<p><strong>Q\d+:)/i);
   if (parts.length <= 1) return html;
-
-  const rebuilt = parts.map((part, i) => {
+  return parts.map((part, i) => {
     if (i === 0) return part;
-
-    const qMatch = part.match(/^<p><strong>(Q\d+:\s*[^<]*)<\/strong><\/p>/i);
-    if (!qMatch) return part;
-
-    const question = qMatch[1].trim();
-    let rest = part.slice(qMatch[0].length);
-
-    const nextQ = rest.search(/<p><strong>Q\d+:/i);
-    const nextH3 = rest.search(/<h3/i);
-    let cutAt = rest.length;
-    if (nextQ >= 0) cutAt = Math.min(cutAt, nextQ);
-    if (nextH3 >= 0) cutAt = Math.min(cutAt, nextH3);
-
-    let answer = rest.slice(0, cutAt).trim();
-    const remainder = rest.slice(cutAt);
-
-    answer = answer.replace(/^<p>\s*A:\s*/i, '<p>');
-
-    return `<div class="qa-block">
-      <div class="qa-question" role="button" tabindex="0" aria-expanded="false">
-        <span class="qa-label">Q</span>
-        <span class="qa-question-text">${question.replace(/^Q\d+:\s*/i, '')}</span>
-        <span class="qa-chevron">▼</span>
-      </div>
-      <div class="qa-answer">${answer}</div>
-    </div>${remainder}`;
-  });
-
-  return rebuilt.join('');
+    const q = part.match(/^<p><strong>(Q\d+:\s*[^<]*)<\/strong><\/p>/i);
+    if (!q) return part;
+    const rest = part.slice(q[0].length);
+    const cuts = [rest.search(/<p><strong>Q\d+:/i), rest.search(/<h[23]/i)].filter(x => x >= 0);
+    const cut = cuts.length ? Math.min(...cuts) : rest.length;
+    const answer = rest.slice(0, cut).trim().replace(/^<p>\s*A:\s*/i, '<p>');
+    return `<details class="qa"><summary>${q[1].replace(/^Q\d+:\s*/i, '')}</summary>` +
+      `<div class="qa-answer">${answer}</div></details>${rest.slice(cut)}`;
+  }).join('');
 }
 
-function hasInterviewSection(html) {
-  return /Interview Preparation|interview-zone|class="qa-block"/i.test(html);
+/** Parse "- **Term** — definition" lines from a chapter's "## Key terms" section. */
+function extractKeyTerms(md) {
+  const m = md.match(/^##\s+Key terms\s*$([\s\S]*?)(?=^##\s|(?![\s\S]))/m);
+  if (!m) return [];
+  const terms = [];
+  for (const line of m[1].split('\n')) {
+    const t = line.match(/^\s*[-*]\s+\*\*(.+?)\*\*\s*[—–:-]+\s*(.+)$/);
+    if (t) terms.push({ term: t[1].trim(), def: t[2].trim() });
+  }
+  return terms;
 }
 
-async function getChapterFiles(filterPhase, filterChapter) {
-  const pattern = path.join(PHASES_DIR, '**', '*.md').replace(/\\/g, '/');
-  let files = await glob(pattern);
+/** Old notes need tidying before display: drop their H1 and their own "Phase N" labels. */
+function prepareLegacyMarkdown(md) {
+  return md
+    .replace(/^#\s+.*$/m, '')           // their H1 — we supply the book's title
+    .replace(/^(#{2,6})\s/gm, (m, h) => (h.length < 6 ? '#' + h : h) + ' ') // demote one level
+    .replace(/^###\s+Chapter Overview\s*$/m, '### Overview');
+}
 
-  // Sort by explicit PHASE_ORDER, then by file numeric prefix.
-  const rank = key => {
-    const i = PHASE_ORDER.indexOf(key);
-    return i === -1 ? PHASE_ORDER.length : i;
-  };
-  files.sort((a, b) => {
-    const pa = path.dirname(a).split(path.sep).pop();
-    const pb = path.dirname(b).split(path.sep).pop();
-    if (pa !== pb) {
-      const d = rank(pa) - rank(pb);
-      if (d !== 0) return d;
-      return pa.localeCompare(pb, undefined, { numeric: true });
+// ── Build ────────────────────────────────────────────────────────────
+
+async function loadChapters(toc) {
+  const chapters = [];
+  let number = 0;
+  const numbers = new Map(toc.parts.flatMap(p => p.chapters).map((c, i) => [c.id, i + 1]));
+
+  for (const [pi, part] of toc.parts.entries()) {
+    for (const ch of part.chapters) {
+      number += 1;
+      const file = path.join(CHAPTERS_DIR, `${ch.id}.md`);
+      const rewritten = await fs.pathExists(file);
+      let md;
+      let status;
+
+      if (rewritten) {
+        md = await fs.readFile(file, 'utf8');
+        md = md.replace(/^#\s+.*$/m, ''); // the chapter title comes from toc.json
+        status = 'rewritten';
+      } else if (ch.sources.length) {
+        const pieces = [];
+        for (const src of ch.sources) {
+          const p = path.join(NOTES_DIR, src);
+          if (await fs.pathExists(p)) pieces.push(prepareLegacyMarkdown(await fs.readFile(p, 'utf8')));
+          else console.warn(`  [WARN] missing source note: ${src}`);
+        }
+        md = pieces.join('\n\n---\n\n');
+        status = 'notes';
+      } else {
+        md = '';
+        status = 'planned';
+      }
+
+      // {{ch:some-id}} → a link that always shows the correct chapter number
+      md = md.replace(/\{\{ch:([a-z0-9-]+)\}\}/g, (m, id) => {
+        if (!numbers.has(id)) { console.warn(`  [WARN] ${ch.id}: unknown chapter reference ${m}`); return m; }
+        return `[Chapter ${numbers.get(id)}](#${id})`;
+      });
+
+      let html = transformCallouts(marked.parse(md));
+      if (status === 'notes') html = transformInterviewQA(html);
+      const { html: withIds, sections } = addHeadingIds(html, ch.id);
+
+      chapters.push({
+        ...ch,
+        number,
+        partIndex: pi,
+        partId: part.id,
+        partTitle: part.title,
+        status,
+        words: status === 'rewritten' ? countWords(md) : 0,
+        noteWords: status === 'notes' ? countWords(md) : 0,
+        html: withIds,
+        sections,
+        terms: status === 'rewritten' ? extractKeyTerms(md) : [],
+        text: md.replace(/```[\s\S]*?```/g, ' ').replace(/<[^>]+>/g, ' ')
+          .replace(/[#*_>`|[\]()-]/g, ' ').replace(/\s+/g, ' ').trim(),
+      });
     }
-    return path.basename(a).localeCompare(path.basename(b), undefined, { numeric: true });
-  });
-
-  if (filterPhase) {
-    files = files.filter(f => path.dirname(f).includes(`phase-${filterPhase}`));
   }
-  if (filterChapter) {
-    files = files.filter(f => path.basename(f).toLowerCase().includes(filterChapter.toLowerCase()));
-  }
-
-  return files;
+  return chapters;
 }
 
-function buildFullHtml(bodyContent, cssContent) {
+function chapterBanner(ch) {
+  if (ch.status === 'notes') {
+    return `<aside class="status-banner notes"><strong>This chapter has not been rewritten yet.</strong>
+      What follows are the original condensed notes on this topic. They are accurate but terse —
+      written for someone who already knows the basics. The full beginner-friendly chapter will
+      replace them.</aside>`;
+  }
+  if (ch.status === 'planned') {
+    return `<aside class="status-banner planned"><strong>This chapter is planned but not written yet.</strong>
+      It is a new topic that the original notes did not cover. It will be written as a full chapter.</aside>`;
+  }
+  return '';
+}
+
+function chapterHtml(ch, prev, next) {
+  const navLink = (c, dir) => c
+    ? `<a class="pager-link ${dir}" href="#${c.id}"><span class="pager-dir">${dir === 'prev' ? '← Previous' : 'Next →'}</span>` +
+      `<span class="pager-title">${c.number}. ${esc(c.title)}</span></a>`
+    : '<span></span>';
+  return `<article class="page chapter" id="page-${ch.id}" data-id="${ch.id}">
+    <header class="chapter-head">
+      <div class="chapter-kicker">Part ${ROMAN[ch.partIndex + 1]} · ${esc(ch.partTitle)}</div>
+      <h1><span class="chapter-num">Chapter ${ch.number}</span>${esc(ch.title)}</h1>
+    </header>
+    ${chapterBanner(ch)}
+    <div class="chapter-body">${ch.html}</div>
+    <nav class="pager">${navLink(prev, 'prev')}${navLink(next, 'next')}</nav>
+  </article>`;
+}
+
+function homeHtml(toc, chapters, stats) {
+  const parts = toc.parts.map((part, pi) => {
+    const items = chapters.filter(c => c.partIndex === pi).map(c =>
+      `<li class="toc-ch ${c.status}"><a href="#${c.id}"><span class="toc-num">${c.number}</span>` +
+      `<span class="toc-title">${esc(c.title)}</span>` +
+      (c.status === 'rewritten' ? '' : `<span class="toc-flag">${c.status === 'notes' ? 'notes' : 'planned'}</span>`) +
+      '</a></li>').join('');
+    return `<section class="toc-part">
+      <h2><span class="toc-part-num">Part ${ROMAN[pi + 1]}</span>${esc(part.title)}</h2>
+      <p class="toc-part-intro">${esc(part.intro)}</p>
+      <ol class="toc-list">${items}</ol>
+    </section>`;
+  }).join('');
+
+  return `<article class="page home" id="page-home" data-id="home">
+    <header class="home-hero">
+      <h1>${esc(toc.title)}</h1>
+      <p class="home-sub">${esc(toc.subtitle)}</p>
+      <div class="home-actions">
+        <a class="btn primary" href="#${chapters[0].id}">Start at Chapter 1</a>
+        <button class="btn" id="resume-btn" type="button" hidden>Continue where you left off</button>
+      </div>
+    </header>
+    <section class="home-guide">
+      <h2>Finding your way around</h2>
+      <ul>
+        <li><strong>Contents</strong> (left) lists every part and chapter. Click any chapter to open it. The chapter you are reading shows its sections underneath, so you can jump straight to one.</li>
+        <li><strong>Search</strong> (top of the left panel) looks through the whole book, including headings and the glossary.</li>
+        <li><strong>Glossary</strong> explains every technical word the book uses, in plain English, and links to the chapter that teaches it.</li>
+        <li><strong>Index</strong> lists every topic and section in the book, A to Z.</li>
+        <li>Use <kbd>←</kbd> and <kbd>→</kbd> (or the buttons at the end of each chapter) to move between chapters. The book reopens where you stopped.</li>
+      </ul>
+      <p class="home-stats">${stats.parts} parts · ${stats.chapters} chapters · ${stats.rewritten} fully rewritten so far</p>
+    </section>
+    <section class="home-toc">
+      <h2>Table of contents</h2>
+      ${parts}
+      <section class="toc-part">
+        <h2><span class="toc-part-num">Reference</span>At the back of the book</h2>
+        <ol class="toc-list plain">
+          <li class="toc-ch"><a href="#glossary"><span class="toc-num">A</span><span class="toc-title">Glossary</span></a></li>
+          <li class="toc-ch"><a href="#index"><span class="toc-num">B</span><span class="toc-title">Index</span></a></li>
+        </ol>
+      </section>
+    </section>
+  </article>`;
+}
+
+function glossaryHtml(chapters) {
+  const map = new Map();
+  for (const ch of chapters) {
+    for (const t of ch.terms) {
+      const key = t.term.toLowerCase();
+      if (!map.has(key)) map.set(key, { ...t, chapters: [] });
+      map.get(key).chapters.push(ch);
+    }
+  }
+  const entries = [...map.values()].sort((a, b) => a.term.localeCompare(b.term, 'en', { sensitivity: 'base' }));
+  const byLetter = groupByLetter(entries, e => e.term);
+  const body = entries.length
+    ? byLetter.map(([letter, list]) => `<section class="az-group"><h2 id="glossary--${letter}">${letter}</h2><dl class="glossary">` +
+      list.map(e => `<dt>${esc(e.term)}</dt><dd>${marked.parseInline(e.def)} <span class="gl-refs">— ` +
+        e.chapters.map(c => `<a href="#${c.id}">Ch. ${c.number}</a>`).join(', ') + '</span></dd>').join('') +
+      '</dl></section>').join('')
+    : '<p>The glossary fills in automatically as chapters are rewritten.</p>';
+  return {
+    count: entries.length,
+    entries,
+    html: `<article class="page appendix" id="page-glossary" data-id="glossary">
+      <header class="chapter-head"><div class="chapter-kicker">Appendix A</div><h1>Glossary</h1></header>
+      <p class="appendix-intro">Every technical word this book teaches, explained in plain English. Each entry links to the chapter where it is taught properly. (${entries.length} terms so far — the glossary grows as chapters are rewritten.)</p>
+      ${letterBar(byLetter, 'glossary')}
+      <input type="search" class="filter-box" data-filter="glossary" placeholder="Filter the glossary…">
+      ${body}
+    </article>`,
+  };
+}
+
+function indexHtml(chapters, glossaryEntries) {
+  const rows = [];
+  for (const ch of chapters) {
+    rows.push({ label: ch.title, href: `#${ch.id}`, where: `Chapter ${ch.number}`, kind: 'chapter' });
+    if (ch.status !== 'rewritten') continue;
+    for (const s of ch.sections) {
+      if (/^(key terms|summary|what comes next|exercises)$/i.test(s.title)) continue;
+      if (/^exercise \d/i.test(s.title)) continue;
+      rows.push({ label: s.title.replace(/^level \d+\s*[—–-]\s*/i, ''), href: `#${s.id}`, where: `Ch. ${ch.number}`, kind: 'section' });
+    }
+  }
+  for (const g of glossaryEntries) {
+    rows.push({ label: g.term, href: `#glossary--${letterOf(g.term)}`, where: 'Glossary', kind: 'term' });
+  }
+  rows.sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }));
+  const byLetter = groupByLetter(rows, r => r.label);
+  return `<article class="page appendix" id="page-index" data-id="index">
+    <header class="chapter-head"><div class="chapter-kicker">Appendix B</div><h1>Index</h1></header>
+    <p class="appendix-intro">Every chapter, every section of the rewritten chapters, and every glossary term, A to Z.</p>
+    ${letterBar(byLetter, 'index')}
+    <input type="search" class="filter-box" data-filter="index" placeholder="Filter the index…">
+    ${byLetter.map(([letter, list]) => `<section class="az-group"><h2 id="index--${letter}">${letter}</h2><ul class="index-list">` +
+      list.map(r => `<li class="ix-${r.kind}"><a href="${r.href}">${esc(r.label)}</a><span class="ix-where">${r.where}</span></li>`).join('') +
+      '</ul></section>').join('')}
+  </article>`;
+}
+
+const letterOf = s => { const c = stripTags(s).trim().charAt(0).toUpperCase(); return /[A-Z]/.test(c) ? c : '#'; };
+
+function groupByLetter(list, key) {
+  const groups = new Map();
+  for (const item of list) {
+    const l = letterOf(key(item));
+    if (!groups.has(l)) groups.set(l, []);
+    groups.get(l).push(item);
+  }
+  return [...groups.entries()].sort(([a], [b]) => (a === '#' ? -1 : b === '#' ? 1 : a.localeCompare(b)));
+}
+
+const letterBar = (groups, prefix) => `<nav class="letter-bar">${groups.map(([l]) =>
+  `<a href="#${prefix}--${l}">${l}</a>`).join('')}</nav>`;
+
+function sidebarHtml(toc, chapters) {
+  return toc.parts.map((part, pi) => {
+    const items = chapters.filter(c => c.partIndex === pi).map(c => {
+      const secs = c.sections.filter(s => s.level === 2)
+        .map(s => `<a class="nav-sec" href="#${s.id}">${esc(s.title)}</a>`).join('');
+      return `<li class="nav-ch ${c.status}" data-id="${c.id}">
+        <a class="nav-ch-link" href="#${c.id}"><span class="nav-num">${c.number}</span><span>${esc(c.title)}</span></a>
+        ${secs ? `<div class="nav-secs">${secs}</div>` : ''}
+      </li>`;
+    }).join('');
+    return `<li class="nav-part" data-part="${part.id}">
+      <button class="nav-part-btn" type="button"><span class="nav-part-num">${ROMAN[pi + 1]}</span><span>${esc(part.title)}</span><span class="chev">▾</span></button>
+      <ol class="nav-chapters">${items}</ol>
+    </li>`;
+  }).join('') + `<li class="nav-part ref"><div class="nav-ref">
+      <a class="nav-ch-link" href="#glossary" data-id="glossary"><span class="nav-num">A</span><span>Glossary</span></a>
+      <a class="nav-ch-link" href="#index" data-id="index"><span class="nav-num">B</span><span>Index</span></a>
+    </div></li>`;
+}
+
+function readerShell({ toc, sidebar, pages, manifest, css, js }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Software Engineering Mastery Curriculum</title>
-  <style>${cssContent}</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(toc.title)}</title>
+<style>${css}</style>
 </head>
 <body>
-${bodyContent}
-</body>
-</html>`;
-}
-
-function buildReaderHtml(chapters, manifest, plan, stats) {
-  const chapterPanes = chapters.map(ch => `
-  <article id="${ch.id}" class="chapter-pane" data-phase="${ch.phaseKey}">
-    ${ch.html}
-  </article>`).join('\n');
-
-  const manifestJson = JSON.stringify(manifest);
-  const planJson     = plan ? JSON.stringify(plan) : 'null';
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Career Book — Software Engineering Mastery</title>
-  <link rel="stylesheet" href="reader.css">
-</head>
-<body>
-  <div class="reader-app">
-    <div class="sidebar-overlay"></div>
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h1>Career Book</h1>
-        <p>${stats.chapters} chapters · ${plan ? plan.meta.totalDays + ' days' : 'Interactive Reader'}</p>
-      </div>
-      <div class="sidebar-search">
-        <input type="search" id="chapter-search" placeholder="Search the whole book…" autocomplete="off">
-      </div>
-      <div class="sidebar-tabs">
-        <button class="sidebar-tab active" data-panel="plan" type="button">Plan</button>
-        <button class="sidebar-tab" data-panel="chapters" type="button">Chapters</button>
-        <button class="sidebar-tab" data-panel="interview" type="button">Q&amp;A</button>
-      </div>
-      <nav class="sidebar-nav">
-        <div id="plan-nav" class="plan-nav"></div>
-        <div id="chapters-nav" style="display:none"></div>
-        <div id="interview-nav" class="interview-list" style="display:none"></div>
-        <div id="search-results" class="search-results" style="display:none"></div>
-      </nav>
-    </aside>
-
-    <div class="main-area">
-      <header class="top-bar">
-        <button class="menu-btn" type="button" aria-label="Toggle menu">☰</button>
-        <div class="breadcrumb">Your plan for today</div>
-        <div class="top-actions">
-          <button class="nav-btn" id="today-btn" type="button" title="Jump to today">Today</button>
-          <button class="view-toggle" id="interview-toggle" type="button" style="display:none">Interview Q&amp;A</button>
-          <button class="nav-btn" id="prev-chapter" type="button" title="Previous">←</button>
-          <button class="nav-btn" id="next-chapter" type="button" title="Next">→</button>
-          <button class="nav-btn icon-btn" id="theme-toggle" type="button" title="Toggle theme">◐</button>
-          <button class="nav-btn icon-btn" id="font-smaller" type="button" title="Smaller text">A−</button>
-          <button class="nav-btn icon-btn" id="font-larger" type="button" title="Larger text">A+</button>
-        </div>
-      </header>
-      <div class="progress-bar-wrap"><div class="progress-bar"></div></div>
-      <div class="content-scroll">
-        <div id="plan-pane" class="plan-pane"></div>
-        <div id="welcome-pane" class="welcome-pane" style="display:none">
-          <h2>Career Book</h2>
-          <p>Fundamentals through cloud, AI engineering, system design, interviewing and negotiation — wired to a dated ${plan ? plan.meta.totalDays + '-day' : ''} plan that ends in a signed offer.</p>
-          <div class="welcome-stats">
-            <div class="welcome-stat"><strong>${stats.phases}</strong><span>Phases</span></div>
-            <div class="welcome-stat"><strong>${stats.chapters}</strong><span>Chapters</span></div>
-            <div class="welcome-stat"><strong>${Math.round(stats.words / 1000)}k</strong><span>Words</span></div>
-            <div class="welcome-stat"><strong>${manifest.filter(c => c.hasInterview).length}</strong><span>Q&amp;A Sets</span></div>
-          </div>
-          <button class="resume-btn" id="resume-reading" type="button">Resume Reading</button>
-        </div>
-        ${chapterPanes}
-      </div>
+<div class="app">
+  <div class="scrim" id="scrim"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="side-head">
+      <a href="#home" class="side-title">${esc(toc.title)}</a>
     </div>
+    <div class="side-search">
+      <input type="search" id="search" placeholder="Search the whole book…" autocomplete="off">
+    </div>
+    <div class="side-scroll">
+      <div id="search-results" class="search-results" hidden></div>
+      <ol class="nav" id="nav">${sidebar}</ol>
+    </div>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn" id="menu-btn" type="button" aria-label="Show contents">☰</button>
+      <div class="crumb" id="crumb"></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="prev-btn" type="button" title="Previous chapter (←)">←</button>
+        <button class="icon-btn" id="next-btn" type="button" title="Next chapter (→)">→</button>
+        <button class="icon-btn" id="font-down" type="button" title="Smaller text">A−</button>
+        <button class="icon-btn" id="font-up" type="button" title="Larger text">A+</button>
+        <button class="icon-btn" id="theme-btn" type="button" title="Light / dark">◐</button>
+      </div>
+    </header>
+    <div class="read-progress"><div id="read-progress-bar"></div></div>
+    <main class="scroller" id="scroller">${pages}</main>
   </div>
-  <div class="save-toast">Progress saved</div>
-  <script>
-    window.__BOOK_MANIFEST__ = ${manifestJson};
-    window.__PLAN__ = ${planJson};
-  </script>
-  <script src="reader.js"></script>
+</div>
+<script>window.__BOOK__ = ${JSON.stringify(manifest).replace(/</g, '\\u003c')};</script>
+<script>${js}</script>
 </body>
 </html>`;
 }
 
-// ── Main Compile Function ─────────────────────────────────────
-async function compile() {
-  console.log('');
-  console.log('══════════════════════════════════════════════════════');
-  console.log('  Software Engineering Curriculum — PDF Compiler');
-  console.log('══════════════════════════════════════════════════════');
+function statusRecord(toc, chapters, glossaryCount) {
+  const done = chapters.filter(c => c.status === 'rewritten');
+  const lines = [
+    '# Rewrite status',
+    '',
+    'Editing record for the book transformation. Generated by `node compile.js` from what',
+    'actually exists in `book/chapters/` — do not edit by hand. This is a record of the editing',
+    'project, not something shown to the reader.',
+    '',
+    `- Chapters in the book: **${chapters.length}**`,
+    `- Fully rewritten: **${done.length}** (${done.reduce((n, c) => n + c.words, 0).toLocaleString('en')} words)`,
+    `- Still showing old notes: **${chapters.filter(c => c.status === 'notes').length}**`,
+    `- New topics not yet written: **${chapters.filter(c => c.status === 'planned').length}**`,
+    `- Glossary terms collected: **${glossaryCount}**`,
+    '',
+  ];
+  for (const [pi, part] of toc.parts.entries()) {
+    lines.push(`## Part ${ROMAN[pi + 1]} — ${part.title}`, '', '| # | Chapter | Status | Words |', '|---|---|---|---|');
+    for (const c of chapters.filter(x => x.partIndex === pi)) {
+      const label = c.status === 'rewritten' ? '✅ rewritten' : c.status === 'notes' ? '⬜ old notes' : '⬜ planned (new topic)';
+      lines.push(`| ${c.number} | ${c.title.replace(/\|/g, '\\|')} | ${label} | ${c.words ? c.words.toLocaleString('en') : '—'} |`);
+    }
+    lines.push('');
+  }
+  return lines.join('\n');
+}
 
-  // Parse args
-  const args = process.argv.slice(2);
-  const phaseArg   = args.includes('--phase')   ? args[args.indexOf('--phase')   + 1] : null;
-  const chapterArg = args.includes('--chapter')  ? args[args.indexOf('--chapter') + 1] : null;
-  const htmlOnly   = args.includes('--html-only');
+async function renderPdf(html, outFile) {
+  const puppeteer = require('puppeteer');
+  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+  const page = await browser.newPage();
+  page.setDefaultTimeout(0);
+  await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 0 });
+  await page.evaluate(() => document.documentElement.classList.add('print-all'));
+  await page.pdf({ path: outFile, format: 'A4', printBackground: true, margin: { top: '1.6cm', bottom: '1.6cm', left: '1.6cm', right: '1.6cm' }, timeout: 0 });
+  await browser.close();
+}
 
-  // Ensure output dir
+async function main() {
+  const wantPdf = process.argv.includes('--pdf');
+  const toc = await fs.readJson(path.join(BOOK_DIR, 'toc.json'));
   await fs.ensureDir(OUTPUT_DIR);
 
-  // Load CSS
-  let cssContent = '';
-  if (await fs.pathExists(CSS_PATH)) {
-    cssContent = await fs.readFile(CSS_PATH, 'utf8');
-  } else {
-    console.warn('[WARN] book.css not found, PDF will use default styles');
+  const chapters = await loadChapters(toc);
+  const glossary = glossaryHtml(chapters);
+  const stats = {
+    parts: toc.parts.length,
+    chapters: chapters.length,
+    rewritten: chapters.filter(c => c.status === 'rewritten').length,
+  };
+
+  const pages = [
+    homeHtml(toc, chapters, stats),
+    ...chapters.map((c, i) => chapterHtml(c, chapters[i - 1], chapters[i + 1])),
+    glossary.html,
+    indexHtml(chapters, glossary.entries),
+  ].join('\n');
+
+  const manifest = {
+    title: toc.title,
+    order: ['home', ...chapters.map(c => c.id), 'glossary', 'index'],
+    chapters: chapters.map(c => ({
+      id: c.id, number: c.number, title: c.title, part: `Part ${ROMAN[c.partIndex + 1]}`,
+      partId: c.partId, status: c.status,
+      sections: c.sections.map(s => ({ id: s.id, title: s.title })),
+      text: c.text.slice(0, 60000).toLowerCase(),
+    })),
+    glossary: glossary.entries.map(e => ({ term: e.term, def: stripTags(marked.parseInline(e.def)), href: `#glossary--${letterOf(e.term)}` })),
+  };
+
+  const css = await fs.readFile(path.join(ROOT, 'styles', 'reader.css'), 'utf8');
+  const js = await fs.readFile(path.join(ROOT, 'scripts', 'reader.js'), 'utf8');
+  const html = readerShell({ toc, sidebar: sidebarHtml(toc, chapters), pages, manifest, css, js });
+
+  await fs.writeFile(path.join(OUTPUT_DIR, 'index.html'), html, 'utf8');
+  await fs.writeFile(STATUS_PATH, statusRecord(toc, chapters, glossary.count), 'utf8');
+
+  console.log(`\n  ${toc.title}`);
+  console.log(`  ${stats.chapters} chapters in ${stats.parts} parts — ${stats.rewritten} rewritten, ` +
+    `${chapters.filter(c => c.status === 'notes').length} on old notes, ${chapters.filter(c => c.status === 'planned').length} planned`);
+  console.log(`  Glossary: ${glossary.count} terms`);
+  console.log(`  Reader  → ${path.join(OUTPUT_DIR, 'index.html')}`);
+  console.log(`  Status  → ${STATUS_PATH}`);
+
+  if (wantPdf) {
+    const out = path.join(OUTPUT_DIR, 'book.pdf');
+    console.log('  Rendering PDF (this takes a while)…');
+    await renderPdf(html, out);
+    console.log(`  PDF     → ${out}`);
   }
-
-  // Gather chapter files
-  const files = await getChapterFiles(phaseArg, chapterArg);
-  if (files.length === 0) {
-    console.error('[ERROR] No chapter files found. Generate some chapters first!');
-    process.exit(1);
-  }
-  console.log(`\n  Found ${files.length} chapter(s) to compile\n`);
-
-  // Load reader assets
-  const READER_CSS  = path.join(STYLES_DIR, 'reader.css');
-  const READER_CSS2 = path.join(STYLES_DIR, 'reader-v2.css');
-  const READER_JS   = path.join(ROOT, 'scripts', 'reader.js');
-  let readerCss = '';
-  let readerJs  = '';
-  if (await fs.pathExists(READER_CSS))  readerCss  = await fs.readFile(READER_CSS,  'utf8');
-  if (await fs.pathExists(READER_CSS2)) readerCss += '\n' + await fs.readFile(READER_CSS2, 'utf8');
-  if (await fs.pathExists(READER_JS))   readerJs   = await fs.readFile(READER_JS,   'utf8');
-
-  // Load the dated plan (built by plan/build-plan.js)
-  let plan = null;
-  if (await fs.pathExists(PLAN_PATH)) {
-    plan = await fs.readJson(PLAN_PATH);
-    console.log(`  Plan loaded: ${plan.meta.totalDays} days, ${plan.meta.totalTasks} tasks\n`);
-  } else {
-    console.warn('  [WARN] data/plan.json not found — run `node plan/build-plan.js` first.\n');
-  }
-
-  // Build HTML body (PDF) + reader chapters
-  let body = '';
-  let currentPhase = null;
-  const chapters = [];
-  const manifest = [];
-  const phaseKeys = new Set();
-  let totalWords = 0;
-
-  // Cover + roadmap are appended after the loop, once stats are known.
-  const bodyParts = [];
-
-  for (const file of files) {
-    const phaseDir = path.dirname(file).split(path.sep).pop();
-    const phaseMeta = PHASE_META[phaseDir];
-
-    // Phase divider
-    if (phaseDir !== currentPhase) {
-      currentPhase = phaseDir;
-      bodyParts.push(buildPhaseDivider(phaseDir));
-      console.log(`\n  ▶  ${phaseMeta?.title || phaseDir}`);
-    }
-
-    // Chapter content
-    const md = await fs.readFile(file, 'utf8');
-    let html = mdToHtml(md);
-    html = transformInterviewQA(html);
-
-    const chapterId    = getChapterId(file);
-    const chapterTitle = getChapterTitle(md, file);
-    const chapterName  = path.basename(file, '.md').replace(/^\d+-/, '').replace(/-/g, ' ');
-    const words        = md.split(/\s+/).filter(Boolean).length;
-    totalWords += words;
-    phaseKeys.add(phaseDir);
-    console.log(`     • ${chapterName.padEnd(42)} ${String(words).padStart(6)} words`);
-
-    bodyParts.push(`<section class="chapter" data-chapter="${chapterName}">\n${html}\n</section>\n`);
-
-    chapters.push({ id: chapterId, phaseKey: phaseDir, html });
-    manifest.push({
-      id: chapterId,
-      title: chapterTitle,
-      phaseKey: phaseDir,
-      phaseTitle: phaseMeta?.title || phaseDir,
-      phaseNumber: phaseMeta?.number || '',
-      words,
-      hasInterview: hasInterviewSection(html),
-      // Plain-text index for full-text search in the reader.
-      text: md.replace(/```[\s\S]*?```/g, ' ').replace(/[#*_>`|\-]/g, ' ')
-              .replace(/\s+/g, ' ').trim().toLowerCase().slice(0, 24000),
-    });
-  }
-
-  const stats = { phases: phaseKeys.size, chapters: files.length, words: totalWords };
-
-  if (!phaseArg && !chapterArg) {
-    body += buildCoverPage(stats, plan);
-    body += buildRoadmapPage(plan);
-  }
-  body += bodyParts.join('');
-
-  const fullHtml = buildFullHtml(body, cssContent);
-
-  // Write PDF-oriented HTML
-  const htmlOut = path.join(OUTPUT_DIR, 'curriculum.html');
-  await fs.writeFile(htmlOut, fullHtml, 'utf8');
-  console.log(`\n  PDF HTML written → ${htmlOut}`);
-
-  // Write interactive reader
-  const readerHtml = buildReaderHtml(chapters, manifest, plan, stats);
-  const readerOut  = path.join(OUTPUT_DIR, 'index.html');
-  await fs.writeFile(readerOut, readerHtml, 'utf8');
-  await fs.writeFile(path.join(OUTPUT_DIR, 'reader.css'), readerCss, 'utf8');
-  await fs.writeFile(path.join(OUTPUT_DIR, 'reader.js'), readerJs, 'utf8');
-  console.log(`  Interactive reader → ${readerOut}`);
-
-  if (htmlOnly) {
-    console.log('\n  Skipping PDF (--html-only)');
-    console.log('');
-    console.log('══════════════════════════════════════════════════════');
-    console.log(`  ✓  ${files.length} chapter(s) compiled`);
-    console.log(`  ✓  Reader: ${readerOut}`);
-    console.log('══════════════════════════════════════════════════════');
-    console.log('');
-    return;
-  }
-
-  // Launch Puppeteer and render PDF
-  console.log('\n  Launching Puppeteer (this may take a moment)...');
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
-  });
-
-  const page = await browser.newPage();
-  await page.setDefaultNavigationTimeout(0);
-  await page.setDefaultTimeout(0);
-  await page.setContent(fullHtml, { waitUntil: 'domcontentloaded', timeout: 0 });
-
-  // Give fonts and images time to load
-  await new Promise(r => setTimeout(r, 2000));
-
-  console.log('  Rendering PDF...');
-  await page.pdf({
-    path: OUTPUT_PDF,
-    format: 'A4',
-    printBackground: true,
-    displayHeaderFooter: true,
-    headerTemplate: `
-      <div style="font-size:8px;color:#94a3b8;width:100%;padding:0 2.2cm;display:flex;justify-content:space-between;font-family:Inter,sans-serif;">
-        <span>Software Engineering Mastery Curriculum</span>
-        <span class="title"></span>
-      </div>`,
-    footerTemplate: `
-      <div style="font-size:8px;color:#94a3b8;width:100%;padding:0 2.2cm;display:flex;justify-content:space-between;font-family:Inter,sans-serif;">
-        <span>© ${new Date().getFullYear()} — Personal Use Only</span>
-        <span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span>
-      </div>`,
-    margin: { top: '1.8cm', bottom: '1.8cm', left: '0', right: '0' },
-    timeout: 300000
-  });
-
-  await browser.close();
-
-  const stat = await fs.stat(OUTPUT_PDF);
-  const sizeMB = (stat.size / (1024 * 1024)).toFixed(1);
-
-  console.log('');
-  console.log('══════════════════════════════════════════════════════');
-  console.log(`  ✓  PDF compiled successfully!`);
-  console.log(`  ✓  ${files.length} chapter(s) included`);
-  console.log(`  ✓  File size: ${sizeMB} MB`);
-  console.log(`  ✓  PDF output: ${OUTPUT_PDF}`);
-  console.log(`  ✓  Reader: ${readerOut}`);
-  console.log('══════════════════════════════════════════════════════');
   console.log('');
 }
 
-compile().catch(err => {
-  console.error('\n[FATAL]', err.message);
+main().catch(err => {
+  console.error('\n[FATAL]', err.stack || err.message);
   process.exit(1);
 });

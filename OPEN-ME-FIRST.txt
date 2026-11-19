@@ -1,34 +1,35 @@
-CAREER BOOK — Backend Mastery, 0 to Hired
-=========================================
-21 Sep 2026 -> 27 Mar 2027 · 188 days · 30h/week from 7 Oct 2026 (accelerated)
-Your whole day (prayers, Quran, gym, park, sleep): Phase 0 Chapter 7, "The Whole Day".
+BECOMING A SOFTWARE ENGINEER
+============================
+A patient, complete course - from your very first line of code to the level of an
+engineer with five years of experience. 176 chapters in 15 parts.
 
-TO OPEN THE BOOK (no install, nothing to run):
-  curriculum\output\index.html   <- double-click it
+TO READ THE BOOK (nothing to install):
+  Double-click  curriculum\output\index.html  (opens in Chrome or Edge)
 
-  It opens on today's plan. Keys: T = today, / = search, arrows = prev/next day.
+  Contents are on the left. Search box at the top (press / to jump to it).
+  Arrow keys move between chapters. Glossary and Index are at the bottom of the contents.
+  The book reopens where you stopped.
 
-TO GET THE DESKTOP ICON (chromeless window, own profile, custom icon):
-  Double-click  "Install Desktop Icon.cmd"  in this folder.
-  Or open PowerShell in this folder and run:
-      powershell -ExecutionPolicy Bypass -File curriculum\app\install-app.ps1
-  That creates "Career Book" on your Desktop and in the Start Menu.
+TO GET A DESKTOP ICON (opens like an app, in its own window):
+  Double-click  "Install Desktop Icon.cmd"  in this folder (needs Chrome, Edge or Brave).
 
-TO REBUILD AFTER EDITING (optional):
+TO REBUILD AFTER CHAPTERS CHANGE (optional):
   cd curriculum
-  npm install
-  npm run build      <- regenerates the plan + reader, runs all assertions + smoke test
+  npm install        (first time only)
+  npm run build      (checks the chapters, then rebuilds output\index.html)
+
+TO CONTINUE WRITING THE BOOK:
+  Read  curriculum\CONTINUE-HERE.md
 
 WHAT IS IN HERE
-  curriculum\phases\           163 chapters across 14 phases
-  curriculum\plan\plan-data.js THE PLAN - 50 weeks authored day by day, CORE list, DSA ladder
-  curriculum\output\index.html the built reader app (this is the book)
-  README.md                    the full explanation - read this one
+  curriculum\book\chapters\     the rewritten chapters (the real book)
+  curriculum\book\toc.json      the table of contents: all 176 chapters
+  curriculum\book\STYLE-GUIDE.md  how every chapter is written
+  curriculum\source-notes\      old condensed notes, used as raw material for unfinished chapters
+  curriculum\REWRITE-STATUS.md  which chapters are finished
+  curriculum\output\index.html  the built reader (this is the book you open)
+  README.md                     a fuller explanation
 
-NOT INCLUDED (regenerate or ignore)
-  node_modules\                run: npm install
-  curriculum\app\profile\      your reading progress on the OTHER pc - deliberately left out
-  curriculum\output\*.pdf      large, rebuild with: npm run pdf
-
-NOTE: your tick-box progress lives in the browser profile, not in these files,
-so it does not travel between PCs. Use git if you want the two machines in sync.
+NOT INCLUDED (created on each computer)
+  curriculum\node_modules\      run: npm install
+  curriculum\app\profile\       the desktop app's private browser profile

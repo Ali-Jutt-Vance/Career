@@ -5,8 +5,6 @@ node_modules/
 # Never commit this.
 curriculum/app/profile/
 
-# Old snapshot kept locally only
-_archive-old-copy-2026-08/
 
 # Generated build artifacts (regenerate with `npm run build`)
 curriculum/output/curriculum.html
@@ -25,3 +23,5 @@ $RECYCLE.BIN/
 
 # Business data with contact details — keep off this public repo
 *.xlsx
+curriculum/output/preview.png
+curriculum/output/book.pdf
