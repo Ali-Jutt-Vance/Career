@@ -8,7 +8,7 @@ project, not something shown to the reader.
 - Fully rewritten: **38** (329,497 words)
 - Still showing old notes: **132**
 - New topics not yet written: **6**
-- Glossary terms collected: **154**
+- Glossary terms collected: **1046**
 
 ## Part I — Foundations: Before You Write Code
 

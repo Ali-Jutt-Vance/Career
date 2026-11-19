@@ -151,14 +151,14 @@ async function loadChapters(toc) {
       let status;
 
       if (rewritten) {
-        md = await fs.readFile(file, 'utf8');
+        md = (await fs.readFile(file, 'utf8')).replace(/\r\n/g, '\n'); // Windows checkouts use CRLF
         md = md.replace(/^#\s+.*$/m, ''); // the chapter title comes from toc.json
         status = 'rewritten';
       } else if (ch.sources.length) {
         const pieces = [];
         for (const src of ch.sources) {
           const p = path.join(NOTES_DIR, src);
-          if (await fs.pathExists(p)) pieces.push(prepareLegacyMarkdown(await fs.readFile(p, 'utf8')));
+          if (await fs.pathExists(p)) pieces.push(prepareLegacyMarkdown((await fs.readFile(p, 'utf8')).replace(/\r\n/g, '\n')));
           else console.warn(`  [WARN] missing source note: ${src}`);
         }
         md = pieces.join('\n\n---\n\n');
