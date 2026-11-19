@@ -587,7 +587,7 @@ error TS2551: Property 'listOrderz' does not exist on type '{ listOrders: ...; c
 ```
 
 - With the annotation, the variable's type **is** `Record<string, Route>`, so TypeScript forgets which keys actually exist, and typos are not caught.
-- With `satisfies`, TypeScript **checks** that every entry is a valid `Route** — a `method` of `"PUT"` would be an error — but the variable keeps its precise type, including the exact key names.
+- With `satisfies`, TypeScript **checks** that every entry is a valid `Route` — a `method` of `"PUT"` would be an error — but the variable keeps its precise type, including the exact key names.
 
 Use `satisfies` for configuration objects, lookup tables and route definitions.
 
@@ -978,7 +978,7 @@ updateContact(account, { balancePaisa: 999999999 });
   balancePaisa: 500000,
   createdAt: '2026-11-19T10:30:00Z'
 }
-error TS2353: Object literal may only specify known properties, and 'balancePaisa' does not exist in type 'ContactUpdate'.
+error TS2353: Object literal may only specify known properties, and 'balancePaisa' does not exist in type 'Partial<Pick<Account, "ownerName" | "email">>'.
 ```
 
 Walkthrough:

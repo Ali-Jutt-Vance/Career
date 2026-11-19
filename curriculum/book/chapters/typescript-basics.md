@@ -496,7 +496,7 @@ status = "shiped";
 ```
 
 ```text
-error TS2322: Type '"shiped"' is not assignable to type 'OrderStatus'.
+error TS2820: Type '"shiped"' is not assignable to type 'OrderStatus'. Did you mean '"shipped"'?
 ```
 
 `OrderStatus` allows exactly five strings. A typo — which in plain JavaScript would silently create an order with a status nothing recognises — is caught immediately. Your editor will also **autocomplete** the valid values as you type.
