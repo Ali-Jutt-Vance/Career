@@ -1,4 +1,4 @@
-# MongoDB
+# MongoDB and Document Databases
 
 > [!GOALS]
 > - Explain what a **document database** is, how MongoDB stores data, and how it differs from a relational database.
