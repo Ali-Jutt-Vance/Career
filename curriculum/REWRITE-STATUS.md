@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **139** (874,763 words)
-- Still showing old notes: **32**
-- New topics not yet written: **5**
-- Glossary terms collected: **3000**
+- Fully rewritten: **145** (895,407 words)
+- Still showing old notes: **31**
+- New topics not yet written: **0**
+- Glossary terms collected: **3080**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -208,12 +208,12 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 140 | Application Security | ⬜ planned (new topic) | — |
-| 141 | Performance Engineering | ⬜ planned (new topic) | — |
-| 142 | Observability and Production Incidents | ⬜ planned (new topic) | — |
-| 143 | Software Architecture | ⬜ planned (new topic) | — |
-| 144 | Making Engineering Decisions: Trade-offs, Estimates and "Good Enough" | ⬜ planned (new topic) | — |
-| 145 | Technical Leadership and Career Growth | ⬜ old notes | — |
+| 140 | Application Security | ✅ rewritten | 3,749 |
+| 141 | Performance Engineering | ✅ rewritten | 3,240 |
+| 142 | Observability and Production Incidents | ✅ rewritten | 3,554 |
+| 143 | Software Architecture | ✅ rewritten | 3,620 |
+| 144 | Making Engineering Decisions: Trade-offs, Estimates and "Good Enough" | ✅ rewritten | 3,399 |
+| 145 | Technical Leadership and Career Growth | ✅ rewritten | 3,082 |
 
 ## Part XIII — AI Engineering
 
