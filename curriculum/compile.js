@@ -169,10 +169,15 @@ async function loadChapters(toc) {
       }
 
       // {{ch:some-id}} → a link that always shows the correct chapter number
-      md = md.replace(/\{\{ch:([a-z0-9-]+)\}\}/g, (m, id) => {
-        if (!numbers.has(id)) { console.warn(`  [WARN] ${ch.id}: unknown chapter reference ${m}`); return m; }
-        return `[Chapter ${numbers.get(id)}](#${id})`;
-      });
+      // (inside fenced code blocks, plain "Chapter N" — Markdown links would show literally)
+      let inFence = false;
+      md = md.split('\n').map(line => {
+        if (/^\s*```/.test(line)) { inFence = !inFence; return line; }
+        return line.replace(/\{\{ch:([a-z0-9-]+)\}\}/g, (m, id) => {
+          if (!numbers.has(id)) { console.warn(`  [WARN] ${ch.id}: unknown chapter reference ${m}`); return m; }
+          return inFence ? `Chapter ${numbers.get(id)}` : `[Chapter ${numbers.get(id)}](#${id})`;
+        });
+      }).join('\n');
 
       let html = transformCallouts(marked.parse(md));
       if (status === 'notes') html = transformInterviewQA(html);

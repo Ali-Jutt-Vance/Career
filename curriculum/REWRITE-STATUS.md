@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **55** (469,142 words)
-- Still showing old notes: **116**
+- Fully rewritten: **66** (542,493 words)
+- Still showing old notes: **105**
 - New topics not yet written: **5**
-- Glossary terms collected: **1504**
+- Glossary terms collected: **1720**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -99,17 +99,17 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 56 | Node.js: JavaScript Outside the Browser | ⬜ old notes | — |
-| 57 | Express: Your First Web Server | ⬜ old notes | — |
-| 58 | Designing REST APIs | ⬜ old notes | — |
-| 59 | Validation: Never Trust Input | ⬜ old notes | — |
-| 60 | Error Handling in Servers | ⬜ old notes | — |
-| 61 | Logging | ⬜ old notes | — |
-| 62 | Authentication: Proving Who You Are | ⬜ old notes | — |
-| 63 | Sessions and Cookies | ⬜ old notes | — |
-| 64 | JSON Web Tokens (JWT) | ⬜ old notes | — |
-| 65 | OAuth and "Log in with Google" | ⬜ old notes | — |
-| 66 | File Uploads | ⬜ old notes | — |
+| 56 | Node.js: JavaScript Outside the Browser | ✅ rewritten | 8,489 |
+| 57 | Express: Your First Web Server | ✅ rewritten | 7,170 |
+| 58 | Designing REST APIs | ✅ rewritten | 7,691 |
+| 59 | Validation: Never Trust Input | ✅ rewritten | 6,864 |
+| 60 | Error Handling in Servers | ✅ rewritten | 7,104 |
+| 61 | Logging | ✅ rewritten | 5,675 |
+| 62 | Authentication: Proving Who You Are | ✅ rewritten | 6,495 |
+| 63 | Sessions and Cookies | ✅ rewritten | 5,893 |
+| 64 | JSON Web Tokens (JWT) | ✅ rewritten | 5,704 |
+| 65 | OAuth and "Log in with Google" | ✅ rewritten | 5,738 |
+| 66 | File Uploads | ✅ rewritten | 6,528 |
 | 67 | Sending Email | ⬜ old notes | — |
 | 68 | Scheduled Jobs (Cron) | ⬜ old notes | — |
 | 69 | Queues and Background Jobs | ⬜ old notes | — |
