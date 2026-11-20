@@ -91,6 +91,16 @@ for (const [name, input] of cases) {
 }
 ```
 
+**Output:**
+
+```text
+example         [2,3,2,4]    -> 3
+empty           []           -> null
+all duplicates  [5,5,7,7]    -> null
+single element  [9]          -> 9
+negatives       [-1,4,-1]    -> 4
+```
+
 ### Level 2 — 5. Test it aloud
 
 Walk through a small input by hand before running anything:
