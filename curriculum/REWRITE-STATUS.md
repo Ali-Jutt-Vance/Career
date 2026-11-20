@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **127** (834,057 words)
-- Still showing old notes: **44**
+- Fully rewritten: **139** (874,763 words)
+- Still showing old notes: **32**
 - New topics not yet written: **5**
-- Glossary terms collected: **2875**
+- Glossary terms collected: **3000**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -191,18 +191,18 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 128 | System Design Fundamentals | ⬜ old notes | — |
-| 129 | Scalability | ⬜ old notes | — |
-| 130 | Caching at Scale | ⬜ old notes | — |
-| 131 | Scaling Databases | ⬜ old notes | — |
-| 132 | Message Brokers | ⬜ old notes | — |
-| 133 | Event-Driven Systems | ⬜ old notes | — |
-| 134 | Distributed Systems | ⬜ old notes | — |
-| 135 | API Gateways | ⬜ old notes | — |
-| 136 | Microservices | ⬜ old notes | — |
-| 137 | Case Study: Designing Twitter | ⬜ old notes | — |
-| 138 | Case Study: Designing WhatsApp | ⬜ old notes | — |
-| 139 | Case Study: Designing YouTube | ⬜ old notes | — |
+| 128 | System Design Fundamentals | ✅ rewritten | 3,588 |
+| 129 | Scalability | ✅ rewritten | 3,114 |
+| 130 | Caching at Scale | ✅ rewritten | 3,716 |
+| 131 | Scaling Databases | ✅ rewritten | 3,305 |
+| 132 | Message Brokers | ✅ rewritten | 3,405 |
+| 133 | Event-Driven Systems | ✅ rewritten | 3,477 |
+| 134 | Distributed Systems | ✅ rewritten | 3,728 |
+| 135 | API Gateways | ✅ rewritten | 3,178 |
+| 136 | Microservices | ✅ rewritten | 3,306 |
+| 137 | Case Study: Designing Twitter | ✅ rewritten | 3,361 |
+| 138 | Case Study: Designing WhatsApp | ✅ rewritten | 3,287 |
+| 139 | Case Study: Designing YouTube | ✅ rewritten | 3,241 |
 
 ## Part XII — Senior Engineering
 
