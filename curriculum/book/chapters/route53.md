@@ -54,7 +54,7 @@ Common records for a web application:
  cornershop.example.          TXT    "v=spf1 include:amazonses.com -all"      (email sender policy)
  _dmarc.cornershop.example.   TXT    "v=DMARC1; p=reject; rua=mailto:…"
  cornershop.example.          CAA    0 issue "amazon.com"                     (who may issue certificates)
- _3f1…​.api.cornershop.example. CNAME _9a2….acm-validations.aws.             (ACM certificate validation)
+ _3f1….api.cornershop.example. CNAME _9a2….acm-validations.aws.             (ACM certificate validation)
 ```
 
 The email records come from {{ch:email}}; the certificate validation record lets AWS Certificate Manager issue and **automatically renew** TLS certificates, as long as the record stays in place.
