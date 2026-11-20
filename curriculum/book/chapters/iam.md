@@ -58,7 +58,7 @@ Key words:
 
 A role has two policies:
 
-```json
+```jsonc
 // trust policy: WHO may assume the role — here, ECS tasks
 {
   "Version": "2012-10-17",
@@ -70,7 +70,7 @@ A role has two policies:
 }
 ```
 
-```json
+```jsonc
 // permissions policy: WHAT the role may do once assumed
 {
   "Version": "2012-10-17",
