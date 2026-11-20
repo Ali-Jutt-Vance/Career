@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **50** (432,342 words)
-- Still showing old notes: **120**
-- New topics not yet written: **6**
-- Glossary terms collected: **1377**
+- Fully rewritten: **55** (469,142 words)
+- Still showing old notes: **116**
+- New topics not yet written: **5**
+- Glossary terms collected: **1504**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -89,11 +89,11 @@ project, not something shown to the reader.
 | 48 | React II: Effects, Hooks and Patterns | ✅ rewritten | 9,424 |
 | 49 | State Management | ✅ rewritten | 7,500 |
 | 50 | Forms | ✅ rewritten | 7,093 |
-| 51 | Next.js | ⬜ old notes | — |
-| 52 | Authentication in the Frontend | ⬜ old notes | — |
-| 53 | Frontend Performance | ⬜ old notes | — |
-| 54 | SEO: Being Found by Search Engines | ⬜ old notes | — |
-| 55 | Accessibility: Building for Everyone | ⬜ planned (new topic) | — |
+| 51 | Next.js | ✅ rewritten | 8,050 |
+| 52 | Authentication in the Frontend | ✅ rewritten | 7,195 |
+| 53 | Frontend Performance | ✅ rewritten | 7,005 |
+| 54 | SEO: Being Found by Search Engines | ✅ rewritten | 6,958 |
+| 55 | Accessibility: Building for Everyone | ✅ rewritten | 7,592 |
 
 ## Part VII — The Backend: Building Servers and APIs
 
