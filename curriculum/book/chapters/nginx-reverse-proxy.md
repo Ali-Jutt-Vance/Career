@@ -1,4 +1,4 @@
-# NGINX and Reverse Proxies
+# Nginx and Reverse Proxies
 
 > [!GOALS]
 > - Explain what a **reverse proxy** is and why almost every web application has one in front of it.

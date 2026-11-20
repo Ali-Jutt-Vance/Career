@@ -1,4 +1,4 @@
-# Networking
+# Networking for Engineers
 
 > [!GOALS]
 > - Explain how data moves between computers: packets, addresses, ports and the layers of the network stack.

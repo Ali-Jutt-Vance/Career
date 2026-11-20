@@ -1,4 +1,4 @@
-# Docker
+# Docker and Containers
 
 > [!GOALS]
 > - Explain what containers are, how they differ from virtual machines, and why they became the standard way to ship software.

@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **92** (696,188 words)
-- Still showing old notes: **79**
+- Fully rewritten: **117** (797,980 words)
+- Still showing old notes: **54**
 - New topics not yet written: **5**
-- Glossary terms collected: **2309**
+- Glossary terms collected: **2726**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -146,36 +146,36 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 93 | Linux | ⬜ old notes | — |
-| 94 | Shell Scripting | ⬜ old notes | — |
-| 95 | Networking for Engineers | ⬜ old notes | — |
-| 96 | DNS | ⬜ old notes | — |
-| 97 | HTTPS, TLS and Certificates | ⬜ old notes | — |
-| 98 | Docker and Containers | ⬜ old notes | — |
-| 99 | Docker Compose | ⬜ old notes | — |
-| 100 | Nginx and Reverse Proxies | ⬜ old notes | — |
-| 101 | CI/CD: Automatic Testing and Deployment | ⬜ old notes | — |
-| 102 | GitHub Actions | ⬜ old notes | — |
-| 103 | Jenkins | ⬜ old notes | — |
-| 104 | Terraform and Infrastructure as Code | ⬜ old notes | — |
-| 105 | Monitoring | ⬜ old notes | — |
-| 106 | Prometheus | ⬜ old notes | — |
-| 107 | Grafana | ⬜ old notes | — |
+| 93 | Linux | ✅ rewritten | 5,491 |
+| 94 | Shell Scripting | ✅ rewritten | 4,493 |
+| 95 | Networking for Engineers | ✅ rewritten | 4,455 |
+| 96 | DNS | ✅ rewritten | 4,353 |
+| 97 | HTTPS, TLS and Certificates | ✅ rewritten | 4,472 |
+| 98 | Docker and Containers | ✅ rewritten | 4,340 |
+| 99 | Docker Compose | ✅ rewritten | 3,813 |
+| 100 | Nginx and Reverse Proxies | ✅ rewritten | 3,788 |
+| 101 | CI/CD: Automatic Testing and Deployment | ✅ rewritten | 4,841 |
+| 102 | GitHub Actions | ✅ rewritten | 4,055 |
+| 103 | Jenkins | ✅ rewritten | 3,884 |
+| 104 | Terraform and Infrastructure as Code | ✅ rewritten | 4,245 |
+| 105 | Monitoring | ✅ rewritten | 4,166 |
+| 106 | Prometheus | ✅ rewritten | 4,082 |
+| 107 | Grafana | ✅ rewritten | 4,124 |
 
 ## Part X — The Cloud with AWS
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 108 | What the Cloud Is, and a Map of AWS | ⬜ old notes | — |
-| 109 | IAM: Who Can Do What | ⬜ old notes | — |
-| 110 | EC2: Virtual Servers | ⬜ old notes | — |
-| 111 | S3: Storing Files | ⬜ old notes | — |
-| 112 | RDS: Managed Databases | ⬜ old notes | — |
-| 113 | VPC: Your Private Network in the Cloud | ⬜ old notes | — |
-| 114 | Route 53: DNS on AWS | ⬜ old notes | — |
-| 115 | CloudFront: Content Delivery | ⬜ old notes | — |
-| 116 | Load Balancers (ELB) | ⬜ old notes | — |
-| 117 | Auto Scaling | ⬜ old notes | — |
+| 108 | What the Cloud Is, and a Map of AWS | ✅ rewritten | 3,909 |
+| 109 | IAM: Who Can Do What | ✅ rewritten | 3,833 |
+| 110 | EC2: Virtual Servers | ✅ rewritten | 3,709 |
+| 111 | S3: Storing Files | ✅ rewritten | 3,739 |
+| 112 | RDS: Managed Databases | ✅ rewritten | 3,809 |
+| 113 | VPC: Your Private Network in the Cloud | ✅ rewritten | 3,636 |
+| 114 | Route 53: DNS on AWS | ✅ rewritten | 3,440 |
+| 115 | CloudFront: Content Delivery | ✅ rewritten | 3,768 |
+| 116 | Load Balancers (ELB) | ✅ rewritten | 3,879 |
+| 117 | Auto Scaling | ✅ rewritten | 3,468 |
 | 118 | ECS: Running Containers | ⬜ old notes | — |
 | 119 | EKS and Kubernetes | ⬜ old notes | — |
 | 120 | Lambda and Serverless | ⬜ old notes | — |

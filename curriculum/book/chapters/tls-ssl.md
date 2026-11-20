@@ -1,4 +1,4 @@
-# TLS and HTTPS
+# HTTPS, TLS and Certificates
 
 > [!GOALS]
 > - Explain what TLS protects — confidentiality, integrity and server authenticity — and what it does not.
