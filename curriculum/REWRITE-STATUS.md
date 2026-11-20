@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **117** (797,980 words)
-- Still showing old notes: **54**
+- Fully rewritten: **127** (834,057 words)
+- Still showing old notes: **44**
 - New topics not yet written: **5**
-- Glossary terms collected: **2726**
+- Glossary terms collected: **2875**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -176,16 +176,16 @@ project, not something shown to the reader.
 | 115 | CloudFront: Content Delivery | ✅ rewritten | 3,768 |
 | 116 | Load Balancers (ELB) | ✅ rewritten | 3,879 |
 | 117 | Auto Scaling | ✅ rewritten | 3,468 |
-| 118 | ECS: Running Containers | ⬜ old notes | — |
-| 119 | EKS and Kubernetes | ⬜ old notes | — |
-| 120 | Lambda and Serverless | ⬜ old notes | — |
-| 121 | SNS and SQS: Messaging | ⬜ old notes | — |
-| 122 | Secrets Manager | ⬜ old notes | — |
-| 123 | Systems Manager | ⬜ old notes | — |
-| 124 | CloudWatch | ⬜ old notes | — |
-| 125 | CloudFormation | ⬜ old notes | — |
-| 126 | Controlling Cloud Costs | ⬜ old notes | — |
-| 127 | Preparing for the AWS Solutions Architect Exam | ⬜ old notes | — |
+| 118 | ECS: Running Containers | ✅ rewritten | 4,001 |
+| 119 | EKS and Kubernetes | ✅ rewritten | 3,932 |
+| 120 | Lambda and Serverless | ✅ rewritten | 3,888 |
+| 121 | SNS and SQS: Messaging | ✅ rewritten | 3,785 |
+| 122 | Secrets Manager | ✅ rewritten | 3,503 |
+| 123 | Systems Manager | ✅ rewritten | 3,031 |
+| 124 | CloudWatch | ✅ rewritten | 3,527 |
+| 125 | CloudFormation | ✅ rewritten | 3,437 |
+| 126 | Controlling Cloud Costs | ✅ rewritten | 3,585 |
+| 127 | Preparing for the AWS Solutions Architect Exam | ✅ rewritten | 3,388 |
 
 ## Part XI — System Design
 
