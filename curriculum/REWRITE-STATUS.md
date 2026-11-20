@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **76** (603,765 words)
-- Still showing old notes: **95**
+- Fully rewritten: **92** (696,188 words)
+- Still showing old notes: **79**
 - New topics not yet written: **5**
-- Glossary terms collected: **1925**
+- Glossary terms collected: **2309**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -125,22 +125,22 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 77 | SQL: Asking a Database Questions | ⬜ old notes | — |
-| 78 | PostgreSQL | ⬜ old notes | — |
-| 79 | Designing a Database | ⬜ old notes | — |
-| 80 | Normalization | ⬜ old notes | — |
-| 81 | Indexes: Making Queries Fast | ⬜ old notes | — |
-| 82 | Transactions: All or Nothing | ⬜ old notes | — |
-| 83 | Query Optimization | ⬜ old notes | — |
-| 84 | ORMs: Databases Through Code | ⬜ old notes | — |
-| 85 | Prisma | ⬜ old notes | — |
-| 86 | TypeORM | ⬜ old notes | — |
-| 87 | MongoDB and Document Databases | ⬜ old notes | — |
-| 88 | Redis | ⬜ old notes | — |
-| 89 | Caching | ⬜ old notes | — |
-| 90 | Replication | ⬜ old notes | — |
-| 91 | Partitioning | ⬜ old notes | — |
-| 92 | Sharding | ⬜ old notes | — |
+| 77 | SQL: Asking a Database Questions | ✅ rewritten | 7,272 |
+| 78 | PostgreSQL | ✅ rewritten | 6,704 |
+| 79 | Designing a Database | ✅ rewritten | 6,265 |
+| 80 | Normalization | ✅ rewritten | 5,782 |
+| 81 | Indexes: Making Queries Fast | ✅ rewritten | 5,773 |
+| 82 | Transactions: All or Nothing | ✅ rewritten | 6,913 |
+| 83 | Query Optimization | ✅ rewritten | 6,060 |
+| 84 | ORMs: Databases Through Code | ✅ rewritten | 5,447 |
+| 85 | Prisma | ✅ rewritten | 5,962 |
+| 86 | TypeORM | ✅ rewritten | 5,161 |
+| 87 | MongoDB and Document Databases | ✅ rewritten | 5,542 |
+| 88 | Redis | ✅ rewritten | 5,512 |
+| 89 | Caching | ✅ rewritten | 5,830 |
+| 90 | Replication | ✅ rewritten | 5,031 |
+| 91 | Partitioning | ✅ rewritten | 4,244 |
+| 92 | Sharding | ✅ rewritten | 4,925 |
 
 ## Part IX — DevOps: Shipping and Running Software
 
