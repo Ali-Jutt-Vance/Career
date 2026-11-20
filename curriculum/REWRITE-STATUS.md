@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **152** (919,978 words)
-- Still showing old notes: **24**
+- Fully rewritten: **163** (952,044 words)
+- Still showing old notes: **13**
 - New topics not yet written: **0**
-- Glossary terms collected: **3175**
+- Glossary terms collected: **3277**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -231,17 +231,17 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 153 | How Technical Hiring Works | ⬜ old notes | — |
-| 154 | Understanding the Job Market | ⬜ old notes | — |
-| 155 | Projects That Prove Your Skill | ⬜ old notes | — |
-| 156 | Your Portfolio and Professional Profile | ⬜ old notes | — |
-| 157 | Writing a CV That Gets Read | ⬜ old notes | — |
-| 158 | Applying for Jobs | ⬜ old notes | — |
-| 159 | Referrals and Recruiters | ⬜ old notes | — |
-| 160 | The Technical Interview: Questions and How to Answer Them | ⬜ old notes | — |
-| 161 | Negotiating Your Offer | ⬜ old notes | — |
-| 162 | Your First Ninety Days | ⬜ old notes | — |
-| 163 | Remote Work | ⬜ old notes | — |
+| 153 | How Technical Hiring Works | ✅ rewritten | 3,495 |
+| 154 | Understanding the Job Market | ✅ rewritten | 2,905 |
+| 155 | Projects That Prove Your Skill | ✅ rewritten | 3,066 |
+| 156 | Your Portfolio and Professional Profile | ✅ rewritten | 2,564 |
+| 157 | Writing a CV That Gets Read | ✅ rewritten | 2,877 |
+| 158 | Applying for Jobs | ✅ rewritten | 2,728 |
+| 159 | Referrals and Recruiters | ✅ rewritten | 2,680 |
+| 160 | The Technical Interview: Questions and How to Answer Them | ✅ rewritten | 3,253 |
+| 161 | Negotiating Your Offer | ✅ rewritten | 2,977 |
+| 162 | Your First Ninety Days | ✅ rewritten | 2,548 |
+| 163 | Remote Work | ✅ rewritten | 2,973 |
 
 ## Part XV — English for Engineers
 
