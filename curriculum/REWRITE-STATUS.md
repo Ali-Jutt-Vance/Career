@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **66** (542,493 words)
-- Still showing old notes: **105**
+- Fully rewritten: **76** (603,765 words)
+- Still showing old notes: **95**
 - New topics not yet written: **5**
-- Glossary terms collected: **1720**
+- Glossary terms collected: **1925**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -110,16 +110,16 @@ project, not something shown to the reader.
 | 64 | JSON Web Tokens (JWT) | ✅ rewritten | 5,704 |
 | 65 | OAuth and "Log in with Google" | ✅ rewritten | 5,738 |
 | 66 | File Uploads | ✅ rewritten | 6,528 |
-| 67 | Sending Email | ⬜ old notes | — |
-| 68 | Scheduled Jobs (Cron) | ⬜ old notes | — |
-| 69 | Queues and Background Jobs | ⬜ old notes | — |
-| 70 | WebSockets and Real-Time Features | ⬜ old notes | — |
-| 71 | GraphQL | ⬜ old notes | — |
-| 72 | NestJS I: Structure, Modules and Dependency Injection | ⬜ old notes | — |
-| 73 | NestJS II: Guards, Pipes, Interceptors and Production Apps | ⬜ old notes | — |
-| 74 | API Versioning | ⬜ old notes | — |
-| 75 | API Documentation | ⬜ old notes | — |
-| 76 | Rate Limiting | ⬜ old notes | — |
+| 67 | Sending Email | ✅ rewritten | 6,299 |
+| 68 | Scheduled Jobs (Cron) | ✅ rewritten | 6,128 |
+| 69 | Queues and Background Jobs | ✅ rewritten | 6,047 |
+| 70 | WebSockets and Real-Time Features | ✅ rewritten | 6,125 |
+| 71 | GraphQL | ✅ rewritten | 6,676 |
+| 72 | NestJS I: Structure, Modules and Dependency Injection | ✅ rewritten | 6,507 |
+| 73 | NestJS II: Guards, Pipes, Interceptors and Production Apps | ✅ rewritten | 6,277 |
+| 74 | API Versioning | ✅ rewritten | 5,690 |
+| 75 | API Documentation | ✅ rewritten | 5,655 |
+| 76 | Rate Limiting | ✅ rewritten | 5,868 |
 
 ## Part VIII — Data and Databases
 
