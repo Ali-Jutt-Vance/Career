@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **163** (952,044 words)
-- Still showing old notes: **13**
+- Fully rewritten: **176** (988,966 words)
+- Still showing old notes: **0**
 - New topics not yet written: **0**
-- Glossary terms collected: **3277**
+- Glossary terms collected: **3349**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -247,16 +247,16 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 164 | Speaking About Your Work | ⬜ old notes | — |
-| 165 | Explaining Technical Work | ⬜ old notes | — |
-| 166 | Technical English for Engineers | ⬜ old notes | — |
-| 167 | Written English at Work | ⬜ old notes | — |
-| 168 | Small Talk and the First Five Minutes | ⬜ old notes | — |
-| 169 | The Interview Conversation | ⬜ old notes | — |
-| 170 | Talking About Code Out Loud | ⬜ old notes | — |
-| 171 | Answering Questions You Cannot Answer | ⬜ old notes | — |
-| 172 | Speaking Under Pressure | ⬜ old notes | — |
-| 173 | Presenting a Design | ⬜ old notes | — |
-| 174 | The Salary Conversation | ⬜ old notes | — |
-| 175 | Reference: Professional Communication Phrases | ⬜ old notes | — |
-| 176 | Reference: Job Interview English | ⬜ old notes | — |
+| 164 | Speaking About Your Work | ✅ rewritten | 2,735 |
+| 165 | Explaining Technical Work | ✅ rewritten | 2,745 |
+| 166 | Technical English for Engineers | ✅ rewritten | 2,707 |
+| 167 | Written English at Work | ✅ rewritten | 2,926 |
+| 168 | Small Talk and the First Five Minutes | ✅ rewritten | 2,417 |
+| 169 | The Interview Conversation | ✅ rewritten | 2,655 |
+| 170 | Talking About Code Out Loud | ✅ rewritten | 2,892 |
+| 171 | Answering Questions You Cannot Answer | ✅ rewritten | 2,644 |
+| 172 | Speaking Under Pressure | ✅ rewritten | 2,461 |
+| 173 | Presenting a Design | ✅ rewritten | 2,880 |
+| 174 | The Salary Conversation | ✅ rewritten | 2,780 |
+| 175 | Reference: Professional Communication Phrases | ✅ rewritten | 3,152 |
+| 176 | Reference: Job Interview English | ✅ rewritten | 3,928 |
