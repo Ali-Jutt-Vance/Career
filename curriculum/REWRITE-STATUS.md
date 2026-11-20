@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **32** (264,537 words)
-- Still showing old notes: **138**
-- New topics not yet written: **6**
-- Glossary terms collected: **922**
+- Fully rewritten: **92** (696,188 words)
+- Still showing old notes: **79**
+- New topics not yet written: **5**
+- Glossary terms collected: **2309**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -61,86 +61,86 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 33 | Object-Oriented Programming | ⬜ old notes | — |
-| 34 | Functional Programming | ⬜ old notes | — |
-| 35 | Clean Code: Writing for Humans | ⬜ old notes | — |
-| 36 | The SOLID Principles | ⬜ old notes | — |
-| 37 | Design Patterns | ⬜ old notes | — |
-| 38 | Testing Your Code | ⬜ old notes | — |
+| 33 | Object-Oriented Programming | ✅ rewritten | 12,650 |
+| 34 | Functional Programming | ✅ rewritten | 10,908 |
+| 35 | Clean Code: Writing for Humans | ✅ rewritten | 9,699 |
+| 36 | The SOLID Principles | ✅ rewritten | 9,485 |
+| 37 | Design Patterns | ✅ rewritten | 10,691 |
+| 38 | Testing Your Code | ✅ rewritten | 11,527 |
 
 ## Part V — Working Like a Professional Engineer
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 39 | Git: Saving the History of Your Code | ⬜ old notes | — |
-| 40 | GitHub and Working Together | ⬜ old notes | — |
-| 41 | Code Reviews and Documentation | ⬜ old notes | — |
-| 42 | How Teams Work: Agile and Scrum | ⬜ old notes | — |
+| 39 | Git: Saving the History of Your Code | ✅ rewritten | 9,848 |
+| 40 | GitHub and Working Together | ✅ rewritten | 7,744 |
+| 41 | Code Reviews and Documentation | ✅ rewritten | 8,251 |
+| 42 | How Teams Work: Agile and Scrum | ✅ rewritten | 8,776 |
 
 ## Part VI — The Frontend: Building What Users See
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 43 | HTML: The Structure of a Web Page | ⬜ old notes | — |
-| 44 | CSS: Making Pages Look Right | ⬜ old notes | — |
-| 45 | The Browser and the DOM | ⬜ old notes | — |
-| 46 | Tailwind CSS | ⬜ old notes | — |
-| 47 | React I: Components, Props and State | ⬜ old notes | — |
-| 48 | React II: Effects, Hooks and Patterns | ⬜ old notes | — |
-| 49 | State Management | ⬜ old notes | — |
-| 50 | Forms | ⬜ old notes | — |
-| 51 | Next.js | ⬜ old notes | — |
-| 52 | Authentication in the Frontend | ⬜ old notes | — |
-| 53 | Frontend Performance | ⬜ old notes | — |
-| 54 | SEO: Being Found by Search Engines | ⬜ old notes | — |
-| 55 | Accessibility: Building for Everyone | ⬜ planned (new topic) | — |
+| 43 | HTML: The Structure of a Web Page | ✅ rewritten | 9,166 |
+| 44 | CSS: Making Pages Look Right | ✅ rewritten | 10,401 |
+| 45 | The Browser and the DOM | ✅ rewritten | 9,049 |
+| 46 | Tailwind CSS | ✅ rewritten | 7,046 |
+| 47 | React I: Components, Props and State | ✅ rewritten | 8,547 |
+| 48 | React II: Effects, Hooks and Patterns | ✅ rewritten | 9,424 |
+| 49 | State Management | ✅ rewritten | 7,500 |
+| 50 | Forms | ✅ rewritten | 7,093 |
+| 51 | Next.js | ✅ rewritten | 8,050 |
+| 52 | Authentication in the Frontend | ✅ rewritten | 7,195 |
+| 53 | Frontend Performance | ✅ rewritten | 7,005 |
+| 54 | SEO: Being Found by Search Engines | ✅ rewritten | 6,958 |
+| 55 | Accessibility: Building for Everyone | ✅ rewritten | 7,592 |
 
 ## Part VII — The Backend: Building Servers and APIs
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 56 | Node.js: JavaScript Outside the Browser | ⬜ old notes | — |
-| 57 | Express: Your First Web Server | ⬜ old notes | — |
-| 58 | Designing REST APIs | ⬜ old notes | — |
-| 59 | Validation: Never Trust Input | ⬜ old notes | — |
-| 60 | Error Handling in Servers | ⬜ old notes | — |
-| 61 | Logging | ⬜ old notes | — |
-| 62 | Authentication: Proving Who You Are | ⬜ old notes | — |
-| 63 | Sessions and Cookies | ⬜ old notes | — |
-| 64 | JSON Web Tokens (JWT) | ⬜ old notes | — |
-| 65 | OAuth and "Log in with Google" | ⬜ old notes | — |
-| 66 | File Uploads | ⬜ old notes | — |
-| 67 | Sending Email | ⬜ old notes | — |
-| 68 | Scheduled Jobs (Cron) | ⬜ old notes | — |
-| 69 | Queues and Background Jobs | ⬜ old notes | — |
-| 70 | WebSockets and Real-Time Features | ⬜ old notes | — |
-| 71 | GraphQL | ⬜ old notes | — |
-| 72 | NestJS I: Structure, Modules and Dependency Injection | ⬜ old notes | — |
-| 73 | NestJS II: Guards, Pipes, Interceptors and Production Apps | ⬜ old notes | — |
-| 74 | API Versioning | ⬜ old notes | — |
-| 75 | API Documentation | ⬜ old notes | — |
-| 76 | Rate Limiting | ⬜ old notes | — |
+| 56 | Node.js: JavaScript Outside the Browser | ✅ rewritten | 8,489 |
+| 57 | Express: Your First Web Server | ✅ rewritten | 7,170 |
+| 58 | Designing REST APIs | ✅ rewritten | 7,691 |
+| 59 | Validation: Never Trust Input | ✅ rewritten | 6,864 |
+| 60 | Error Handling in Servers | ✅ rewritten | 7,104 |
+| 61 | Logging | ✅ rewritten | 5,675 |
+| 62 | Authentication: Proving Who You Are | ✅ rewritten | 6,495 |
+| 63 | Sessions and Cookies | ✅ rewritten | 5,893 |
+| 64 | JSON Web Tokens (JWT) | ✅ rewritten | 5,704 |
+| 65 | OAuth and "Log in with Google" | ✅ rewritten | 5,738 |
+| 66 | File Uploads | ✅ rewritten | 6,528 |
+| 67 | Sending Email | ✅ rewritten | 6,299 |
+| 68 | Scheduled Jobs (Cron) | ✅ rewritten | 6,128 |
+| 69 | Queues and Background Jobs | ✅ rewritten | 6,047 |
+| 70 | WebSockets and Real-Time Features | ✅ rewritten | 6,125 |
+| 71 | GraphQL | ✅ rewritten | 6,676 |
+| 72 | NestJS I: Structure, Modules and Dependency Injection | ✅ rewritten | 6,507 |
+| 73 | NestJS II: Guards, Pipes, Interceptors and Production Apps | ✅ rewritten | 6,277 |
+| 74 | API Versioning | ✅ rewritten | 5,690 |
+| 75 | API Documentation | ✅ rewritten | 5,655 |
+| 76 | Rate Limiting | ✅ rewritten | 5,868 |
 
 ## Part VIII — Data and Databases
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 77 | SQL: Asking a Database Questions | ⬜ old notes | — |
-| 78 | PostgreSQL | ⬜ old notes | — |
-| 79 | Designing a Database | ⬜ old notes | — |
-| 80 | Normalization | ⬜ old notes | — |
-| 81 | Indexes: Making Queries Fast | ⬜ old notes | — |
-| 82 | Transactions: All or Nothing | ⬜ old notes | — |
-| 83 | Query Optimization | ⬜ old notes | — |
-| 84 | ORMs: Databases Through Code | ⬜ old notes | — |
-| 85 | Prisma | ⬜ old notes | — |
-| 86 | TypeORM | ⬜ old notes | — |
-| 87 | MongoDB and Document Databases | ⬜ old notes | — |
-| 88 | Redis | ⬜ old notes | — |
-| 89 | Caching | ⬜ old notes | — |
-| 90 | Replication | ⬜ old notes | — |
-| 91 | Partitioning | ⬜ old notes | — |
-| 92 | Sharding | ⬜ old notes | — |
+| 77 | SQL: Asking a Database Questions | ✅ rewritten | 7,272 |
+| 78 | PostgreSQL | ✅ rewritten | 6,704 |
+| 79 | Designing a Database | ✅ rewritten | 6,265 |
+| 80 | Normalization | ✅ rewritten | 5,782 |
+| 81 | Indexes: Making Queries Fast | ✅ rewritten | 5,773 |
+| 82 | Transactions: All or Nothing | ✅ rewritten | 6,913 |
+| 83 | Query Optimization | ✅ rewritten | 6,060 |
+| 84 | ORMs: Databases Through Code | ✅ rewritten | 5,447 |
+| 85 | Prisma | ✅ rewritten | 5,962 |
+| 86 | TypeORM | ✅ rewritten | 5,161 |
+| 87 | MongoDB and Document Databases | ✅ rewritten | 5,542 |
+| 88 | Redis | ✅ rewritten | 5,512 |
+| 89 | Caching | ✅ rewritten | 5,830 |
+| 90 | Replication | ✅ rewritten | 5,031 |
+| 91 | Partitioning | ✅ rewritten | 4,244 |
+| 92 | Sharding | ✅ rewritten | 4,925 |
 
 ## Part IX — DevOps: Shipping and Running Software
 

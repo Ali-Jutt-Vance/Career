@@ -151,14 +151,14 @@ async function loadChapters(toc) {
       let status;
 
       if (rewritten) {
-        md = await fs.readFile(file, 'utf8');
+        md = (await fs.readFile(file, 'utf8')).replace(/\r\n/g, '\n'); // Windows checkouts use CRLF
         md = md.replace(/^#\s+.*$/m, ''); // the chapter title comes from toc.json
         status = 'rewritten';
       } else if (ch.sources.length) {
         const pieces = [];
         for (const src of ch.sources) {
           const p = path.join(NOTES_DIR, src);
-          if (await fs.pathExists(p)) pieces.push(prepareLegacyMarkdown(await fs.readFile(p, 'utf8')));
+          if (await fs.pathExists(p)) pieces.push(prepareLegacyMarkdown((await fs.readFile(p, 'utf8')).replace(/\r\n/g, '\n')));
           else console.warn(`  [WARN] missing source note: ${src}`);
         }
         md = pieces.join('\n\n---\n\n');
@@ -169,10 +169,15 @@ async function loadChapters(toc) {
       }
 
       // {{ch:some-id}} → a link that always shows the correct chapter number
-      md = md.replace(/\{\{ch:([a-z0-9-]+)\}\}/g, (m, id) => {
-        if (!numbers.has(id)) { console.warn(`  [WARN] ${ch.id}: unknown chapter reference ${m}`); return m; }
-        return `[Chapter ${numbers.get(id)}](#${id})`;
-      });
+      // (inside fenced code blocks, plain "Chapter N" — Markdown links would show literally)
+      let inFence = false;
+      md = md.split('\n').map(line => {
+        if (/^\s*```/.test(line)) { inFence = !inFence; return line; }
+        return line.replace(/\{\{ch:([a-z0-9-]+)\}\}/g, (m, id) => {
+          if (!numbers.has(id)) { console.warn(`  [WARN] ${ch.id}: unknown chapter reference ${m}`); return m; }
+          return inFence ? `Chapter ${numbers.get(id)}` : `[Chapter ${numbers.get(id)}](#${id})`;
+        });
+      }).join('\n');
 
       let html = transformCallouts(marked.parse(md));
       if (status === 'notes') html = transformInterviewQA(html);

@@ -56,8 +56,9 @@ if (fs.existsSync(chaptersDir)) {
     for (const [, ref] of noCode.matchAll(/{{ch:([a-z0-9-]+)}}/g)) if (!ids.has(ref)) errors.push(`${f}: unknown chapter reference {{ch:${ref}}}`);
     const m = noCode.match(schedule);
     if (m) warnings.push(`${f}: schedule-like wording "${m[0]}"`);
-    const opens = (md.match(/<details>/g) || []).length;
-    const closes = (md.match(/<\/details>/g) || []).length;
+    const prose = noCode.replace(/`[^`\n]*`/g, ''); // ignore <details> written as code
+    const opens = (prose.match(/<details>/g) || []).length;
+    const closes = (prose.match(/<\/details>/g) || []).length;
     if (opens !== closes) errors.push(`${f}: ${opens} <details> but ${closes} </details>`);
   }
 }
