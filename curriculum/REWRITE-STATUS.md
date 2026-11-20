@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **145** (895,407 words)
-- Still showing old notes: **31**
+- Fully rewritten: **152** (919,978 words)
+- Still showing old notes: **24**
 - New topics not yet written: **0**
-- Glossary terms collected: **3080**
+- Glossary terms collected: **3175**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -219,13 +219,13 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 146 | How Large Language Models Work | ⬜ old notes | — |
-| 147 | Prompt Engineering | ⬜ old notes | — |
-| 148 | Embeddings and Vector Databases | ⬜ old notes | — |
-| 149 | Retrieval-Augmented Generation (RAG) | ⬜ old notes | — |
-| 150 | AI Agents | ⬜ old notes | — |
-| 151 | The Model Context Protocol (MCP) | ⬜ old notes | — |
-| 152 | Building AI Products | ⬜ old notes | — |
+| 146 | How Large Language Models Work | ✅ rewritten | 3,650 |
+| 147 | Prompt Engineering | ✅ rewritten | 3,333 |
+| 148 | Embeddings and Vector Databases | ✅ rewritten | 3,549 |
+| 149 | Retrieval-Augmented Generation (RAG) | ✅ rewritten | 3,546 |
+| 150 | AI Agents | ✅ rewritten | 3,650 |
+| 151 | The Model Context Protocol (MCP) | ✅ rewritten | 3,336 |
+| 152 | Building AI Products | ✅ rewritten | 3,507 |
 
 ## Part XIV — Getting Hired
 
