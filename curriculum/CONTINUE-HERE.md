@@ -42,5 +42,6 @@ streaks or tracking anywhere. Interview/career and English parts are kept at the
 
 ## Progress when this note was written
 
-Chapters 1–32 done (Parts I–III: Foundations, JavaScript & TypeScript, Data Structures &
-Algorithms). Next: Chapter 33, Object-Oriented Programming.
+All 176 chapters done (Parts I–XV). The rewrite is complete; the reader in `output/` is
+rebuilt from the final chapters. Future work is revision only: fix errors, update facts
+that go out of date, and re-run `node compile.js` after any change.

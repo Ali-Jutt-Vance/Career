@@ -5,10 +5,10 @@ actually exists in `book/chapters/` — do not edit by hand. This is a record of
 project, not something shown to the reader.
 
 - Chapters in the book: **176**
-- Fully rewritten: **127** (834,057 words)
-- Still showing old notes: **44**
-- New topics not yet written: **5**
-- Glossary terms collected: **2875**
+- Fully rewritten: **176** (988,966 words)
+- Still showing old notes: **0**
+- New topics not yet written: **0**
+- Glossary terms collected: **3349**
 
 ## Part I — Foundations: Before You Write Code
 
@@ -191,72 +191,72 @@ project, not something shown to the reader.
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 128 | System Design Fundamentals | ⬜ old notes | — |
-| 129 | Scalability | ⬜ old notes | — |
-| 130 | Caching at Scale | ⬜ old notes | — |
-| 131 | Scaling Databases | ⬜ old notes | — |
-| 132 | Message Brokers | ⬜ old notes | — |
-| 133 | Event-Driven Systems | ⬜ old notes | — |
-| 134 | Distributed Systems | ⬜ old notes | — |
-| 135 | API Gateways | ⬜ old notes | — |
-| 136 | Microservices | ⬜ old notes | — |
-| 137 | Case Study: Designing Twitter | ⬜ old notes | — |
-| 138 | Case Study: Designing WhatsApp | ⬜ old notes | — |
-| 139 | Case Study: Designing YouTube | ⬜ old notes | — |
+| 128 | System Design Fundamentals | ✅ rewritten | 3,588 |
+| 129 | Scalability | ✅ rewritten | 3,114 |
+| 130 | Caching at Scale | ✅ rewritten | 3,716 |
+| 131 | Scaling Databases | ✅ rewritten | 3,305 |
+| 132 | Message Brokers | ✅ rewritten | 3,405 |
+| 133 | Event-Driven Systems | ✅ rewritten | 3,477 |
+| 134 | Distributed Systems | ✅ rewritten | 3,728 |
+| 135 | API Gateways | ✅ rewritten | 3,178 |
+| 136 | Microservices | ✅ rewritten | 3,306 |
+| 137 | Case Study: Designing Twitter | ✅ rewritten | 3,361 |
+| 138 | Case Study: Designing WhatsApp | ✅ rewritten | 3,287 |
+| 139 | Case Study: Designing YouTube | ✅ rewritten | 3,241 |
 
 ## Part XII — Senior Engineering
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 140 | Application Security | ⬜ planned (new topic) | — |
-| 141 | Performance Engineering | ⬜ planned (new topic) | — |
-| 142 | Observability and Production Incidents | ⬜ planned (new topic) | — |
-| 143 | Software Architecture | ⬜ planned (new topic) | — |
-| 144 | Making Engineering Decisions: Trade-offs, Estimates and "Good Enough" | ⬜ planned (new topic) | — |
-| 145 | Technical Leadership and Career Growth | ⬜ old notes | — |
+| 140 | Application Security | ✅ rewritten | 3,749 |
+| 141 | Performance Engineering | ✅ rewritten | 3,240 |
+| 142 | Observability and Production Incidents | ✅ rewritten | 3,554 |
+| 143 | Software Architecture | ✅ rewritten | 3,620 |
+| 144 | Making Engineering Decisions: Trade-offs, Estimates and "Good Enough" | ✅ rewritten | 3,399 |
+| 145 | Technical Leadership and Career Growth | ✅ rewritten | 3,082 |
 
 ## Part XIII — AI Engineering
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 146 | How Large Language Models Work | ⬜ old notes | — |
-| 147 | Prompt Engineering | ⬜ old notes | — |
-| 148 | Embeddings and Vector Databases | ⬜ old notes | — |
-| 149 | Retrieval-Augmented Generation (RAG) | ⬜ old notes | — |
-| 150 | AI Agents | ⬜ old notes | — |
-| 151 | The Model Context Protocol (MCP) | ⬜ old notes | — |
-| 152 | Building AI Products | ⬜ old notes | — |
+| 146 | How Large Language Models Work | ✅ rewritten | 3,650 |
+| 147 | Prompt Engineering | ✅ rewritten | 3,333 |
+| 148 | Embeddings and Vector Databases | ✅ rewritten | 3,549 |
+| 149 | Retrieval-Augmented Generation (RAG) | ✅ rewritten | 3,546 |
+| 150 | AI Agents | ✅ rewritten | 3,650 |
+| 151 | The Model Context Protocol (MCP) | ✅ rewritten | 3,336 |
+| 152 | Building AI Products | ✅ rewritten | 3,507 |
 
 ## Part XIV — Getting Hired
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 153 | How Technical Hiring Works | ⬜ old notes | — |
-| 154 | Understanding the Job Market | ⬜ old notes | — |
-| 155 | Projects That Prove Your Skill | ⬜ old notes | — |
-| 156 | Your Portfolio and Professional Profile | ⬜ old notes | — |
-| 157 | Writing a CV That Gets Read | ⬜ old notes | — |
-| 158 | Applying for Jobs | ⬜ old notes | — |
-| 159 | Referrals and Recruiters | ⬜ old notes | — |
-| 160 | The Technical Interview: Questions and How to Answer Them | ⬜ old notes | — |
-| 161 | Negotiating Your Offer | ⬜ old notes | — |
-| 162 | Your First Ninety Days | ⬜ old notes | — |
-| 163 | Remote Work | ⬜ old notes | — |
+| 153 | How Technical Hiring Works | ✅ rewritten | 3,495 |
+| 154 | Understanding the Job Market | ✅ rewritten | 2,905 |
+| 155 | Projects That Prove Your Skill | ✅ rewritten | 3,066 |
+| 156 | Your Portfolio and Professional Profile | ✅ rewritten | 2,564 |
+| 157 | Writing a CV That Gets Read | ✅ rewritten | 2,877 |
+| 158 | Applying for Jobs | ✅ rewritten | 2,728 |
+| 159 | Referrals and Recruiters | ✅ rewritten | 2,680 |
+| 160 | The Technical Interview: Questions and How to Answer Them | ✅ rewritten | 3,253 |
+| 161 | Negotiating Your Offer | ✅ rewritten | 2,977 |
+| 162 | Your First Ninety Days | ✅ rewritten | 2,548 |
+| 163 | Remote Work | ✅ rewritten | 2,973 |
 
 ## Part XV — English for Engineers
 
 | # | Chapter | Status | Words |
 |---|---|---|---|
-| 164 | Speaking About Your Work | ⬜ old notes | — |
-| 165 | Explaining Technical Work | ⬜ old notes | — |
-| 166 | Technical English for Engineers | ⬜ old notes | — |
-| 167 | Written English at Work | ⬜ old notes | — |
-| 168 | Small Talk and the First Five Minutes | ⬜ old notes | — |
-| 169 | The Interview Conversation | ⬜ old notes | — |
-| 170 | Talking About Code Out Loud | ⬜ old notes | — |
-| 171 | Answering Questions You Cannot Answer | ⬜ old notes | — |
-| 172 | Speaking Under Pressure | ⬜ old notes | — |
-| 173 | Presenting a Design | ⬜ old notes | — |
-| 174 | The Salary Conversation | ⬜ old notes | — |
-| 175 | Reference: Professional Communication Phrases | ⬜ old notes | — |
-| 176 | Reference: Job Interview English | ⬜ old notes | — |
+| 164 | Speaking About Your Work | ✅ rewritten | 2,735 |
+| 165 | Explaining Technical Work | ✅ rewritten | 2,745 |
+| 166 | Technical English for Engineers | ✅ rewritten | 2,707 |
+| 167 | Written English at Work | ✅ rewritten | 2,926 |
+| 168 | Small Talk and the First Five Minutes | ✅ rewritten | 2,417 |
+| 169 | The Interview Conversation | ✅ rewritten | 2,655 |
+| 170 | Talking About Code Out Loud | ✅ rewritten | 2,892 |
+| 171 | Answering Questions You Cannot Answer | ✅ rewritten | 2,644 |
+| 172 | Speaking Under Pressure | ✅ rewritten | 2,461 |
+| 173 | Presenting a Design | ✅ rewritten | 2,880 |
+| 174 | The Salary Conversation | ✅ rewritten | 2,780 |
+| 175 | Reference: Professional Communication Phrases | ✅ rewritten | 3,152 |
+| 176 | Reference: Job Interview English | ✅ rewritten | 3,928 |
